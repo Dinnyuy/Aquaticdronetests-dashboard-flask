@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATAWI-3A3 | Buoy Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.0"></script>
+    <style>
+        :root {
+            --primary: #2e7d32;
+            --secondary: #4caf50;
+            --accent: #2196F3;
+            --warning: #FF9800;
+            --danger: #f44336;
+            --light: #f0f4f8;
+            --dark: #1b3b1c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-left h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .header-left .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+        
+        .user-menu:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .dropdown-menu a:hover {
+            background: #f5f5f5;
+        }
+        
+        .dashboard-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            padding: 1.5rem 0;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 999;
+        }
+        
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 1rem;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #555;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #f0f9f0;
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 250px;
+            overflow-y: auto;
+        }
+        
+        .dashboard-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .dashboard-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .temp-card::before { background: linear-gradient(90deg, #FF5252, #FF9E80); }
+        .pressure-card::before { background: linear-gradient(90deg, #2196F3, #81D4FA); }
+        .turbidity-card::before { background: linear-gradient(90deg, #4CAF50, #81C784); }
+        .ph-card::before { background: linear-gradient(90deg, #9C27B0, #CE93D8); }
+        .wave-card::before { background: linear-gradient(90deg, #FF9800, #FFCC80); }
+        .weather-card::before { background: linear-gradient(90deg, #00BCD4, #80DEEA); }
+        .gps-card::before { background: linear-gradient(90deg, #795548, #A1887F); }
+        .energy-card::before { background: linear-gradient(90deg, #FFC107, #FFE082); }
+        
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .sensor-value {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        
+        .sensor-unit {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .sensor-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .status-normal { background: #e8f5e9; color: #2e7d32; }
+        .status-warning { background: #fff3e0; color: #f57c00; }
+        .status-alert { background: #ffebee; color: #c62828; }
+        
+        .threshold-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #f44336;
+            display: none;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+        }
+        
+        .alert-card {
+            border: 2px solid #f44336 !important;
+            animation: alert-pulse 1.5s infinite;
+        }
+        
+        @keyframes alert-pulse {
+            0% { box-shadow: 0 0 5px rgba(244, 67, 54, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(244, 67, 54, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(244, 67, 54, 0.5); }
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 1rem;
+        }
+        
+        .time-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .time-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        .time-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .alert-banner {
+            background: linear-gradient(135deg, #ff5252, #ff9e80);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+            animation: pulse 2s infinite;
+        }
+        
+        .alert-banner-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .connection-status-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .status-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .status-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 0.5rem;
+        }
+        
+        .status-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .tidal-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+        
+        .tidal-stage {
+            font-weight: 600;
+            color: #1976d2;
+        }
+        
+        .tidal-height {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .histogram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .wave-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .wave-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .wave-period {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+        
+        .wave-direction {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .compass {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            position: relative;
+            margin: 0.5rem auto;
+        }
+        
+        .compass-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: left center;
+            height: 2px;
+            background: #f44336;
+            width: 25px;
+        }
+        
+        .export-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .export-controls select,
+        .export-controls input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 150px;
+        }
+        
+        .system-status-bar {
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .indicator-dot.connected {
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+        
+        .indicator-dot.disconnected {
+            background: #f44336;
+        }
+        
+        .indicator-dot.error {
+            background: #FF9800;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding: 1rem 0;
+            }
+            
+            .nav-btn span {
+                display: none;
+            }
+            
+            .nav-btn {
+                justify-content: center;
+                padding: 1rem;
+            }
+            
+            .nav-btn:hover {
+                transform: none;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .histogram-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-left h1 {
+                font-size: 1.2rem;
+            }
+            
+            .header-left .subtitle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="{{ url_for('static', filename='Dashboard logo.png') }}" alt="ATAWI-3A3 Logo" class="logo">
+            <div>
+                <h1>Buoy Monitoring Dashboard</h1>
+                <div class="subtitle">ATAWI-3A3 | Stationary Water Quality & Weather Monitoring</div>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <div class="status-indicator">
+                <div class="indicator-dot connected" id="connectionDot"></div>
+                <span id="connectionStatus">Connected</span>
+            </div>
+            
+            <div class="user-menu">
+                <button class="user-btn">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="username">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="/dashboard"><i class="fas fa-th-large"></i> Dashboard Selector</a>
+                    <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-section="overview">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-btn" data-section="water-quality">
+                    <i class="fas fa-water"></i>
+                    <span>Water Quality</span>
+                </button>
+                <button class="nav-btn" data-section="tidal-waves">
+                    <i class="fas fa-wave-square"></i>
+                    <span>Tidal & Waves</span>
+                </button>
+                <button class="nav-btn" data-section="weather">
+                    <i class="fas fa-cloud-sun"></i>
+                    <span>Weather</span>
+                </button>
+                <button class="nav-btn" data-section="graphs">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Time Series</span>
+                </button>
+                <button class="nav-btn" data-section="statistics">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Statistics</span>
+                </button>
+                <button class="nav-btn" data-section="debug">
+                    <i class="fas fa-bug"></i>
+                    <span>Debug & Logs</span>
+                </button>
+                <button class="nav-btn" data-section="export">
+                    <i class="fas fa-download"></i>
+                    <span>Export Data</span>
+                </button>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div style="margin-bottom: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+                        <div class="indicator-dot connected" id="sidebarStatusDot"></div>
+                        <span id="sidebarStatusText">Buoy Online</span>
+                    </div>
+                    <div id="sidebarTime" style="font-family: monospace;">--:--:--</div>
+                </div>
+                <div style="font-size: 0.7rem; color: #999; margin-top: 1rem;">
+                    ATAWI-3A3 | Buoy v2.0
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Alert Banner -->
+            <div class="alert-banner" id="alertBanner">
+                <div class="alert-banner-content">
+                    <div>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>THRESHOLD ALERT!</strong>
+                        <span id="alertMessage">Multiple parameters exceed safe limits</span>
+                    </div>
+                    <button onclick="document.getElementById('alertBanner').style.display='none'" style="background: none; border: none; color: white; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- System Status Bar -->
+            <div class="system-status-bar">
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div class="status-indicator">
+                        <div class="indicator-dot connected" id="buoyStatusDot"></div>
+                        <span>Buoy: <span id="buoyStatusText">Connected</span></span>
+                    </div>
+                    <div class="status-indicator">
+                        <div class="indicator-dot connected" id="solarStatusDot"></div>
+                        <span>Solar: <span id="solarStatusText">Charging</span></span>
+                    </div>
+                    <div class="status-indicator">
+                        <i class="fas fa-database"></i>
+                        <span>Data: <span id="dataStatusText">Streaming</span></span>
+                    </div>
+                </div>
+                <div id="lastUpdateTime" style="color: #666; font-size: 0.9rem;">
+                    Last update: --
+                </div>
+            </div>
+            
+            <!-- Overview Section -->
+            <div id="overviewSection" class="dashboard-section active">
+                <h2 class="section-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Buoy Monitoring Overview
+                </h2>
+                
+                <div class="dashboard-grid">
+                    <div class="card temp-card">
+                        <div class="threshold-indicator" id="tempThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-thermometer-half"></i> Water Temperature</div>
+                        <div class="sensor-value" id="tempValue">-- °C</div>
+                        <div class="sensor-unit">Optimal: 20-30°C</div>
+                        <div class="sensor-status status-normal" id="tempStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card pressure-card">
+                        <div class="threshold-indicator" id="pressureThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-tachometer-alt"></i> Water Pressure</div>
+                        <div class="sensor-value" id="pressureValue">-- bar</div>
+                        <div class="sensor-unit">Depth: <span id="depthValue">-- m</span></div>
+                        <div class="sensor-status status-normal" id="pressureStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card wave-card">
+                        <div class="threshold-indicator" id="waveThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-water"></i> Wave Height</div>
+                        <div class="sensor-value" id="waveValue">-- m</div>
+                        <div class="sensor-unit">Current: <span id="currentValue">-- m/s</span></div>
+                        <div class="sensor-status status-normal" id="waveStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card turbidity-card">
+                        <div class="threshold-indicator" id="turbidityThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-wind"></i> Turbidity</div>
+                        <div class="sensor-value" id="turbidityValue">-- NTU</div>
+                        <div class="sensor-unit">Optimal: &lt; 5 NTU</div>
+                        <div class="sensor-status status-normal" id="turbidityStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card ph-card">
+                        <div class="threshold-indicator" id="phThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-vial"></i> pH Level</div>
+                        <div class="sensor-value" id="phValue">--</div>
+                        <div class="sensor-unit">Optimal: 6.5-8.5</div>
+                        <div class="sensor-status status-normal" id="phStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card weather-card">
+                        <div class="card-title"><i class="fas fa-cloud-sun"></i> Weather</div>
+                        <div class="sensor-value" id="airTempValue">-- °C</div>
+                        <div class="sensor-unit">Wind: <span id="windValue">-- m/s</span></div>
+                        <div class="sensor-status status-normal" id="weatherStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card gps-card">
+                        <div class="card-title"><i class="fas fa-map-marker-alt"></i> GPS Position</div>
+                        <div class="sensor-value" id="gpsValue">--, --</div>
+                        <div class="sensor-unit" id="gpsStatus">Stationary Buoy</div>
+                    </div>
+                    
+                    <div class="card energy-card">
+                        <div class="card-title"><i class="fas fa-solar-panel"></i> Energy Status</div>
+                        <div class="sensor-value" id="batteryValue">--%</div>
+                        <div class="sensor-unit">Solar: <span id="solarValue">--%</span></div>
+                        <div class="sensor-status status-normal" id="energyStatus">Optimal</div>
+                    </div>
+                </div>
+                
+                <!-- Tidal Indicator -->
+                <div class="tidal-indicator" id="tidalIndicator">
+                    <div>
+                        <div style="font-weight: 500; color: #666;">Tidal Stage</div>
+                        <div class="tidal-stage" id="tidalStage">Calculating...</div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500; color: #666;">Tidal Height</div>
+                        <div class="tidal-height" id="tidalHeight">-- m</div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500; color: #666;">Next Tide</div>
+                        <div id="nextTide">--:--</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Water Quality Section -->
+            <div id="waterQualitySection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-water"></i>
+                    Water Quality Analysis
+                </h2>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-thermometer-half"></i> Temperature Profile</div>
+                        <div class="chart-container">
+                            <canvas id="tempProfileChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-vial"></i> Chemical Parameters</div>
+                        <div style="margin-top: 1rem;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Conductivity</div>
+                                    <div style="font-size: 1.5rem; font-weight: 600;" id="conductivityValue">-- mS/cm</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Dissolved Oxygen</div>
+                                    <div style="font-size: 1.5rem; font-weight: 600;" id="doValue">-- mg/L</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Salinity</div>
+                                    <div style="font-size: 1.2rem; font-weight: 600;" id="salinityValue">-- PSU</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Turbidity</div>
+                                    <div style="font-size: 1.2rem; font-weight: 600;" id="turbidityValue2">-- NTU</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-title"><i class="fas fa-chart-line"></i> Water Quality Trends (24h)</div>
+                    <div class="chart-container">
+                        <canvas id="waterQualityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tidal & Waves Section -->
+            <div id="tidalWavesSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-wave-square"></i>
+                    Tidal & Wave Analysis
+                </h2>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-water"></i> Wave Statistics</div>
+                        <div style="margin-top: 1rem;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Significant Height</div>
+                                    <div style="font-size: 1.5rem; font-weight: 600;" id="sigWaveHeight">-- m</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Average Period</div>
+                                    <div style="font-size: 1.5rem; font-weight: 600;" id="wavePeriod">-- s</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Maximum Height</div>
+                                    <div style="font-size: 1.2rem; font-weight: 600;" id="maxWaveHeight">-- m</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Current Speed</div>
+                                    <div style="font-size: 1.2rem; font-weight: 600;" id="currentSpeed">-- m/s</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wave-direction" style="margin-top: 1.5rem;">
+                            <div style="font-size: 0.9rem; color: #666;">Wave Direction</div>
+                            <div class="compass" id="waveCompass">
+                                <div class="compass-needle" id="waveNeedle"></div>
+                            </div>
+                            <div id="waveDirectionText">--°</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-tide"></i> Tidal Information</div>
+                        <div class="chart-container">
+                            <canvas id="tidalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wave-analysis">
+                    <div class="wave-card">
+                        <div class="card-title"><i class="fas fa-chart-bar"></i> Wave Height Distribution</div>
+                        <div class="chart-container">
+                            <canvas id="waveHistogram"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="wave-card">
+                        <div class="card-title"><i class="fas fa-chart-line"></i> Recent Wave Activity</div>
+                        <div class="chart-container">
+                            <canvas id="waveTimeSeries"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Weather Section -->
+            <div id="weatherSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-cloud-sun"></i>
+                    Weather Conditions
+                </h2>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-temperature-high"></i> Air Temperature</div>
+                        <div class="sensor-value" id="airTemperatureValue">-- °C</div>
+                        <div class="sensor-unit">Feels like: <span id="feelsLike">-- °C</span></div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-wind"></i> Wind Conditions</div>
+                        <div class="sensor-value" id="windSpeedValue">-- m/s</div>
+                        <div class="sensor-unit">Direction: <span id="windDirection">--°</span></div>
+                        <div class="wave-direction" style="margin-top: 1rem;">
+                            <div class="compass" id="windCompass">
+                                <div class="compass-needle" id="windNeedle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-tint"></i> Humidity</div>
+                        <div class="sensor-value" id="humidityValue">--%</div>
+                        <div class="sensor-unit">Dew Point: <span id="dewPoint">-- °C</span></div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-sun"></i> Solar Radiation</div>
+                        <div class="sensor-value" id="solarRadiation">-- W/m²</div>
+                        <div class="sensor-unit">UV Index: <span id="uvIndex">--</span></div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-title"><i class="fas fa-chart-line"></i> Weather Trends (24h)</div>
+                    <div class="chart-container">
+                        <canvas id="weatherChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Debug & Logs Section (Similar to drone dashboard) -->
+            <div id="debugSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-bug"></i>
+                    System Debug & Logs
+                </h2>
+                
+                <!-- Similar debug content as drone dashboard -->
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-plug"></i> Connection Status</div>
+                    <div class="status-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 1rem;">
+                        <div class="status-item">
+                            <div class="status-label">Buoy Connection</div>
+                            <div class="status-value" id="debugBuoyStatus">Disconnected</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">Reconnect Attempts</div>
+                            <div class="status-value" id="debugReconnectAttempts">0</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">Serial Port</div>
+                            <div class="status-value" id="debugSerialPort">COM5</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">Data Points</div>
+                            <div class="status-value" id="debugDataPoints">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="time-controls" style="margin-top: 1rem;">
+                        <button class="action-btn" onclick="reconnectBuoy()">
+                            <i class="fas fa-plug"></i> Reconnect Buoy
+                        </button>
+                        <button class="action-btn" onclick="refreshDebugInfo()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Logs table similar to drone dashboard -->
+            </div>
+            
+            <!-- Export Section (Similar to drone dashboard) -->
+            <div id="exportSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-download"></i>
+                    Data Export
+                </h2>
+                
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-database"></i> Export Buoy Data</div>
+                    
+                    <div class="export-controls">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Time Range:</label>
+                            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                                <input type="date" id="exportStartDate" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                <span>to</span>
+                                <input type="date" id="exportEndDate" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                <button class="time-btn" onclick="setExportDateRange(7)">Last 7 Days</button>
+                                <button class="time-btn" onclick="setExportDateRange(30)">Last 30 Days</button>
+                                <button class="time-btn" onclick="setExportDateRange(365)">Last Year</button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Format:</label>
+                            <select id="exportFormat" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="csv">CSV</option>
+                                <option value="json">JSON</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <button class="action-btn" onclick="exportBuoyData()" style="padding: 0.8rem 1.5rem; font-size: 1rem;">
+                            <i class="fas fa-download"></i> Export Buoy Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Buoy-specific JavaScript
+        // Similar structure to drone dashboard but with buoy-specific API endpoints
+        
+        // Initialize buoy dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup navigation
+            setupNavigation();
+            
+            // Load initial data
+            loadBuoyData();
+            
+            // Start periodic updates
+            setInterval(loadBuoyData, 2000);
+            setInterval(updateSidebarTime, 1000);
+        });
+        
+        async function loadBuoyData() {
+            try {
+                const response = await fetch('/api/buoy/real-time');
+                const data = await response.json();
+                
+                if (data.timestamp) {
+                    updateBuoyDisplay(data);
+                    updateBuoyStatus(data);
+                    checkBuoyThresholds(data);
+                    updateTidalInfo(data);
+                }
+            } catch (error) {
+                console.error('Error loading buoy data:', error);
+            }
+        }
+        
+        function updateBuoyDisplay(data) {
+            // Update all sensor values
+            const format = (val) => val !== null ? val.toFixed(2) : '--';
+            
+            document.getElementById('tempValue').textContent = format(data.temperature) + ' °C';
+            document.getElementById('pressureValue').textContent = format(data.pressure) + ' bar';
+            document.getElementById('depthValue').textContent = format(data.depth) + ' m';
+            document.getElementById('waveValue').textContent = format(data.wave_height) + ' m';
+            document.getElementById('currentValue').textContent = format(data.current_speed) + ' m/s';
+            document.getElementById('turbidityValue').textContent = format(data.turbidity) + ' NTU';
+            document.getElementById('phValue').textContent = format(data.ph);
+            document.getElementById('airTempValue').textContent = format(data.air_temperature) + ' °C';
+            document.getElementById('windValue').textContent = format(data.wind_speed) + ' m/s';
+            document.getElementById('batteryValue').textContent = format(data.battery) + '%';
+            document.getElementById('solarValue').textContent = format(data.solar_charging) + '%';
+            
+            // Update GPS
+            if (data.latitude && data.longitude) {
+                document.getElementById('gpsValue').textContent = 
+                    `${data.latitude.toFixed(6)}, ${data.longitude.toFixed(6)}`;
+            }
+            
+            // Update timestamp
+            if (data.timestamp) {
+                const date = new Date(data.timestamp);
+                document.getElementById('lastUpdateTime').textContent = 
+                    `Last update: ${date.toLocaleTimeString()}`;
+            }
+        }
+        
+        function updateTidalInfo(data) {
+            // Simulate tidal calculations based on pressure
+            if (data.pressure) {
+                const pressure = data.pressure;
+                const tideHeight = (pressure - 1.0) * 10; // Convert pressure to meters
+                
+                document.getElementById('tidalHeight').textContent = tideHeight.toFixed(2) + ' m';
+                
+                // Determine tidal stage
+                const hour = new Date().getHours();
+                const tideStage = hour % 6 < 3 ? 'Flood Tide' : 'Ebb Tide';
+                document.getElementById('tidalStage').textContent = tideStage;
+                
+                // Calculate next tide
+                const nextHour = (Math.floor(hour / 6) + 1) * 6;
+                document.getElementById('nextTide').textContent = `${nextHour % 24}:00`;
+            }
+        }
+        
+        // Similar functions for charts, histograms, debugging, etc.
+        // These would follow the same pattern as the drone dashboard
+    </script>
+</body>
+</html>

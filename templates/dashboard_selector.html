@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATAWI-3A3 | Dashboard Selector</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f4c75 0%, #1b262c 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .selector-container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #aaa;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            text-align: center;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .dashboard-card.drone {
+            border-top: 5px solid #0f4c75;
+        }
+        
+        .dashboard-card.buoy {
+            border-top: 5px solid #2e7d32;
+        }
+        
+        .dashboard-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+        }
+        
+        .drone .dashboard-icon {
+            background: linear-gradient(135deg, #0f4c75, #3282b8);
+        }
+        
+        .buoy .dashboard-icon {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+        }
+        
+        .dashboard-card h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .dashboard-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .features {
+            text-align: left;
+            margin-top: 20px;
+            list-style: none;
+        }
+        
+        .features li {
+            margin-bottom: 10px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features i {
+            color: #0f4c75;
+        }
+        
+        .buoy .features i {
+            color: #2e7d32;
+        }
+        
+        .current-dashboard {
+            margin-top: 30px;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .current-dashboard a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        
+        .current-dashboard a:hover {
+            text-decoration: underline;
+        }
+        
+        .back-link {
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="selector-container">
+        <h1>ATAWI-3A3</h1>
+        <p class="subtitle">Water Monitoring System - Select Dashboard</p>
+        
+        <div class="dashboard-cards">
+            <a href="/dashboard" class="dashboard-card drone">
+                <div class="dashboard-icon">
+                    <i class="fas fa-drone"></i>
+                </div>
+                <h2>Aquatic Drone Dashboard</h2>
+                <p>Mobile water quality monitoring with real-time sensor data and live camera feed.</p>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Real-time sensor monitoring</li>
+                    <li><i class="fas fa-check-circle"></i> Live camera feed</li>
+                    <li><i class="fas fa-check-circle"></i> Time series analysis</li>
+                    <li><i class="fas fa-check-circle"></i> GPS tracking</li>
+                    <li><i class="fas fa-check-circle"></i> Mobile deployment</li>
+                </ul>
+            </a>
+            
+            <a href="/buoy-dashboard" class="dashboard-card buoy">
+                <div class="dashboard-icon">
+                    <i class="fas fa-anchor"></i>
+                </div>
+                <h2>Buoy Station Dashboard</h2>
+                <p>Stationary water quality monitoring with tidal and weather data analysis.</p>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Continuous monitoring</li>
+                    <li><i class="fas fa-check-circle"></i> Tidal analysis</li>
+                    <li><i class="fas fa-check-circle"></i> Weather conditions</li>
+                    <li><i class="fas fa-check-circle"></i> Long-term statistics</li>
+                    <li><i class="fas fa-check-circle"></i> Solar powered</li>
+                </ul>
+            </a>
+        </div>
+        
+        <div class="current-dashboard">
+            <p>Currently logged in as: <strong>{{ current_user.username }}</strong></p>
+            <p style="margin-top: 10px;">Default dashboard: <strong>{{ current_user.dashboard_preference|title }}</strong></p>
+        </div>
+        
+        <div class="back-link">
+            <a href="/profile">
+                <i class="fas fa-cog"></i> Change Dashboard Preferences
+            </a>
+        </div>
+    </div>
+</body>
+</html>

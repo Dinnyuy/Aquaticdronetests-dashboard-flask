@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATAWI-3A3 | Buoy Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.0"></script>
+    <style>
+        /* CSS remains exactly the same as before */
+        :root {
+            --primary: #2e7d32;
+            --secondary: #4caf50;
+            --accent: #2196F3;
+            --warning: #FF9800;
+            --danger: #f44336;
+            --light: #f0f4f8;
+            --dark: #1b3b1c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-left h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .header-left .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+        
+        .user-menu:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: #333;
+            text-decoration: none;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .dropdown-menu a:hover {
+            background: #f5f5f5;
+        }
+        
+        .dashboard-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            padding: 1.5rem 0;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 999;
+        }
+        
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 1rem;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #555;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #f0f9f0;
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 250px;
+            overflow-y: auto;
+        }
+        
+        .dashboard-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .dashboard-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8f5e9;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+        
+        .temp-card::before { background: linear-gradient(90deg, #FF5252, #FF9E80); }
+        .pressure-card::before { background: linear-gradient(90deg, #2196F3, #81D4FA); }
+        .turbidity-card::before { background: linear-gradient(90deg, #4CAF50, #81C784); }
+        .ph-card::before { background: linear-gradient(90deg, #9C27B0, #CE93D8); }
+        .wave-card::before { background: linear-gradient(90deg, #FF9800, #FFCC80); }
+        .weather-card::before { background: linear-gradient(90deg, #00BCD4, #80DEEA); }
+        .gps-card::before { background: linear-gradient(90deg, #795548, #A1887F); }
+        .energy-card::before { background: linear-gradient(90deg, #FFC107, #FFE082); }
+        .conductivity-card::before { background: linear-gradient(90deg, #FF9800, #FFCC80); }
+        .do-card::before { background: linear-gradient(90deg, #9C27B0, #CE93D8); }
+        
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .sensor-value {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        
+        .sensor-unit {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .sensor-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .status-normal { background: #e8f5e9; color: #2e7d32; }
+        .status-warning { background: #fff3e0; color: #f57c00; }
+        .status-alert { background: #ffebee; color: #c62828; }
+        
+        .threshold-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #f44336;
+            display: none;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+        }
+        
+        .alert-card {
+            border: 2px solid #f44336 !important;
+            animation: alert-pulse 1.5s infinite;
+        }
+        
+        @keyframes alert-pulse {
+            0% { box-shadow: 0 0 5px rgba(244, 67, 54, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(244, 67, 54, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(244, 67, 54, 0.5); }
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 1rem;
+        }
+        
+        .time-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .time-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        .time-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .alert-banner {
+            background: linear-gradient(135deg, #ff5252, #ff9e80);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: none;
+            animation: pulse 2s infinite;
+        }
+        
+        .alert-banner-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .connection-status-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .status-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .status-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 0.5rem;
+        }
+        
+        .status-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .tidal-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+        
+        .tidal-stage {
+            font-weight: 600;
+            color: #1976d2;
+        }
+        
+        .tidal-height {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .histogram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .wave-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .wave-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .wave-period {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+        
+        .wave-direction {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .compass {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            position: relative;
+            margin: 0.5rem auto;
+        }
+        
+        .compass-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: left center;
+            height: 2px;
+            background: #f44336;
+            width: 25px;
+        }
+        
+        .export-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .export-controls select,
+        .export-controls input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-width: 150px;
+        }
+        
+        .system-status-bar {
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .indicator-dot.connected {
+            background: #4CAF50;
+            animation: pulse 2s infinite;
+        }
+        
+        .indicator-dot.disconnected {
+            background: #f44336;
+        }
+        
+        .indicator-dot.error {
+            background: #FF9800;
+        }
+        
+        .dashboard-switcher {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+        
+        .dashboard-switcher select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .dashboard-switcher select option {
+            background: white;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                padding: 1rem 0;
+            }
+            
+            .nav-btn span {
+                display: none;
+            }
+            
+            .nav-btn {
+                justify-content: center;
+                padding: 1rem;
+            }
+            
+            .nav-btn:hover {
+                transform: none;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .histogram-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-left h1 {
+                font-size: 1.2rem;
+            }
+            
+            .header-left .subtitle {
+                display: none;
+            }
+            
+            .dashboard-switcher {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <img src="{{ url_for('static', filename='Dashboard logo.png') }}" alt="ATAWI-3A3 Logo" class="logo">
+            <div>
+                <h1>Buoy Monitoring Dashboard</h1>
+                <div class="subtitle">ATAWI-3A3 | Stationary Water Quality & Weather Monitoring</div>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <div class="dashboard-switcher">
+                <i class="fas fa-exchange-alt"></i>
+                <select id="dashboardSelector">
+                    <option value="buoy" selected>Buoy Dashboard</option>
+                    <option value="drone">Drone Dashboard</option>
+                </select>
+            </div>
+            
+            <div class="status-indicator">
+                <div class="indicator-dot connected" id="connectionDot"></div>
+                <span id="connectionStatus">Connected</span>
+            </div>
+            
+            <div class="user-menu">
+                <button class="user-btn">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="username">{{ current_user.username }}</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="/dashboard-selector"><i class="fas fa-th-large"></i> Dashboard Selector</a>
+                    <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-section="overview">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Overview</span>
+                </button>
+                <button class="nav-btn" data-section="water-quality">
+                    <i class="fas fa-water"></i>
+                    <span>Water Quality</span>
+                </button>
+                <button class="nav-btn" data-section="tidal-waves">
+                    <i class="fas fa-wave-square"></i>
+                    <span>Tidal & Waves</span>
+                </button>
+                <button class="nav-btn" data-section="weather">
+                    <i class="fas fa-cloud-sun"></i>
+                    <span>Weather</span>
+                </button>
+                <button class="nav-btn" data-section="graphs">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Time Series</span>
+                </button>
+                <button class="nav-btn" data-section="statistics">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Statistics</span>
+                </button>
+                <button class="nav-btn" data-section="debug">
+                    <i class="fas fa-bug"></i>
+                    <span>Debug & Logs</span>
+                </button>
+                <button class="nav-btn" data-section="export">
+                    <i class="fas fa-download"></i>
+                    <span>Export Data</span>
+                </button>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div style="margin-bottom: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+                        <div class="indicator-dot connected" id="sidebarStatusDot"></div>
+                        <span id="sidebarStatusText">Buoy Online</span>
+                    </div>
+                    <div id="sidebarTime" style="font-family: monospace;">--:--:--</div>
+                </div>
+                <div style="font-size: 0.7rem; color: #999; margin-top: 1rem;">
+                    ATAWI-3A3 | Buoy v2.0
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- Alert Banner -->
+            <div class="alert-banner" id="alertBanner">
+                <div class="alert-banner-content">
+                    <div>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>THRESHOLD ALERT!</strong>
+                        <span id="alertMessage">Multiple parameters exceed safe limits</span>
+                    </div>
+                    <button onclick="document.getElementById('alertBanner').style.display='none'" style="background: none; border: none; color: white; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- System Status Bar -->
+            <div class="system-status-bar">
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                    <div class="status-indicator">
+                        <div class="indicator-dot connected" id="buoyStatusDot"></div>
+                        <span>Buoy: <span id="buoyStatusText">Connected</span></span>
+                    </div>
+                    <div class="status-indicator">
+                        <div class="indicator-dot connected" id="solarStatusDot"></div>
+                        <span>Solar: <span id="solarStatusText">Charging</span></span>
+                    </div>
+                    <div class="status-indicator">
+                        <i class="fas fa-database"></i>
+                        <span>Data: <span id="dataStatusText">Streaming</span></span>
+                    </div>
+                </div>
+                <div id="lastUpdateTime" style="color: #666; font-size: 0.9rem;">
+                    Last update: --
+                </div>
+            </div>
+            
+            <!-- Overview Section -->
+            <div id="overviewSection" class="dashboard-section active">
+                <h2 class="section-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Buoy Monitoring Overview
+                </h2>
+                
+                <div class="dashboard-grid">
+                    <div class="card temp-card">
+                        <div class="threshold-indicator" id="tempThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-thermometer-half"></i> Water Temperature</div>
+                        <div class="sensor-value" id="tempValue">-- °C</div>
+                        <div class="sensor-unit">Optimal: 20-30°C</div>
+                        <div class="sensor-status status-normal" id="tempStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card pressure-card">
+                        <div class="threshold-indicator" id="pressureThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-tachometer-alt"></i> Water Pressure</div>
+                        <div class="sensor-value" id="pressureValue">-- bar</div>
+                        <div class="sensor-unit">Depth: <span id="depthValue">-- m</span></div>
+                        <div class="sensor-status status-normal" id="pressureStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card wave-card">
+                        <div class="threshold-indicator" id="waveThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-water"></i> Wave Height</div>
+                        <div class="sensor-value" id="waveValue">-- m</div>
+                        <div class="sensor-unit">Current: <span id="currentValue">-- m/s</span></div>
+                        <div class="sensor-status status-normal" id="waveStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card turbidity-card">
+                        <div class="threshold-indicator" id="turbidityThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-wind"></i> Turbidity</div>
+                        <div class="sensor-value" id="turbidityValue">-- NTU</div>
+                        <div class="sensor-unit">Optimal: &lt; 5 NTU</div>
+                        <div class="sensor-status status-normal" id="turbidityStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card ph-card">
+                        <div class="threshold-indicator" id="phThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-vial"></i> pH Level</div>
+                        <div class="sensor-value" id="phValue">--</div>
+                        <div class="sensor-unit">Optimal: 6.5-8.5</div>
+                        <div class="sensor-status status-normal" id="phStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card conductivity-card">
+                        <div class="threshold-indicator" id="conductivityThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-bolt"></i> Conductivity</div>
+                        <div class="sensor-value" id="conductivityValue">-- mS/cm</div>
+                        <div class="sensor-unit">Salinity: <span id="salinityValue">-- PSU</span></div>
+                        <div class="sensor-status status-normal" id="conductivityStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card do-card">
+                        <div class="threshold-indicator" id="doThresholdIndicator"></div>
+                        <div class="card-title"><i class="fas fa-wind"></i> Dissolved Oxygen</div>
+                        <div class="sensor-value" id="doValue">-- mg/L</div>
+                        <div class="sensor-unit">Optimal: &gt; 5.0 mg/L</div>
+                        <div class="sensor-status status-normal" id="doStatus">Normal</div>
+                    </div>
+                    
+                    <div class="card gps-card">
+                        <div class="card-title"><i class="fas fa-map-marker-alt"></i> GPS Position</div>
+                        <div class="sensor-value" id="gpsValue">--, --</div>
+                        <div class="sensor-unit" id="gpsStatus">Stationary Buoy</div>
+                    </div>
+                    
+                    <div class="card energy-card">
+                        <div class="card-title"><i class="fas fa-solar-panel"></i> Energy Status</div>
+                        <div class="sensor-value" id="batteryValue">--%</div>
+                        <div class="sensor-unit">Solar: <span id="solarValue">--%</span></div>
+                        <div class="sensor-status status-normal" id="energyStatus">Optimal</div>
+                    </div>
+                </div>
+                
+                <!-- Tidal Indicator -->
+                <div class="tidal-indicator" id="tidalIndicator">
+                    <div>
+                        <div style="font-weight: 500; color: #666;">Tidal Stage</div>
+                        <div class="tidal-stage" id="tidalStage">Calculating...</div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500; color: #666;">Tidal Height</div>
+                        <div class="tidal-height" id="tidalHeight">-- m</div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 500; color: #666;">Next Tide</div>
+                        <div id="nextTide">--:--</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Water Quality Section -->
+            <div id="waterQualitySection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-water"></i>
+                    Water Quality Analysis
+                </h2>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-thermometer-half"></i> Temperature Profile</div>
+                        <div class="chart-container">
+                            <canvas id="tempProfileChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-vial"></i> Chemical Parameters</div>
+                        <div style="margin-top: 1rem;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Conductivity</div>
+                                    <div style="font-size: 1.5rem; font-weight: 600;" id="conductivityValue2">-- mS/cm</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Dissolved Oxygen</div>
+                                    <div style="font-size: 1.5rem; font-weight: 600;" id="doValue2">-- mg/L</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Salinity</div>
+                                    <div style="font-size: 1.2rem; font-weight: 600;" id="salinityValue2">-- PSU</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Turbidity</div>
+                                    <div style="font-size: 1.2rem; font-weight: 600;" id="turbidityValue2">-- NTU</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-title"><i class="fas fa-chart-line"></i> Water Quality Trends (24h)</div>
+                    <div class="chart-container">
+                        <canvas id="waterQualityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tidal & Waves Section -->
+            <div id="tidalWavesSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-wave-square"></i>
+                    Tidal & Wave Analysis
+                </h2>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-water"></i> Wave Statistics</div>
+                        <div style="margin-top: 1rem;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Significant Height</div>
+                                    <div style="font-size: 1.5rem; font-weight: 600;" id="sigWaveHeight">-- m</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Average Period</div>
+                                    <div style="font-size: 1.5rem; font-weight: 600;" id="wavePeriod">-- s</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Maximum Height</div>
+                                    <div style="font-size: 1.2rem; font-weight: 600;" id="maxWaveHeight">-- m</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 0.9rem; color: #666;">Current Speed</div>
+                                    <div style="font-size: 1.2rem; font-weight: 600;" id="currentSpeed">-- m/s</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="wave-direction" style="margin-top: 1.5rem;">
+                            <div style="font-size: 0.9rem; color: #666;">Wave Direction</div>
+                            <div class="compass" id="waveCompass">
+                                <div class="compass-needle" id="waveNeedle"></div>
+                            </div>
+                            <div id="waveDirectionText">--°</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-tide"></i> Tidal Information</div>
+                        <div class="chart-container">
+                            <canvas id="tidalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wave-analysis">
+                    <div class="wave-card">
+                        <div class="card-title"><i class="fas fa-chart-bar"></i> Wave Height Distribution</div>
+                        <div class="chart-container">
+                            <canvas id="waveHistogram"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="wave-card">
+                        <div class="card-title"><i class="fas fa-chart-line"></i> Recent Wave Activity</div>
+                        <div class="chart-container">
+                            <canvas id="waveTimeSeries"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Weather Section -->
+            <div id="weatherSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-cloud-sun"></i>
+                    Weather Conditions
+                </h2>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-temperature-high"></i> Air Temperature</div>
+                        <div class="sensor-value" id="airTemperatureValue">-- °C</div>
+                        <div class="sensor-unit">Feels like: <span id="feelsLike">-- °C</span></div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-wind"></i> Wind Conditions</div>
+                        <div class="sensor-value" id="windSpeedValue">-- m/s</div>
+                        <div class="sensor-unit">Direction: <span id="windDirection">--°</span></div>
+                        <div class="wave-direction" style="margin-top: 1rem;">
+                            <div class="compass" id="windCompass">
+                                <div class="compass-needle" id="windNeedle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-tint"></i> Humidity</div>
+                        <div class="sensor-value" id="humidityValue">--%</div>
+                        <div class="sensor-unit">Dew Point: <span id="dewPoint">-- °C</span></div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-sun"></i> Solar Radiation</div>
+                        <div class="sensor-value" id="solarRadiation">-- W/m²</div>
+                        <div class="sensor-unit">UV Index: <span id="uvIndex">--</span></div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-title"><i class="fas fa-chart-line"></i> Weather Trends (24h)</div>
+                    <div class="chart-container">
+                        <canvas id="weatherChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Graphs Section -->
+            <div id="graphsSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    Time Series Analysis
+                </h2>
+                
+                <div class="time-controls">
+                    <span>Time Range:</span>
+                    <button class="time-btn active" onclick="loadBuoyTimeSeriesData(1)">1 Hour</button>
+                    <button class="time-btn" onclick="loadBuoyTimeSeriesData(6)">6 Hours</button>
+                    <button class="time-btn" onclick="loadBuoyTimeSeriesData(24)">24 Hours</button>
+                    <button class="time-btn" onclick="loadBuoyTimeSeriesData(168)">7 Days</button>
+                    <button class="time-btn" onclick="loadBuoyTimeSeriesData(720)">30 Days</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-chart-line"></i> Buoy Data Time Series</div>
+                    <div class="chart-container">
+                        <canvas id="buoyTimeSeriesChart"></canvas>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-thermometer-half"></i> Temperature Trend</div>
+                        <div class="chart-container">
+                            <canvas id="buoyTemperatureChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-water"></i> Wave Height Trend</div>
+                        <div class="chart-container">
+                            <canvas id="waveHeightChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Statistics Section -->
+            <div id="statisticsSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-pie"></i>
+                    Statistical Analysis
+                </h2>
+                
+                <div class="time-controls">
+                    <span>Analysis Period:</span>
+                    <select id="statsPeriod" onchange="loadBuoyStatistics()" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="1">Last 24 Hours</option>
+                        <option value="7" selected>Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 3 Months</option>
+                    </select>
+                </div>
+                
+                <div id="buoyStatisticsContent">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <div class="card-title"><i class="fas fa-chart-bar"></i> Parameter Comparison</div>
+                    <div class="chart-container">
+                        <canvas id="buoyComparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Debug & Logs Section -->
+            <div id="debugSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-bug"></i>
+                    System Debug & Logs
+                </h2>
+                
+                <div class="debug-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-plug"></i> Connection Status</div>
+                        <div class="status-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-top: 1rem;">
+                            <div class="status-item">
+                                <div class="status-label">Buoy Connection</div>
+                                <div class="status-value" id="debugBuoyStatus">Disconnected</div>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-label">Reconnect Attempts</div>
+                                <div class="status-value" id="debugReconnectAttempts">0</div>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-label">Serial Port</div>
+                                <div class="status-value" id="debugSerialPort">COM5</div>
+                            </div>
+                            <div class="status-item">
+                                <div class="status-label">Data Points</div>
+                                <div class="status-value" id="debugDataPoints">0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="time-controls" style="margin-top: 1rem;">
+                            <button class="action-btn" onclick="reconnectBuoy()">
+                                <i class="fas fa-plug"></i> Reconnect Buoy
+                            </button>
+                            <button class="action-btn" onclick="refreshBuoyDebugInfo()">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-history"></i> Last Data Received</div>
+                        <div id="buoyLastDataReceived" style="padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-top: 1rem; font-family: monospace;">
+                            No data received yet
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-file-alt"></i> System Logs</div>
+                    
+                    <div class="time-controls">
+                        <select id="logLevel" onchange="loadBuoySystemLogs()" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="">All Levels</option>
+                            <option value="info">Info</option>
+                            <option value="warning">Warning</option>
+                            <option value="error">Error</option>
+                        </select>
+                        <button class="action-btn" onclick="loadBuoySystemLogs()">
+                            <i class="fas fa-sync-alt"></i> Refresh Logs
+                        </button>
+                    </div>
+                    
+                    <div class="log-table-container" style="max-height: 400px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin-top: 1rem;">
+                        <table class="log-table" style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                    <th style="background: var(--primary); color: white; padding: 0.8rem 1rem; text-align: left; position: sticky; top: 0;">Timestamp</th>
+                                    <th style="background: var(--primary); color: white; padding: 0.8rem 1rem; text-align: left; position: sticky; top: 0;">Level</th>
+                                    <th style="background: var(--primary); color: white; padding: 0.8rem 1rem; text-align: left; position: sticky; top: 0;">Message</th>
+                                </tr>
+                            </thead>
+                            <tbody id="buoyLogTableBody">
+                                <!-- Logs will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Export Section -->
+            <div id="exportSection" class="dashboard-section">
+                <h2 class="section-title">
+                    <i class="fas fa-download"></i>
+                    Data Export
+                </h2>
+                
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-database"></i> Export Buoy Data</div>
+                    
+                    <div class="export-controls">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Time Range:</label>
+                            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                                <input type="date" id="exportStartDate" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                <span>to</span>
+                                <input type="date" id="exportEndDate" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                <button class="time-btn" onclick="setExportDateRange(7)">Last 7 Days</button>
+                                <button class="time-btn" onclick="setExportDateRange(30)">Last 30 Days</button>
+                                <button class="time-btn" onclick="setExportDateRange(365)">Last Year</button>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Format:</label>
+                            <select id="exportFormat" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="csv">CSV</option>
+                                <option value="json">JSON</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <button class="action-btn" onclick="exportBuoyData()" style="padding: 0.8rem 1.5rem; font-size: 1rem;">
+                            <i class="fas fa-download"></i> Export Buoy Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Buoy-specific JavaScript
+        let buoyCharts = {};
+        let buoyCurrentTimeRange = 24;
+        let buoyUpdateInterval;
+        
+        // Initialize buoy dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup navigation
+            setupNavigation();
+            
+            // Load initial data
+            loadBuoyData();
+            loadBuoyStatistics();
+            
+            // Start periodic updates
+            buoyUpdateInterval = setInterval(loadBuoyData, 2000);
+            setInterval(updateSidebarTime, 1000);
+            setInterval(loadBuoyStatistics, 30000);
+            
+            // Initialize dashboard switcher
+            setupDashboardSwitcher();
+            
+            // Set default export dates
+            const today = new Date();
+            const weekAgo = new Date();
+            weekAgo.setDate(today.getDate() - 7);
+            document.getElementById('exportStartDate').valueAsDate = weekAgo;
+            document.getElementById('exportEndDate').valueAsDate = today;
+        });
+        
+        // Setup dashboard switcher
+        function setupDashboardSwitcher() {
+            const selector = document.getElementById('dashboardSelector');
+            selector.addEventListener('change', function() {
+                if (this.value === 'drone') {
+                    window.location.href = '/dashboard';
+                } else {
+                    window.location.href = '/buoy-dashboard';
+                }
+            });
+        }
+        
+        // Setup navigation
+        function setupNavigation() {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            
+            navButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    navButtons.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Hide all sections
+                    document.querySelectorAll('.dashboard-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show selected section
+                    const sectionId = this.dataset.section + 'Section';
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    // Load section-specific data
+                    switch(this.dataset.section) {
+                        case 'graphs':
+                            loadBuoyTimeSeriesData(24);
+                            break;
+                        case 'statistics':
+                            loadBuoyStatistics();
+                            break;
+                        case 'debug':
+                            loadBuoyDebugInfo();
+                            loadBuoySystemLogs();
+                            break;
+                    }
+                });
+            });
+        }
+        
+        // Update sidebar time
+        function updateSidebarTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('sidebarTime').textContent = timeString;
+        }
+        
+        async function loadBuoyData() {
+            try {
+                const response = await fetch('/api/buoy/real-time');
+                const data = await response.json();
+                
+                if (data.timestamp) {
+                    updateBuoyDisplay(data);
+                    updateBuoyStatus(data);
+                    checkBuoyThresholds(data);
+                    updateTidalInfo(data);
+                }
+            } catch (error) {
+                console.error('Error loading buoy data:', error);
+                updateBuoyStatus({ connected: false });
+            }
+        }
+        
+        function updateBuoyDisplay(data) {
+            // Update all sensor values
+            const format = (val) => val !== null ? val.toFixed(2) : '--';
+            
+            // Main overview cards
+            document.getElementById('tempValue').textContent = format(data.temperature) + ' °C';
+            document.getElementById('pressureValue').textContent = format(data.pressure) + ' bar';
+            document.getElementById('waveValue').textContent = format(data.wave_height) + ' m';
+            document.getElementById('currentValue').textContent = format(data.current_speed) + ' m/s';
+            document.getElementById('turbidityValue').textContent = format(data.turbidity) + ' NTU';
+            document.getElementById('phValue').textContent = format(data.ph);
+            document.getElementById('airTempValue').textContent = format(data.air_temperature) + ' °C';
+            document.getElementById('windValue').textContent = format(data.wind_speed) + ' m/s';
+            document.getElementById('batteryValue').textContent = format(data.battery) + '%';
+            document.getElementById('solarValue').textContent = format(data.solar_charging) + '%';
+            document.getElementById('conductivityValue').textContent = format(data.conductivity) + ' mS/cm';
+            document.getElementById('doValue').textContent = format(data.do) + ' mg/L';
+            
+            // Water quality section
+            document.getElementById('conductivityValue2').textContent = format(data.conductivity) + ' mS/cm';
+            document.getElementById('doValue2').textContent = format(data.do) + ' mg/L';
+            document.getElementById('turbidityValue2').textContent = format(data.turbidity) + ' NTU';
+            
+            // Calculate salinity from conductivity
+            if (data.conductivity) {
+                const salinity = data.conductivity * 0.64;
+                document.getElementById('salinityValue').textContent = salinity.toFixed(2) + ' PSU';
+                document.getElementById('salinityValue2').textContent = salinity.toFixed(2) + ' PSU';
+            }
+            
+            // Calculate depth from pressure
+            if (data.pressure) {
+                const depth = (data.pressure - 1.01325) * 10.197;
+                document.getElementById('depthValue').textContent = depth.toFixed(2) + ' m';
+            }
+            
+            // Update GPS
+            if (data.latitude && data.longitude) {
+                document.getElementById('gpsValue').textContent = 
+                    `${data.latitude.toFixed(6)}, ${data.longitude.toFixed(6)}`;
+            }
+            
+            // Update timestamp
+            if (data.timestamp) {
+                const date = new Date(data.timestamp);
+                document.getElementById('lastUpdateTime').textContent = 
+                    `Last update: ${date.toLocaleTimeString()}`;
+            }
+        }
+        
+        function updateBuoyStatus(data) {
+            const connectionDot = document.getElementById('connectionDot');
+            const connectionStatus = document.getElementById('connectionStatus');
+            const buoyStatusDot = document.getElementById('buoyStatusDot');
+            const buoyStatusText = document.getElementById('buoyStatusText');
+            const sidebarStatusDot = document.getElementById('sidebarStatusDot');
+            const sidebarStatusText = document.getElementById('sidebarStatusText');
+            
+            if (data.connected) {
+                connectionDot.className = 'indicator-dot connected';
+                connectionStatus.textContent = 'Connected';
+                buoyStatusDot.className = 'indicator-dot connected';
+                buoyStatusText.textContent = 'Connected';
+                sidebarStatusDot.className = 'indicator-dot connected';
+                sidebarStatusText.textContent = 'Buoy Online';
+            } else {
+                connectionDot.className = 'indicator-dot disconnected';
+                connectionStatus.textContent = 'Disconnected';
+                buoyStatusDot.className = 'indicator-dot disconnected';
+                buoyStatusText.textContent = 'Disconnected';
+                sidebarStatusDot.className = 'indicator-dot error';
+                sidebarStatusText.textContent = 'Buoy Offline';
+            }
+        }
+        
+        function checkBuoyThresholds(data) {
+            const thresholds = data.thresholds || {
+                turbidity: 10.0,
+                temperature: 30.0,
+                conductivity: 10.0,
+                ph_low: 6.0,
+                ph_high: 8.5,
+                dissolved_oxygen: 4.0,
+                pressure: 2.0,
+                wave_height: 3.0,
+                current_speed: 2.0
+            };
+            
+            let alertCount = 0;
+            let alertMessages = [];
+            
+            // Check each parameter
+            if (data.temperature > thresholds.temperature) {
+                updateBuoySensorStatus('temp', 'alert', `High: ${data.temperature.toFixed(2)}°C`);
+                alertCount++;
+                alertMessages.push(`Temperature (${data.temperature.toFixed(2)}°C)`);
+            } else {
+                updateBuoySensorStatus('temp', 'normal');
+            }
+            
+            if (data.pressure > thresholds.pressure) {
+                updateBuoySensorStatus('pressure', 'alert', `High: ${data.pressure.toFixed(2)} bar`);
+                alertCount++;
+                alertMessages.push(`Pressure (${data.pressure.toFixed(2)} bar)`);
+            } else {
+                updateBuoySensorStatus('pressure', 'normal');
+            }
+            
+            if (data.wave_height > thresholds.wave_height) {
+                updateBuoySensorStatus('wave', 'alert', `High: ${data.wave_height.toFixed(2)} m`);
+                alertCount++;
+                alertMessages.push(`Wave Height (${data.wave_height.toFixed(2)} m)`);
+            } else {
+                updateBuoySensorStatus('wave', 'normal');
+            }
+            
+            if (data.turbidity > thresholds.turbidity) {
+                updateBuoySensorStatus('turbidity', 'alert', `High: ${data.turbidity.toFixed(2)} NTU`);
+                alertCount++;
+                alertMessages.push(`Turbidity (${data.turbidity.toFixed(2)} NTU)`);
+            } else {
+                updateBuoySensorStatus('turbidity', 'normal');
+            }
+            
+            if (data.ph < thresholds.ph_low || data.ph > thresholds.ph_high) {
+                updateBuoySensorStatus('ph', 'alert', `Out of range: ${data.ph.toFixed(2)}`);
+                alertCount++;
+                alertMessages.push(`pH (${data.ph.toFixed(2)})`);
+            } else {
+                updateBuoySensorStatus('ph', 'normal');
+            }
+            
+            if (data.do < thresholds.dissolved_oxygen) {
+                updateBuoySensorStatus('do', 'alert', `Low: ${data.do.toFixed(2)} mg/L`);
+                alertCount++;
+                alertMessages.push(`Dissolved Oxygen (${data.do.toFixed(2)} mg/L)`);
+            } else {
+                updateBuoySensorStatus('do', 'normal');
+            }
+            
+            if (data.conductivity > thresholds.conductivity) {
+                updateBuoySensorStatus('conductivity', 'alert', `High: ${data.conductivity.toFixed(2)} mS/cm`);
+                alertCount++;
+                alertMessages.push(`Conductivity (${data.conductivity.toFixed(2)} mS/cm)`);
+            } else {
+                updateBuoySensorStatus('conductivity', 'normal');
+            }
+            
+            // Show/hide threshold indicators
+            updateBuoyThresholdIndicators('temp', data.temperature > thresholds.temperature);
+            updateBuoyThresholdIndicators('pressure', data.pressure > thresholds.pressure);
+            updateBuoyThresholdIndicators('wave', data.wave_height > thresholds.wave_height);
+            updateBuoyThresholdIndicators('turbidity', data.turbidity > thresholds.turbidity);
+            updateBuoyThresholdIndicators('ph', data.ph < thresholds.ph_low || data.ph > thresholds.ph_high);
+            updateBuoyThresholdIndicators('do', data.do < thresholds.dissolved_oxygen);
+            updateBuoyThresholdIndicators('conductivity', data.conductivity > thresholds.conductivity);
+            
+            // Show alert banner if needed
+            if (alertCount >= 3) {
+                document.getElementById('alertMessage').textContent = 
+                    alertMessages.join(', ');
+                document.getElementById('alertBanner').style.display = 'block';
+            } else {
+                document.getElementById('alertBanner').style.display = 'none';
+            }
+        }
+        
+        function updateBuoySensorStatus(sensor, status, message = '') {
+            const element = document.getElementById(sensor + 'Status');
+            if (!element) return;
+            
+            element.className = `sensor-status status-${status}`;
+            
+            switch(status) {
+                case 'normal':
+                    element.textContent = 'Normal';
+                    break;
+                case 'warning':
+                    element.textContent = 'Warning';
+                    break;
+                case 'alert':
+                    element.textContent = message || 'Alert';
+                    break;
+            }
+        }
+        
+        function updateBuoyThresholdIndicators(sensor, isExceeded) {
+            const indicator = document.getElementById(sensor + 'ThresholdIndicator');
+            const card = document.querySelector(`.${sensor}-card`);
+            
+            if (indicator) {
+                indicator.style.display = isExceeded ? 'block' : 'none';
+            }
+            
+            if (card) {
+                if (isExceeded) {
+                    card.classList.add('alert-card');
+                } else {
+                    card.classList.remove('alert-card');
+                }
+            }
+        }
+        
+        function updateTidalInfo(data) {
+            // Simulate tidal calculations based on pressure
+            if (data.pressure) {
+                const pressure = data.pressure;
+                const tideHeight = (pressure - 1.0) * 10;
+                
+                document.getElementById('tidalHeight').textContent = tideHeight.toFixed(2) + ' m';
+                
+                // Determine tidal stage
+                const hour = new Date().getHours();
+                const tideStage = hour % 6 < 3 ? 'Flood Tide' : 'Ebb Tide';
+                document.getElementById('tidalStage').textContent = tideStage;
+                
+                // Calculate next tide
+                const nextHour = (Math.floor(hour / 6) + 1) * 6;
+                document.getElementById('nextTide').textContent = `${nextHour % 24}:00`;
+            }
+        }
+        
+        async function loadBuoyStatistics() {
+            const days = document.getElementById('statsPeriod')?.value || 7;
+            
+            try {
+                const response = await fetch(`/api/buoy/statistics?days=${days}`);
+                const data = await response.json();
+                
+                displayBuoyStatistics(data);
+            } catch (error) {
+                console.error('Error loading buoy statistics:', error);
+            }
+        }
+        
+        function displayBuoyStatistics(data) {
+            const container = document.getElementById('buoyStatisticsContent');
+            
+            if (!container) return;
+            
+            if (!data || !data.statistics) {
+                container.innerHTML = '<div class="card"><p style="color: #666; text-align: center; padding: 2rem;">No data available for the selected period</p></div>';
+                return;
+            }
+            
+            const stats = data.statistics;
+            let html = '<div class="dashboard-grid">';
+            
+            for (const [param, paramStats] of Object.entries(stats)) {
+                if (paramStats) {
+                    const paramNames = {
+                        'temperature': 'Temperature',
+                        'turbidity': 'Turbidity',
+                        'conductivity': 'Conductivity',
+                        'ph': 'pH Level',
+                        'do': 'Dissolved Oxygen',
+                        'pressure': 'Water Pressure'
+                    };
+                    
+                    html += `
+                        <div class="card">
+                            <div class="card-title">
+                                <i class="fas fa-chart-bar"></i>
+                                ${paramNames[param] || param} Statistics
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                                    <div>Mean:</div>
+                                    <div><strong>${paramStats.mean.toFixed(2)}</strong></div>
+                                    <div>Maximum:</div>
+                                    <div><strong>${paramStats.max.toFixed(2)}</strong></div>
+                                    <div>Minimum:</div>
+                                    <div><strong>${paramStats.min.toFixed(2)}</strong></div>
+                                    <div>Std Deviation:</div>
+                                    <div><strong>${paramStats.std.toFixed(2)}</strong></div>
+                                    <div>Range:</div>
+                                    <div><strong>${(paramStats.max - paramStats.min).toFixed(2)}</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        async function loadBuoyTimeSeriesData(hours) {
+            buoyCurrentTimeRange = hours;
+            
+            // Update button states
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if (event) {
+                event.target.classList.add('active');
+            }
+            
+            try {
+                const response = await fetch(`/api/buoy/historical?hours=${hours}&limit=1000`);
+                const data = await response.json();
+                
+                createBuoyTimeSeriesChart(data);
+            } catch (error) {
+                console.error('Error loading buoy time series:', error);
+            }
+        }
+        
+        function createBuoyTimeSeriesChart(data) {
+            const ctx = document.getElementById('buoyTimeSeriesChart');
+            if (!ctx) return;
+            
+            const ctxContext = ctx.getContext('2d');
+            
+            // Destroy existing chart
+            if (buoyCharts.timeSeries) {
+                buoyCharts.timeSeries.destroy();
+            }
+            
+            const timeLabels = data.map(d => new Date(d.time));
+            const temperatureData = data.map(d => d.temperature);
+            const turbidityData = data.map(d => d.turbidity);
+            const pressureData = data.map(d => d.pressure);
+            
+            buoyCharts.timeSeries = new Chart(ctxContext, {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [
+                        {
+                            label: 'Temperature (°C)',
+                            data: temperatureData,
+                            borderColor: '#f44336',
+                            backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                            tension: 0.4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Turbidity (NTU)',
+                            data: turbidityData,
+                            borderColor: '#2196f3',
+                            backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                            tension: 0.4,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: 'Pressure (bar)',
+                            data: pressureData,
+                            borderColor: '#4caf50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.4,
+                            yAxisID: 'y2'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'hour'
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Temperature (°C)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Turbidity (NTU)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        },
+                        y2: {
+                            type: 'linear',
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        async function loadBuoyDebugInfo() {
+            try {
+                const response = await fetch('/api/debug/serial-status');
+                const data = await response.json();
+                
+                // Update connection status
+                document.getElementById('debugBuoyStatus').textContent = data.buoy.connected ? 'Connected' : 'Disconnected';
+                document.getElementById('debugReconnectAttempts').textContent = data.buoy.reconnect_attempts;
+                document.getElementById('debugSerialPort').textContent = data.buoy.port;
+                
+                // Update last data received
+                if (data.buoy.last_update) {
+                    const date = new Date(data.buoy.last_update);
+                    document.getElementById('buoyLastDataReceived').textContent = date.toLocaleString();
+                }
+                
+                // Update data points count
+                const countResponse = await fetch('/api/system-status');
+                const countData = await countResponse.json();
+                document.getElementById('debugDataPoints').textContent = countData.database.buoy_records;
+                
+            } catch (error) {
+                console.error('Error loading buoy debug info:', error);
+            }
+        }
+        
+        async function loadBuoySystemLogs() {
+            const level = document.getElementById('logLevel')?.value || '';
+            
+            let url = '/api/debug/system-logs?limit=50&source=buoy';
+            if (level) url += `&level=${level}`;
+            
+            try {
+                const response = await fetch(url);
+                const logs = await response.json();
+                
+                const tbody = document.getElementById('buoyLogTableBody');
+                tbody.innerHTML = '';
+                
+                logs.forEach(log => {
+                    const row = document.createElement('tr');
+                    
+                    // Format timestamp
+                    const date = new Date(log.timestamp);
+                    const timeStr = date.toLocaleTimeString();
+                    
+                    // Level color
+                    let levelColor;
+                    switch(log.level) {
+                        case 'info': levelColor = '#2196F3'; break;
+                        case 'warning': levelColor = '#FF9800'; break;
+                        case 'error': levelColor = '#f44336'; break;
+                        default: levelColor = '#666';
+                    }
+                    
+                    row.innerHTML = `
+                        <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #eee;">${timeStr}</td>
+                        <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #eee;">
+                            <span style="color: ${levelColor}; font-weight: 500;">${log.level.toUpperCase()}</span>
+                        </td>
+                        <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #eee;">${log.message}</td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+                
+            } catch (error) {
+                console.error('Error loading system logs:', error);
+            }
+        }
+        
+        async function reconnectBuoy() {
+            try {
+                const response = await fetch('/api/debug/reconnect-buoy');
+                const result = await response.json();
+                
+                alert(result.message);
+                loadBuoyDebugInfo();
+            } catch (error) {
+                console.error('Error reconnecting buoy:', error);
+                alert('Error reconnecting buoy');
+            }
+        }
+        
+        function refreshBuoyDebugInfo() {
+            loadBuoyDebugInfo();
+            loadBuoySystemLogs();
+        }
+        
+        // Set export date range
+        function setExportDateRange(days) {
+            const end = new Date();
+            const start = new Date();
+            start.setDate(end.getDate() - days);
+            
+            document.getElementById('exportStartDate').valueAsDate = start;
+            document.getElementById('exportEndDate').valueAsDate = end;
+        }
+        
+        // Export buoy data
+        function exportBuoyData() {
+            const startDate = document.getElementById('exportStartDate').value;
+            const endDate = document.getElementById('exportEndDate').value;
+            const format = document.getElementById('exportFormat').value;
+            
+            // Calculate days between dates
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+            
+            if (format === 'csv') {
+                window.open(`/api/export/buoy-data?days=${days}`, '_blank');
+            } else {
+                // For JSON, we'll fetch and download
+                fetch(`/api/buoy/historical?hours=${days*24}&limit=10000`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const jsonStr = JSON.stringify(data, null, 2);
+                        const blob = new Blob([jsonStr], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `buoy_data_${startDate}_to_${endDate}.json`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    });
+            }
+            
+            // Show success message
+            alert(`Exporting buoy data from ${startDate} to ${endDate}...`);
+        }
+        
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            if (buoyUpdateInterval) {
+                clearInterval(buoyUpdateInterval);
+            }
+            
+            // Destroy all charts
+            Object.values(buoyCharts).forEach(chart => {
+                if (chart && chart.destroy) {
+                    chart.destroy();
+                }
+            });
+        });
+    </script>
+</body>
+</html>s
