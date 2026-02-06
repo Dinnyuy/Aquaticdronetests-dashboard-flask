@@ -923,6 +923,14 @@ def generate_buoy_statistics(days=30):
     }
 
 # Authentication Routes
+@app.route('/')
+def index():
+    if current_user.is_authenticated:
+        dashboard_type = session.get('dashboard_type', current_user.dashboard_preference)
+        if dashboard_type == 'buoy':
+            return redirect(url_for('buoy_dashboard'))
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
