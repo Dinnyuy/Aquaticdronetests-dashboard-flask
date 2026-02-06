@@ -931,6 +931,7 @@ def index():
             return redirect(url_for('buoy_dashboard'))
         return redirect(url_for('dashboard'))
     return redirect(url_for('login'))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -1477,11 +1478,11 @@ def get_system_status():
         }
     })
 
-# Dashboard selector
-@app.route('/dashboard-selector')
-@login_required
-def dashboard_selector():
-    return render_template('dashboard_selector.html')
+# Dashboard selector (removed - using header switcher instead)
+# @app.route('/dashboard-selector')
+# @login_required
+# def dashboard_selector():
+#     return render_template('dashboard_selector.html')
 
 if __name__ == '__main__':
     with app.app_context():
