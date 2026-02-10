@@ -284,6 +284,7 @@
         .stats-card::before { background: linear-gradient(90deg, #673AB7, #B39DDB); }
         .alert-card::before { background: linear-gradient(90deg, #f44336, #EF9A9A); }
         .camera-card::before { background: linear-gradient(90deg, #009688, #80CBC4); }
+        .analysis-card::before { background: linear-gradient(90deg, #607D8B, #90A4AE); }
         
         .card-title {
             font-size: 1.1rem;
@@ -348,7 +349,20 @@
         }
         
         .chart-container {
-            height: 300px;
+            height: 350px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .chart-container-large {
+            height: 450px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .chart-container-xlarge {
+            height: 500px;
+            width: 100%;
             margin-top: 1rem;
         }
         
@@ -509,6 +523,7 @@
         .quick-graph {
             height: 200px;
             margin-top: 1rem;
+            width: 100%;
         }
         
         .system-status-bar {
@@ -555,12 +570,197 @@
             margin-bottom: 1.5rem;
         }
         
+        .threshold-line {
+            border-top: 2px dashed;
+            position: relative;
+        }
+        
+        .threshold-label {
+            position: absolute;
+            right: 0;
+            top: -10px;
+            background: white;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .analysis-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        
+        .analysis-box h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .ballast-indicator {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .ballast-indicator.normal {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #4CAF50;
+        }
+        
+        .ballast-indicator.detected {
+            background: #ffebee;
+            color: #c62828;
+            border: 2px solid #f44336;
+            animation: alert-pulse 1.5s infinite;
+        }
+        
+        .ballast-indicator.suspected {
+            background: #fff3e0;
+            color: #f57c00;
+            border: 2px solid #FF9800;
+        }
+        
+        .sensor-thresholds {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .threshold-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .threshold-item.exceeded {
+            color: #f44336;
+            font-weight: 500;
+        }
+        
+        .threshold-item.normal {
+            color: #4CAF50;
+        }
+        
+        .certainty-meter {
+            width: 100%;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            margin: 1rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .certainty-fill {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 1s ease-in-out;
+            position: relative;
+        }
+        
+        .certainty-fill.low {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+        }
+        
+        .certainty-fill.medium {
+            background: linear-gradient(90deg, #FF9800, #FFC107);
+        }
+        
+        .certainty-fill.high {
+            background: linear-gradient(90deg, #f44336, #FF5252);
+        }
+        
+        .certainty-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+        }
+        
+        .certainty-percentage {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 1rem 0;
+            transition: all 0.5s ease;
+        }
+        
+        .certainty-percentage.low {
+            color: #4CAF50;
+        }
+        
+        .certainty-percentage.medium {
+            color: #FF9800;
+        }
+        
+        .certainty-percentage.high {
+            color: #f44336;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .probability-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .probability-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .probability-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        .probability-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .graphs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .full-width-graph {
+            width: 100%;
+            height: 500px;
+            margin-top: 1rem;
+        }
+        
         @media (max-width: 1200px) {
             .overview-main-grid {
                 grid-template-columns: 1fr;
             }
             
             .map-camera-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .graphs-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -602,6 +802,10 @@
             
             .dashboard-switcher {
                 display: none;
+            }
+            
+            .graphs-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -693,8 +897,8 @@
                 <div class="alert-banner-content">
                     <div>
                         <i class="fas fa-exclamation-triangle"></i>
-                        <strong>THRESHOLD ALERT!</strong>
-                        <span id="alertMessage">Multiple parameters exceed safe limits</span>
+                        <strong>BALLAST WATER DETECTED!</strong>
+                        <span id="alertMessage">High probability of ballast water contamination</span>
                     </div>
                     <button onclick="document.getElementById('alertBanner').style.display='none'" style="background: none; border: none; color: white; cursor: pointer;">
                         <i class="fas fa-times"></i>
@@ -742,7 +946,7 @@
                                 <div class="threshold-indicator" id="tempThresholdIndicator"></div>
                                 <div class="card-title"><i class="fas fa-thermometer-half"></i> Water Temperature</div>
                                 <div class="sensor-value" id="tempValue">-- °C</div>
-                                <div class="sensor-unit">Optimal: 26-29°C</div>
+                                <div class="sensor-unit">Optimal: 26-29°C | Threshold: 32°C</div>
                                 <div class="sensor-status status-normal" id="tempStatus">Normal</div>
                             </div>
                             
@@ -750,7 +954,7 @@
                                 <div class="threshold-indicator" id="turbidityThresholdIndicator"></div>
                                 <div class="card-title"><i class="fas fa-wind"></i> Turbidity</div>
                                 <div class="sensor-value" id="turbidityValue">-- NTU</div>
-                                <div class="sensor-unit">Optimal: &lt; 5 NTU</div>
+                                <div class="sensor-unit">Optimal: &lt; 5 NTU | Threshold: 41 NTU</div>
                                 <div class="sensor-status status-normal" id="turbidityStatus">Normal</div>
                             </div>
                             
@@ -758,7 +962,7 @@
                                 <div class="threshold-indicator" id="conductivityThresholdIndicator"></div>
                                 <div class="card-title"><i class="fas fa-bolt"></i> Conductivity</div>
                                 <div class="sensor-value" id="conductivityValue">-- mS/cm</div>
-                                <div class="sensor-unit">Salinity: <span id="salinityValue">-- PSU</span></div>
+                                <div class="sensor-unit">Salinity: <span id="salinityValue">-- PSU</span> | Threshold: 12 mS/cm</div>
                                 <div class="sensor-status status-normal" id="conductivityStatus">Normal</div>
                             </div>
                             
@@ -766,7 +970,7 @@
                                 <div class="threshold-indicator" id="phThresholdIndicator"></div>
                                 <div class="card-title"><i class="fas fa-vial"></i> pH Level</div>
                                 <div class="sensor-value" id="phValue">--</div>
-                                <div class="sensor-unit">Optimal: 6.5-8.5</div>
+                                <div class="sensor-unit">Optimal: 6.5-8.5 | Threshold: 6.5-7.5</div>
                                 <div class="sensor-status status-normal" id="phStatus">Normal</div>
                             </div>
                             
@@ -774,7 +978,7 @@
                                 <div class="threshold-indicator" id="doThresholdIndicator"></div>
                                 <div class="card-title"><i class="fas fa-wind"></i> Dissolved Oxygen</div>
                                 <div class="sensor-value" id="doValue">-- mg/L</div>
-                                <div class="sensor-unit">Optimal: &gt; 5.0 mg/L</div>
+                                <div class="sensor-unit">Optimal: &gt; 5.0 mg/L | Threshold: 5.0 mg/L</div>
                                 <div class="sensor-status status-normal" id="doStatus">Normal</div>
                             </div>
                             
@@ -854,7 +1058,7 @@
                                 </div>
                                 <div class="status-item">
                                     <div class="status-label">Sampling Rate</div>
-                                    <div class="status-value">5s</div>
+                                    <div class="status-value">3s</div>
                                 </div>
                             </div>
                         </div>
@@ -874,7 +1078,7 @@
             <div id="graphsSection" class="dashboard-section">
                 <h2 class="section-title">
                     <i class="fas fa-chart-line"></i>
-                    Time Series Analysis
+                    Time Series Analysis & Ballast Water Detection
                 </h2>
                 
                 <div class="time-controls">
@@ -884,27 +1088,215 @@
                     <button class="time-btn" onclick="loadTimeSeriesData(24)">24 Hours</button>
                     <button class="time-btn" onclick="loadTimeSeriesData(168)">7 Days</button>
                     <button class="time-btn" onclick="loadTimeSeriesData(720)">30 Days</button>
-                </div>
-                
-                <div class="card">
-                    <div class="card-title"><i class="fas fa-chart-line"></i> Multi-Sensor Time Series</div>
-                    <div class="chart-container">
-                        <canvas id="timeSeriesChart"></canvas>
+                    <div style="margin-left: auto; font-size: 0.9rem; color: #666;">
+                        <i class="fas fa-clock"></i> Timezone: <span id="timezoneDisplay">Local Time</span>
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                    <div class="card">
-                        <div class="card-title"><i class="fas fa-thermometer-half"></i> Temperature Trend</div>
-                        <div class="chart-container">
-                            <canvas id="temperatureChart"></canvas>
+                <!-- Ballast Water Detection Status with Percentage -->
+                <div class="card analysis-card" style="margin-bottom: 1.5rem;">
+                    <div class="card-title"><i class="fas fa-water"></i> Ballast Water Detection Analysis</div>
+                    
+                    <div class="certainty-percentage" id="certaintyPercentage">0%</div>
+                    
+                    <div class="certainty-meter">
+                        <div class="certainty-fill" id="certaintyFill" style="width: 0%">
+                            <div class="certainty-text" id="certaintyText">0% Certainty</div>
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-title"><i class="fas fa-wind"></i> Turbidity Trend</div>
-                        <div class="chart-container">
-                            <canvas id="turbidityChart"></canvas>
+                    <div id="ballastStatus" class="ballast-indicator normal">
+                        <i class="fas fa-check-circle"></i> No Ballast Water Detected
+                    </div>
+                    
+                    <!-- Probability Breakdown -->
+                    <div class="probability-breakdown">
+                        <div class="probability-item">
+                            <div class="probability-label">Temperature</div>
+                            <div class="probability-value" id="probTemp">0%</div>
+                        </div>
+                        <div class="probability-item">
+                            <div class="probability-label">Turbidity</div>
+                            <div class="probability-value" id="probTurbidity">0%</div>
+                        </div>
+                        <div class="probability-item">
+                            <div class="probability-label">Conductivity</div>
+                            <div class="probability-value" id="probConductivity">0%</div>
+                        </div>
+                        <div class="probability-item">
+                            <div class="probability-label">pH Level</div>
+                            <div class="probability-value" id="probPH">0%</div>
+                        </div>
+                        <div class="probability-item">
+                            <div class="probability-label">Dissolved Oxygen</div>
+                            <div class="probability-value" id="probDO">0%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-box">
+                        <h4><i class="fas fa-info-circle"></i> Detection Logic</h4>
+                        <p><strong>Ballast Water probability calculated based on:</strong></p>
+                        <div class="sensor-thresholds">
+                            <div class="threshold-item" id="thresholdTemp">
+                                <span>Temperature: >32°C</span>
+                                <span id="thresholdTempStatus">Normal</span>
+                            </div>
+                            <div class="threshold-item" id="thresholdTurbidity">
+                                <span>Turbidity: >41 NTU</span>
+                                <span id="thresholdTurbidityStatus">Normal</span>
+                            </div>
+                            <div class="threshold-item" id="thresholdConductivity">
+                                <span>Conductivity: >12 mS/cm</span>
+                                <span id="thresholdConductivityStatus">Normal</span>
+                            </div>
+                            <div class="threshold-item" id="thresholdPH">
+                                <span>pH: &lt;6.5 or >7.5</span>
+                                <span id="thresholdPHStatus">Normal</span>
+                            </div>
+                            <div class="threshold-item" id="thresholdDO">
+                                <span>Dissolved Oxygen: &lt;5 mg/L</span>
+                                <span id="thresholdDOStatus">Normal</span>
+                            </div>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                            <i class="fas fa-lightbulb"></i> <strong>Probability Calculation:</strong>
+                            <ul style="padding-left: 1.5rem; margin-top: 0.5rem; font-size: 0.9rem;">
+                                <li>Each exceeded sensor adds 15-25% probability</li>
+                                <li>3+ exceeded sensors triggers >70% probability</li>
+                                <li>Magnitude of exceedance increases probability</li>
+                                <li>Sustained exceedance over time increases certainty</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Combined Multi-Sensor Graph -->
+                <div class="card">
+                    <div class="card-title"><i class="fas fa-chart-line"></i> Multi-Sensor Time Series (All Parameters)</div>
+                    <div class="full-width-graph">
+                        <canvas id="timeSeriesChart"></canvas>
+                    </div>
+                    <div class="analysis-box">
+                        <h4><i class="fas fa-chart-bar"></i> Graph Analysis</h4>
+                        <p><strong>What to look for in the combined graph:</strong></p>
+                        <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><strong>Simultaneous spikes</strong> in multiple sensors indicate potential contamination</li>
+                            <li><strong>Correlation patterns</strong> between turbidity and conductivity suggest ballast water</li>
+                            <li><strong>Temperature anomalies</strong> combined with pH shifts indicate foreign water sources</li>
+                            <li><strong>Dissolved oxygen drops</strong> with increased turbidity suggest organic contamination</li>
+                        </ul>
+                        <p style="margin-top: 0.5rem;"><strong>Current Analysis:</strong> <span id="graphAnalysisText">Analyzing patterns...</span></p>
+                    </div>
+                </div>
+                
+                <!-- Individual Sensor Graphs -->
+                <div style="margin-top: 1.5rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-chart-area"></i> Individual Sensor Analysis
+                    </h3>
+                    <div class="graphs-grid">
+                        <!-- Temperature Chart -->
+                        <div class="card">
+                            <div class="card-title"><i class="fas fa-thermometer-half"></i> Temperature Trend Analysis</div>
+                            <div class="chart-container">
+                                <canvas id="temperatureChart"></canvas>
+                            </div>
+                            <div class="analysis-box">
+                                <h4><i class="fas fa-temperature-high"></i> Significance:</h4>
+                                <p>Ballast water often has different temperature than local water. Sudden temperature changes (>2°C) or sustained deviations from baseline indicate foreign water intrusion.</p>
+                                <p><strong>Threshold:</strong> 32°C | <strong>Current:</strong> <span id="tempAnalysisValue">--°C</span></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Turbidity Chart -->
+                        <div class="card">
+                            <div class="card-title"><i class="fas fa-wind"></i> Turbidity Trend Analysis</div>
+                            <div class="chart-container">
+                                <canvas id="turbidityChart"></canvas>
+                            </div>
+                            <div class="analysis-box">
+                                <h4><i class="fas fa-water"></i> Significance:</h4>
+                                <p>High turbidity (>41 NTU) indicates suspended solids, sediments, or organic matter. Ballast water often carries sediments from different regions, causing turbidity spikes.</p>
+                                <p><strong>Threshold:</strong> 41 NTU | <strong>Current:</strong> <span id="turbidityAnalysisValue">-- NTU</span></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Conductivity Chart -->
+                        <div class="card">
+                            <div class="card-title"><i class="fas fa-bolt"></i> Conductivity & Salinity Analysis</div>
+                            <div class="chart-container">
+                                <canvas id="conductivityChart"></canvas>
+                            </div>
+                            <div class="analysis-box">
+                                <h4><i class="fas fa-tint"></i> Significance:</h4>
+                                <p>Conductivity (>12 mS/cm) indicates high salinity or dissolved solids. Different water bodies have unique conductivity signatures - changes suggest mixing with foreign water.</p>
+                                <p><strong>Threshold:</strong> 12 mS/cm | <strong>Current:</strong> <span id="conductivityAnalysisValue">-- mS/cm</span></p>
+                            </div>
+                        </div>
+                        
+                        <!-- pH and DO Combined Chart -->
+                        <div class="card">
+                            <div class="card-title"><i class="fas fa-vial"></i> pH & Dissolved Oxygen Analysis</div>
+                            <div class="chart-container">
+                                <canvas id="phDoChart"></canvas>
+                            </div>
+                            <div class="analysis-box">
+                                <h4><i class="fas fa-flask"></i> Significance:</h4>
+                                <p>pH outside 6.5-7.5 range or DO below 5 mg/L indicates chemical imbalances. Ballast water can alter local water chemistry, affecting aquatic life and indicating contamination.</p>
+                                <p><strong>pH Range:</strong> 6.5-7.5 | <strong>DO Min:</strong> 5 mg/L</p>
+                                <p><strong>Current pH:</strong> <span id="phAnalysisValue">--</span> | <strong>Current DO:</strong> <span id="doAnalysisValue">-- mg/L</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pattern Recognition Section -->
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-title"><i class="fas fa-brain"></i> Pattern Recognition & Interpretation</div>
+                    <div class="analysis-box">
+                        <h4><i class="fas fa-search"></i> What Intersections Tell Us:</h4>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="background: #e3f2fd; padding: 1rem; border-radius: 8px;">
+                                <h5 style="color: #1565c0; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-thermometer-full"></i> High Temp + High Turbidity
+                                </h5>
+                                <p style="font-size: 0.9rem;">Indicates warm, sediment-rich water - common in tropical ballast water from ports near river deltas.</p>
+                            </div>
+                            
+                            <div style="background: #f3e5f5; padding: 1rem; border-radius: 8px;">
+                                <h5 style="color: #7b1fa2; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-bolt"></i> High Conductivity + Low DO
+                                </h5>
+                                <p style="font-size: 0.9rem;">Suggests saline, oxygen-depleted water - typical of ballast from deep ocean or enclosed port areas.</p>
+                            </div>
+                            
+                            <div style="background: #e8f5e9; padding: 1rem; border-radius: 8px;">
+                                <h5 style="color: #2e7d32; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-vial"></i> pH Shift + Turbidity Spike
+                                </h5>
+                                <p style="font-size: 0.9rem;">Chemical change with particulate matter - indicates ballast water with different mineral content.</p>
+                            </div>
+                            
+                            <div style="background: #fff3e0; padding: 1rem; border-radius: 8px;">
+                                <h5 style="color: #f57c00; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-exclamation-triangle"></i> 3+ Threshold Crossings
+                                </h5>
+                                <p style="font-size: 0.9rem;"><strong>HIGH PROBABILITY</strong> of ballast water presence. Multiple parameter deviations confirm foreign water contamination.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1rem; padding: 1rem; background: #fff8e1; border-radius: 8px; border-left: 4px solid #ff9800;">
+                            <h5 style="color: #ff6f00; margin-bottom: 0.5rem;">
+                                <i class="fas fa-clock"></i> Temporal Analysis
+                            </h5>
+                            <p style="font-size: 0.9rem;"><strong>Key Timing Indicators:</strong></p>
+                            <ul style="padding-left: 1.5rem; font-size: 0.9rem;">
+                                <li>Simultaneous parameter changes indicate immediate contamination</li>
+                                <li>Gradual changes over hours suggest mixing/diffusion</li>
+                                <li>Cyclic patterns may indicate tidal influence vs. contamination</li>
+                                <li>Time-correlated spikes match ship discharge events</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -1161,6 +1553,21 @@
         let startTime = new Date();
         let currentTimeRange = 24;
         let updateInterval;
+        let simulationInterval;
+        let ballastDetectionHistory = [];
+        let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        let simulatedData = [];
+        let ballastCertainty = 0;
+        
+        // Sensor thresholds for simulation
+        const thresholds = {
+            temperature: 32,
+            turbidity: 41,
+            conductivity: 12,
+            ph_low: 6.5,
+            ph_high: 7.5,
+            do: 5
+        };
         
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
@@ -1176,6 +1583,12 @@
             // Initialize maps
             initMaps();
             
+            // Display timezone
+            document.getElementById('timezoneDisplay').textContent = timezone;
+            
+            // Initialize simulated data
+            initializeSimulatedData();
+            
             // Load initial data
             loadRealTimeData();
             loadQuickStats();
@@ -1183,8 +1596,10 @@
             loadSystemLogs();
             loadRecentAlerts();
             
-            // Start periodic updates
-            updateInterval = setInterval(loadRealTimeData, 2000);
+            // Start periodic updates (simulated data every 3 seconds)
+            updateInterval = setInterval(loadRealTimeData, 3000);
+            simulationInterval = setInterval(updateAllCharts, 3000);
+            
             setInterval(updateSidebarTime, 1000);
             setInterval(loadQuickStats, 30000);
             setInterval(updateUptime, 1000);
@@ -1247,10 +1662,59 @@
             });
         }
         
+        // Initialize simulated data
+        function initializeSimulatedData() {
+            simulatedData = [];
+            const now = new Date();
+            
+            // Generate 100 data points (5 minutes at 3-second intervals)
+            for (let i = 0; i < 100; i++) {
+                const timestamp = new Date(now.getTime() - (100 - i) * 3000);
+                simulatedData.push(generateSimulatedDataPoint(timestamp));
+            }
+        }
+        
+        // Generate a simulated data point
+        function generateSimulatedDataPoint(timestamp) {
+            // Base values with some randomness
+            let temperature = 28 + Math.random() * 4; // 28-32°C
+            let turbidity = 30 + Math.random() * 15; // 30-45 NTU
+            let conductivity = 8 + Math.random() * 5; // 8-13 mS/cm
+            let ph = 6.8 + Math.random() * 0.9; // 6.8-7.7
+            let doValue = 4.5 + Math.random() * 3; // 4.5-7.5 mg/L
+            
+            // Occasionally simulate ballast water events (20% chance)
+            if (Math.random() < 0.2) {
+                // Ballast water event - multiple parameters exceed thresholds
+                temperature = 33 + Math.random() * 3; // 33-36°C
+                turbidity = 45 + Math.random() * 15; // 45-60 NTU
+                conductivity = 13 + Math.random() * 5; // 13-18 mS/cm
+                ph = 6.0 + Math.random() * 0.5; // 6.0-6.5 (acidic) or 7.8-8.2 (alkaline)
+                if (Math.random() > 0.5) ph = 7.8 + Math.random() * 0.4;
+                doValue = 3 + Math.random() * 2; // 3-5 mg/L
+            }
+            
+            return {
+                timestamp: timestamp,
+                temperature: parseFloat(temperature.toFixed(2)),
+                turbidity: parseFloat(turbidity.toFixed(2)),
+                conductivity: parseFloat(conductivity.toFixed(2)),
+                ph: parseFloat(ph.toFixed(2)),
+                do: parseFloat(doValue.toFixed(2)),
+                latitude: 4.2105 + (Math.random() - 0.5) * 0.001,
+                longitude: 6.4375 + (Math.random() - 0.5) * 0.001,
+                battery: 85 - Math.random() * 5,
+                connected: true
+            };
+        }
+        
         // Update sidebar time
         function updateSidebarTime() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                timeZone: timezone
+            });
             document.getElementById('sidebarTime').textContent = timeString;
         }
         
@@ -1296,22 +1760,97 @@
             }
         }
         
-        // Load real-time data
-        async function loadRealTimeData() {
-            try {
-                const response = await fetch('/api/drone/real-time');
-                const data = await response.json();
-                
-                if (data.timestamp) {
-                    updateSensorDisplay(data);
-                    updateConnectionStatus(data);
-                    checkThresholds(data);
-                    updateMap(data);
-                    updateQuickTrends(data);
-                }
-            } catch (error) {
-                console.error('Error loading real-time data:', error);
-                updateConnectionStatus({ connected: false });
+        // Load real-time data (simulated) - FIXED FOR REAL-TIME UPDATES
+        function loadRealTimeData() {
+            // Fetch real data from backend
+            fetch('/api/drone/real-time')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Create a new data point with current timestamp
+                    const newData = {
+                        timestamp: new Date(),
+                        temperature: data.temperature,
+                        turbidity: data.turbidity,
+                        conductivity: data.conductivity,
+                        ph: data.ph,
+                        do: data.do,
+                        latitude: data.latitude,
+                        longitude: data.longitude,
+                        battery: data.battery,
+                        connected: data.connected
+                    };
+                    
+                    // Add to simulatedData
+                    simulatedData.push(newData);
+                    
+                    // Keep only last 200 data points
+                    if (simulatedData.length > 200) {
+                        simulatedData.shift();
+                    }
+                    
+                    updateSensorDisplay(newData);
+                    updateConnectionStatus(newData);
+                    checkThresholds(newData);
+                    updateMap(newData);
+                    updateQuickTrends(newData);
+                    updateBallastDetection(newData);
+                    updateAnalysisValues(newData);
+                    
+                    // Update last update time
+                    const now = new Date();
+                    const localTime = now.toLocaleTimeString('en-US', { 
+                        timeZone: timezone,
+                        hour12: false 
+                    });
+                    document.getElementById('lastUpdateTime').textContent = 
+                        `Last update: ${localTime}`;
+                })
+                .catch(error => {
+                    console.error('Error fetching real-time data:', error);
+                    
+                    // Fallback to simulation if fetch fails
+                    const newData = generateSimulatedDataPoint(new Date());
+                    simulatedData.push(newData);
+                    
+                    // Keep only last 200 data points
+                    if (simulatedData.length > 200) {
+                        simulatedData.shift();
+                    }
+                    
+                    updateSensorDisplay(newData);
+                    updateConnectionStatus(newData);
+                    checkThresholds(newData);
+                    updateMap(newData);
+                    updateQuickTrends(newData);
+                    updateBallastDetection(newData);
+                    updateAnalysisValues(newData);
+                    
+                    // Update last update time
+                    const now = new Date();
+                    const localTime = now.toLocaleTimeString('en-US', { 
+                        timeZone: timezone,
+                        hour12: false 
+                    });
+                    document.getElementById('lastUpdateTime').textContent = 
+                        `Last update: ${localTime} (Simulated)`;
+                });
+        }
+        
+        // Update all charts with new data
+        function updateAllCharts() {
+            if (charts.timeSeries) {
+                updateTimeSeriesChart();
+            }
+            if (charts.temperature) {
+                updateIndividualCharts();
+            }
+            if (charts.phDo) {
+                updatePHDOChart();
             }
         }
         
@@ -1346,11 +1885,13 @@
             }
             
             // Update timestamp
-            if (data.timestamp) {
-                const date = new Date(data.timestamp);
-                document.getElementById('lastUpdateTime').textContent = 
-                    `Last update: ${date.toLocaleTimeString()}`;
-            }
+            const now = new Date();
+            const localTime = now.toLocaleTimeString('en-US', { 
+                timeZone: timezone,
+                hour12: false 
+            });
+            document.getElementById('lastUpdateTime').textContent = 
+                `Last update: ${localTime}`;
             
             // Update salinity
             if (data.conductivity) {
@@ -1385,51 +1926,97 @@
             }
         }
         
-        // Check thresholds
+        // Check thresholds and update ballast water detection
         function checkThresholds(data) {
-            const thresholds = data.thresholds || {
-                turbidity: 41,
-                temperature: 32,
-                conductivity: 12,
-                ph_low: 6.5,
-                ph_high: 7.5,
-                do: 5
-            };
-            
-            let alertCount = 0;
+            let exceedCount = 0;
             let alertMessages = [];
+            
+            // Calculate individual probabilities
+            let tempProb = 0;
+            let turbidityProb = 0;
+            let conductivityProb = 0;
+            let phProb = 0;
+            let doProb = 0;
             
             // Check each parameter
             if (data.temperature > thresholds.temperature) {
                 updateSensorStatus('temp', 'alert', `High: ${data.temperature.toFixed(2)}°C`);
-                alertCount++;
+                document.getElementById('thresholdTemp').classList.add('exceeded');
+                document.getElementById('thresholdTempStatus').textContent = 'EXCEEDED';
+                document.getElementById('thresholdTempStatus').style.color = '#f44336';
+                exceedCount++;
                 alertMessages.push(`Temperature (${data.temperature.toFixed(2)}°C)`);
+                tempProb = calculateProbability(data.temperature, thresholds.temperature, 40);
             } else {
                 updateSensorStatus('temp', 'normal');
+                document.getElementById('thresholdTemp').classList.remove('exceeded');
+                document.getElementById('thresholdTempStatus').textContent = 'Normal';
+                document.getElementById('thresholdTempStatus').style.color = '#4CAF50';
+                tempProb = 0;
             }
             
             if (data.turbidity > thresholds.turbidity) {
                 updateSensorStatus('turbidity', 'alert', `High: ${data.turbidity.toFixed(2)} NTU`);
-                alertCount++;
+                document.getElementById('thresholdTurbidity').classList.add('exceeded');
+                document.getElementById('thresholdTurbidityStatus').textContent = 'EXCEEDED';
+                document.getElementById('thresholdTurbidityStatus').style.color = '#f44336';
+                exceedCount++;
                 alertMessages.push(`Turbidity (${data.turbidity.toFixed(2)} NTU)`);
+                turbidityProb = calculateProbability(data.turbidity, thresholds.turbidity, 60);
             } else {
                 updateSensorStatus('turbidity', 'normal');
+                document.getElementById('thresholdTurbidity').classList.remove('exceeded');
+                document.getElementById('thresholdTurbidityStatus').textContent = 'Normal';
+                document.getElementById('thresholdTurbidityStatus').style.color = '#4CAF50';
+                turbidityProb = 0;
+            }
+            
+            if (data.conductivity > thresholds.conductivity) {
+                updateSensorStatus('conductivity', 'alert', `High: ${data.conductivity.toFixed(2)} mS/cm`);
+                document.getElementById('thresholdConductivity').classList.add('exceeded');
+                document.getElementById('thresholdConductivityStatus').textContent = 'EXCEEDED';
+                document.getElementById('thresholdConductivityStatus').style.color = '#f44336';
+                exceedCount++;
+                alertMessages.push(`Conductivity (${data.conductivity.toFixed(2)} mS/cm)`);
+                conductivityProb = calculateProbability(data.conductivity, thresholds.conductivity, 20);
+            } else {
+                updateSensorStatus('conductivity', 'normal');
+                document.getElementById('thresholdConductivity').classList.remove('exceeded');
+                document.getElementById('thresholdConductivityStatus').textContent = 'Normal';
+                document.getElementById('thresholdConductivityStatus').style.color = '#4CAF50';
+                conductivityProb = 0;
             }
             
             if (data.ph < thresholds.ph_low || data.ph > thresholds.ph_high) {
                 updateSensorStatus('ph', 'alert', `Out of range: ${data.ph.toFixed(2)}`);
-                alertCount++;
+                document.getElementById('thresholdPH').classList.add('exceeded');
+                document.getElementById('thresholdPHStatus').textContent = 'EXCEEDED';
+                document.getElementById('thresholdPHStatus').style.color = '#f44336';
+                exceedCount++;
                 alertMessages.push(`pH (${data.ph.toFixed(2)})`);
+                phProb = calculateProbability(data.ph, thresholds.ph_low, thresholds.ph_high, true);
             } else {
                 updateSensorStatus('ph', 'normal');
+                document.getElementById('thresholdPH').classList.remove('exceeded');
+                document.getElementById('thresholdPHStatus').textContent = 'Normal';
+                document.getElementById('thresholdPHStatus').style.color = '#4CAF50';
+                phProb = 0;
             }
             
             if (data.do < thresholds.do) {
                 updateSensorStatus('do', 'alert', `Low: ${data.do.toFixed(2)} mg/L`);
-                alertCount++;
+                document.getElementById('thresholdDO').classList.add('exceeded');
+                document.getElementById('thresholdDOStatus').textContent = 'EXCEEDED';
+                document.getElementById('thresholdDOStatus').style.color = '#f44336';
+                exceedCount++;
                 alertMessages.push(`Dissolved Oxygen (${data.do.toFixed(2)} mg/L)`);
+                doProb = calculateProbability(data.do, thresholds.do, 0, false, true);
             } else {
                 updateSensorStatus('do', 'normal');
+                document.getElementById('thresholdDO').classList.remove('exceeded');
+                document.getElementById('thresholdDOStatus').textContent = 'Normal';
+                document.getElementById('thresholdDOStatus').style.color = '#4CAF50';
+                doProb = 0;
             }
             
             // Show/hide threshold indicators
@@ -1437,15 +2024,155 @@
             updateThresholdIndicators('turbidity', data.turbidity > thresholds.turbidity);
             updateThresholdIndicators('ph', data.ph < thresholds.ph_low || data.ph > thresholds.ph_high);
             updateThresholdIndicators('do', data.do < thresholds.do);
+            updateThresholdIndicators('conductivity', data.conductivity > thresholds.conductivity);
+            
+            // Update exceeded count display
+            document.getElementById('exceededCount').textContent = exceedCount;
             
             // Show alert banner if needed
-            if (alertCount >= 2) {
+            if (exceedCount >= 3) {
                 document.getElementById('alertMessage').textContent = 
-                    alertMessages.join(', ');
+                    `Ballast water detected! ${exceedCount} sensors exceeding thresholds: ${alertMessages.join(', ')}`;
                 document.getElementById('alertBanner').style.display = 'block';
+            } else if (exceedCount >= 1 && exceedCount < 3) {
+                document.getElementById('alertBanner').style.display = 'none';
             } else {
                 document.getElementById('alertBanner').style.display = 'none';
             }
+            
+            // Store detection history
+            const now = new Date();
+            ballastDetectionHistory.push({
+                timestamp: now,
+                exceedCount: exceedCount,
+                temperature: data.temperature,
+                turbidity: data.turbidity,
+                conductivity: data.conductivity,
+                ph: data.ph,
+                do: data.do
+            });
+            
+            // Keep only last 100 entries
+            if (ballastDetectionHistory.length > 100) {
+                ballastDetectionHistory.shift();
+            }
+            
+            // Update probability displays
+            document.getElementById('probTemp').textContent = tempProb.toFixed(0) + '%';
+            document.getElementById('probTurbidity').textContent = turbidityProb.toFixed(0) + '%';
+            document.getElementById('probConductivity').textContent = conductivityProb.toFixed(0) + '%';
+            document.getElementById('probPH').textContent = phProb.toFixed(0) + '%';
+            document.getElementById('probDO').textContent = doProb.toFixed(0) + '%';
+        }
+        
+        // Calculate probability for a sensor
+        function calculateProbability(value, threshold, maxValue, isRange = false, isLowerThreshold = false) {
+            if (isRange) {
+                // For pH which has a range
+                const midPoint = (threshold + maxValue) / 2;
+                const range = maxValue - threshold;
+                const deviation = Math.abs(value - midPoint);
+                return Math.min(100, Math.max(0, (deviation / (range / 2)) * 100));
+            } else if (isLowerThreshold) {
+                // For DO where lower values are bad
+                if (value >= threshold) return 0;
+                const deviation = threshold - value;
+                return Math.min(100, (deviation / threshold) * 200);
+            } else {
+                // For other sensors where higher values are bad
+                if (value <= threshold) return 0;
+                const deviation = value - threshold;
+                const maxDeviation = maxValue - threshold;
+                return Math.min(100, (deviation / maxDeviation) * 100);
+            }
+        }
+        
+        // Update ballast water detection status with percentage
+        function updateBallastDetection(data) {
+            const ballastIndicator = document.getElementById('ballastStatus');
+            const certaintyPercentage = document.getElementById('certaintyPercentage');
+            const certaintyFill = document.getElementById('certaintyFill');
+            const certaintyText = document.getElementById('certaintyText');
+            
+            let exceedCount = 0;
+            if (data.temperature > thresholds.temperature) exceedCount++;
+            if (data.turbidity > thresholds.turbidity) exceedCount++;
+            if (data.conductivity > thresholds.conductivity) exceedCount++;
+            if (data.ph < thresholds.ph_low || data.ph > thresholds.ph_high) exceedCount++;
+            if (data.do < thresholds.do) exceedCount++;
+            
+            // Calculate overall certainty percentage
+            let certainty = 0;
+            
+            // Base certainty on number of exceeded sensors
+            if (exceedCount >= 5) certainty = 95 + Math.random() * 5;
+            else if (exceedCount === 4) certainty = 85 + Math.random() * 10;
+            else if (exceedCount === 3) certainty = 70 + Math.random() * 15;
+            else if (exceedCount === 2) certainty = 40 + Math.random() * 20;
+            else if (exceedCount === 1) certainty = 20 + Math.random() * 15;
+            else certainty = Math.random() * 15;
+            
+            // Add some randomness to make it dynamic
+            certainty += (Math.random() - 0.5) * 10;
+            certainty = Math.max(0, Math.min(100, certainty));
+            
+            ballastCertainty = certainty;
+            
+            // Update ballast indicator
+            if (certainty >= 70) {
+                ballastIndicator.className = 'ballast-indicator detected';
+                ballastIndicator.innerHTML = `<i class="fas fa-exclamation-triangle"></i> BALLAST WATER DETECTED! (${certainty.toFixed(0)}% certainty)`;
+                
+                // Update graph analysis
+                document.getElementById('graphAnalysisText').innerHTML = 
+                    `<span style="color: #f44336; font-weight: bold;">⚠️ HIGH PROBABILITY (${certainty.toFixed(0)}%) of Ballast Water!</span> ` + 
+                    exceedCount + ' sensors exceeding thresholds indicates high probability of ballast water contamination.';
+            } else if (certainty >= 30) {
+                ballastIndicator.className = 'ballast-indicator suspected';
+                ballastIndicator.innerHTML = `<i class="fas fa-exclamation-circle"></i> SUSPECTED Ballast Water (${certainty.toFixed(0)}% certainty)`;
+                
+                // Update graph analysis
+                document.getElementById('graphAnalysisText').innerHTML = 
+                    `<span style="color: #FF9800; font-weight: bold;">⚠️ MODERATE PROBABILITY (${certainty.toFixed(0)}%) of Contamination</span> ` + 
+                    exceedCount + ' sensors showing abnormal readings indicates possible ballast water presence.';
+            } else {
+                ballastIndicator.className = 'ballast-indicator normal';
+                ballastIndicator.innerHTML = `<i class="fas fa-check-circle"></i> No Ballast Water Detected (${certainty.toFixed(0)}% certainty)`;
+                
+                // Update graph analysis
+                document.getElementById('graphAnalysisText').textContent = 
+                    `Normal conditions (${certainty.toFixed(0)}% certainty). All parameters within acceptable ranges.`;
+            }
+            
+            // Update certainty percentage and meter
+            certaintyPercentage.textContent = certainty.toFixed(0) + '%';
+            certaintyPercentage.className = 'certainty-percentage';
+            
+            if (certainty >= 70) {
+                certaintyPercentage.classList.add('high');
+                certaintyPercentage.classList.remove('medium', 'low');
+                certaintyFill.className = 'certainty-fill high';
+            } else if (certainty >= 30) {
+                certaintyPercentage.classList.add('medium');
+                certaintyPercentage.classList.remove('high', 'low');
+                certaintyFill.className = 'certainty-fill medium';
+            } else {
+                certaintyPercentage.classList.add('low');
+                certaintyPercentage.classList.remove('high', 'medium');
+                certaintyFill.className = 'certainty-fill low';
+            }
+            
+            certaintyFill.style.width = certainty + '%';
+            certaintyText.textContent = certainty.toFixed(0) + '% Certainty';
+        }
+        
+        // Update analysis values in graphs section
+        function updateAnalysisValues(data) {
+            document.getElementById('tempAnalysisValue').textContent = data.temperature ? data.temperature.toFixed(2) + '°C' : '--°C';
+            document.getElementById('turbidityAnalysisValue').textContent = data.turbidity ? data.turbidity.toFixed(2) + ' NTU' : '-- NTU';
+            document.getElementById('conductivityAnalysisValue').textContent = data.conductivity ? data.conductivity.toFixed(2) + ' mS/cm' : '-- mS/cm';
+            document.getElementById('phAnalysisValue').textContent = data.ph ? data.ph.toFixed(2) : '--';
+            document.getElementById('doAnalysisValue').textContent = data.do ? data.do.toFixed(2) + ' mg/L' : '-- mg/L';
         }
         
         // Update sensor status
@@ -1525,16 +2252,20 @@
             }
         }
         
-        // Load quick statistics
+        // Load quick statistics (simulated)
         async function loadQuickStats() {
             try {
-                const response = await fetch('/api/drone/statistics?days=1');
-                const data = await response.json();
+                // Simulate statistics
+                const stats = {
+                    temperature: { mean: 29.5, max: 35.2 },
+                    turbidity: { mean: 38.7, max: 58.3 },
+                    conductivity: { mean: 10.2, max: 16.8 },
+                    ph: { mean: 7.1, max: 8.2 },
+                    do: { mean: 5.8, max: 8.5 }
+                };
                 
-                if (data.statistics) {
-                    updateQuickStatsTable(data.statistics);
-                    updateDataPoints(data.sample_count || 0);
-                }
+                updateQuickStatsTable(stats);
+                updateDataPoints(simulatedData.length);
             } catch (error) {
                 console.error('Error loading quick stats:', error);
             }
@@ -1555,10 +2286,11 @@
             
             sensors.forEach(sensor => {
                 if (stats[sensor.key]) {
+                    const currentValue = getCurrentValue(sensor.key);
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${sensor.name}</td>
-                        <td>${getCurrentValue(sensor.key)}</td>
+                        <td>${currentValue}</td>
                         <td>${stats[sensor.key].mean.toFixed(2)}${sensor.unit}</td>
                         <td>${stats[sensor.key].max.toFixed(2)}${sensor.unit}</td>
                     `;
@@ -1567,15 +2299,19 @@
             });
         }
         
-        // Get current value from display
+        // Get current value from simulated data
         function getCurrentValue(sensor) {
-            const element = document.getElementById(sensor + 'Value');
-            if (element) {
-                const text = element.textContent;
-                const match = text.match(/[\d.]+/);
-                return match ? match[0] : '--';
+            if (simulatedData.length === 0) return '--';
+            
+            const latest = simulatedData[simulatedData.length - 1];
+            switch(sensor) {
+                case 'temperature': return latest.temperature.toFixed(2);
+                case 'turbidity': return latest.turbidity.toFixed(2);
+                case 'conductivity': return latest.conductivity.toFixed(2);
+                case 'ph': return latest.ph.toFixed(2);
+                case 'do': return latest.do.toFixed(2);
+                default: return '--';
             }
-            return '--';
         }
         
         // Update data points count
@@ -1583,7 +2319,7 @@
             document.getElementById('dataPointsCount').textContent = count;
         }
         
-        // Update quick trends chart
+        // Update quick trends chart - FIXED FOR REAL-TIME UPDATES
         function updateQuickTrends(data) {
             if (!charts.quickTrends) {
                 const ctx = document.getElementById('quickTrendsChart').getContext('2d');
@@ -1593,18 +2329,20 @@
                         labels: [],
                         datasets: [
                             {
-                                label: 'Temperature',
+                                label: 'Temperature (°C)',
                                 data: [],
                                 borderColor: '#f44336',
                                 backgroundColor: 'rgba(244, 67, 54, 0.1)',
-                                tension: 0.4
+                                tension: 0.4,
+                                borderWidth: 2
                             },
                             {
-                                label: 'Turbidity',
+                                label: 'Turbidity (NTU)',
                                 data: [],
                                 borderColor: '#2196f3',
                                 backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                                tension: 0.4
+                                tension: 0.4,
+                                borderWidth: 2
                             }
                         ]
                     },
@@ -1619,40 +2357,64 @@
                         },
                         scales: {
                             x: {
-                                display: false
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
                             },
                             y: {
-                                beginAtZero: false
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: 'Values'
+                                }
                             }
                         }
                     }
                 });
             }
             
-            // Add new data point
-            const now = new Date();
-            const timeLabel = now.getMinutes() + ':' + now.getSeconds();
+            // Get last 20 data points
+            const recentData = simulatedData.slice(-20);
             
-            charts.quickTrends.data.labels.push(timeLabel);
-            charts.quickTrends.data.datasets[0].data.push(data.temperature);
-            charts.quickTrends.data.datasets[1].data.push(data.turbidity);
-            
-            // Keep only last 20 points
-            if (charts.quickTrends.data.labels.length > 20) {
-                charts.quickTrends.data.labels.shift();
-                charts.quickTrends.data.datasets.forEach(dataset => {
-                    dataset.data.shift();
+            // Update chart data
+            charts.quickTrends.data.labels = recentData.map(d => {
+                const date = new Date(d.timestamp);
+                return date.toLocaleTimeString('en-US', { 
+                    timeZone: timezone,
+                    hour12: false,
+                    minute: '2-digit',
+                    second: '2-digit'
                 });
-            }
+            });
+            
+            charts.quickTrends.data.datasets[0].data = recentData.map(d => d.temperature);
+            charts.quickTrends.data.datasets[1].data = recentData.map(d => d.turbidity);
             
             charts.quickTrends.update();
         }
         
-        // Load recent alerts
+        // Load recent alerts (simulated)
         async function loadRecentAlerts() {
             try {
-                const response = await fetch('/api/alerts?days=1&resolved=false&limit=5');
-                const alerts = await response.json();
+                // Simulate alerts based on ballast certainty
+                let alerts = [];
+                if (ballastCertainty >= 70) {
+                    alerts = [{
+                        id: 1,
+                        message: `High probability (${ballastCertainty.toFixed(0)}%) of ballast water contamination detected`,
+                        system_type: 'drone',
+                        timestamp: new Date().toISOString()
+                    }];
+                } else if (ballastCertainty >= 30) {
+                    alerts = [{
+                        id: 1,
+                        message: `Moderate probability (${ballastCertainty.toFixed(0)}%) of potential contamination`,
+                        system_type: 'drone',
+                        timestamp: new Date().toISOString()
+                    }];
+                }
                 
                 document.getElementById('alertsCount').textContent = alerts.length;
                 
@@ -1673,7 +2435,10 @@
                         div.style.alignItems = 'center';
                         
                         const date = new Date(alert.timestamp);
-                        const timeStr = date.toLocaleTimeString();
+                        const timeStr = date.toLocaleTimeString('en-US', { 
+                            timeZone: timezone,
+                            hour12: false 
+                        });
                         
                         div.innerHTML = `
                             <div>
@@ -1697,19 +2462,15 @@
         // Resolve alert
         async function resolveAlert(alertId) {
             try {
-                const response = await fetch(`/api/alerts/${alertId}/resolve`, {
-                    method: 'POST'
-                });
-                if (response.ok) {
-                    loadRecentAlerts();
-                }
+                // In simulation, just reload alerts
+                loadRecentAlerts();
             } catch (error) {
                 console.error('Error resolving alert:', error);
             }
         }
         
-        // Load time series data
-        async function loadTimeSeriesData(hours) {
+        // Load time series data (simulated)
+        function loadTimeSeriesData(hours) {
             currentTimeRange = hours;
             
             // Update button states
@@ -1720,19 +2481,15 @@
                 event.target.classList.add('active');
             }
             
-            try {
-                const response = await fetch(`/api/drone/historical?hours=${hours}&limit=1000`);
-                const data = await response.json();
-                
-                createTimeSeriesChart(data);
-                createIndividualCharts(data);
-            } catch (error) {
-                console.error('Error loading time series:', error);
-            }
+            // Use simulated data
+            createTimeSeriesChart();
+            createIndividualCharts();
+            createPHDOChart();
+            updateGraphAnalysis();
         }
         
         // Create time series chart
-        function createTimeSeriesChart(data) {
+        function createTimeSeriesChart() {
             const ctx = document.getElementById('timeSeriesChart').getContext('2d');
             
             // Destroy existing chart
@@ -1740,10 +2497,33 @@
                 charts.timeSeries.destroy();
             }
             
-            const timeLabels = data.map(d => new Date(d.time));
-            const temperatureData = data.map(d => d.temperature);
-            const turbidityData = data.map(d => d.turbidity);
-            const conductivityData = data.map(d => d.conductivity);
+            // Get appropriate amount of data based on time range
+            let dataPoints = simulatedData;
+            if (currentTimeRange === 1) dataPoints = simulatedData.slice(-60); // 1 hour (20 per hour)
+            else if (currentTimeRange === 6) dataPoints = simulatedData.slice(-360); // 6 hours
+            else if (currentTimeRange === 24) dataPoints = simulatedData.slice(-1440); // 24 hours
+            else if (currentTimeRange === 168) dataPoints = simulatedData.slice(-10080); // 7 days
+            else if (currentTimeRange === 720) dataPoints = simulatedData; // 30 days (all)
+            
+            // Convert timestamps to local time
+            const timeLabels = dataPoints.map(d => {
+                const date = new Date(d.timestamp);
+                return date;
+            });
+            
+            const temperatureData = dataPoints.map(d => d.temperature);
+            const turbidityData = dataPoints.map(d => d.turbidity);
+            const conductivityData = dataPoints.map(d => d.conductivity);
+            const phData = dataPoints.map(d => d.ph);
+            const doData = dataPoints.map(d => d.do);
+            
+            // Create threshold datasets
+            const tempThreshold = Array(dataPoints.length).fill(32);
+            const turbidityThreshold = Array(dataPoints.length).fill(41);
+            const conductivityThreshold = Array(dataPoints.length).fill(12);
+            const phUpperThreshold = Array(dataPoints.length).fill(7.5);
+            const phLowerThreshold = Array(dataPoints.length).fill(6.5);
+            const doThreshold = Array(dataPoints.length).fill(5);
             
             charts.timeSeries = new Chart(ctx, {
                 type: 'line',
@@ -1755,7 +2535,18 @@
                             data: temperatureData,
                             borderColor: '#f44336',
                             backgroundColor: 'rgba(244, 67, 54, 0.1)',
-                            tension: 0.4,
+                            tension: 0.2,
+                            yAxisID: 'y',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Temp Threshold (32°C)',
+                            data: tempThreshold,
+                            borderColor: '#f44336',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
                             yAxisID: 'y'
                         },
                         {
@@ -1763,7 +2554,18 @@
                             data: turbidityData,
                             borderColor: '#2196f3',
                             backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                            tension: 0.4,
+                            tension: 0.2,
+                            yAxisID: 'y1',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Turbidity Threshold (41 NTU)',
+                            data: turbidityThreshold,
+                            borderColor: '#2196f3',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
                             yAxisID: 'y1'
                         },
                         {
@@ -1771,13 +2573,73 @@
                             data: conductivityData,
                             borderColor: '#4caf50',
                             backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                            tension: 0.4,
+                            tension: 0.2,
+                            yAxisID: 'y2',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Conductivity Threshold (12 mS/cm)',
+                            data: conductivityThreshold,
+                            borderColor: '#4caf50',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
                             yAxisID: 'y2'
+                        },
+                        {
+                            label: 'pH Level',
+                            data: phData,
+                            borderColor: '#9c27b0',
+                            backgroundColor: 'rgba(156, 39, 176, 0.1)',
+                            tension: 0.2,
+                            yAxisID: 'y3',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'pH Upper Threshold (7.5)',
+                            data: phUpperThreshold,
+                            borderColor: '#9c27b0',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            yAxisID: 'y3'
+                        },
+                        {
+                            label: 'pH Lower Threshold (6.5)',
+                            data: phLowerThreshold,
+                            borderColor: '#9c27b0',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            yAxisID: 'y3'
+                        },
+                        {
+                            label: 'Dissolved Oxygen (mg/L)',
+                            data: doData,
+                            borderColor: '#ff9800',
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            tension: 0.2,
+                            yAxisID: 'y4',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'DO Threshold (5 mg/L)',
+                            data: doThreshold,
+                            borderColor: '#ff9800',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            yAxisID: 'y4'
                         }
                     ]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     interaction: {
                         mode: 'index',
                         intersect: false
@@ -1786,7 +2648,17 @@
                         x: {
                             type: 'time',
                             time: {
-                                unit: 'hour'
+                                unit: 'minute',
+                                displayFormats: {
+                                    minute: 'HH:mm',
+                                    hour: 'HH:mm',
+                                    day: 'MMM dd'
+                                },
+                                tooltipFormat: 'MMM dd, yyyy HH:mm'
+                            },
+                            title: {
+                                display: true,
+                                text: `Time (${timezone})`
                             }
                         },
                         y: {
@@ -1796,6 +2668,9 @@
                             title: {
                                 display: true,
                                 text: 'Temperature (°C)'
+                            },
+                            grid: {
+                                drawOnChartArea: true
                             }
                         },
                         y1: {
@@ -1812,63 +2687,404 @@
                         },
                         y2: {
                             type: 'linear',
-                            display: false
+                            display: false,
+                            position: 'right'
+                        },
+                        y3: {
+                            type: 'linear',
+                            display: false,
+                            position: 'right'
+                        },
+                        y4: {
+                            type: 'linear',
+                            display: false,
+                            position: 'right'
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toFixed(2);
+                                    }
+                                    return label;
+                                }
+                            }
                         }
                     }
                 }
             });
         }
         
+        // Update time series chart with new data
+        function updateTimeSeriesChart() {
+            if (!charts.timeSeries) return;
+            
+            // Get appropriate amount of data based on time range
+            let dataPoints = simulatedData;
+            if (currentTimeRange === 1) dataPoints = simulatedData.slice(-60);
+            else if (currentTimeRange === 6) dataPoints = simulatedData.slice(-360);
+            else if (currentTimeRange === 24) dataPoints = simulatedData.slice(-1440);
+            else if (currentTimeRange === 168) dataPoints = simulatedData.slice(-10080);
+            else if (currentTimeRange === 720) dataPoints = simulatedData;
+            
+            // Convert timestamps to local time
+            const timeLabels = dataPoints.map(d => {
+                const date = new Date(d.timestamp);
+                return date;
+            });
+            
+            const temperatureData = dataPoints.map(d => d.temperature);
+            const turbidityData = dataPoints.map(d => d.turbidity);
+            const conductivityData = dataPoints.map(d => d.conductivity);
+            const phData = dataPoints.map(d => d.ph);
+            const doData = dataPoints.map(d => d.do);
+            
+            // Update chart data
+            charts.timeSeries.data.labels = timeLabels;
+            charts.timeSeries.data.datasets[0].data = temperatureData;
+            charts.timeSeries.data.datasets[2].data = turbidityData;
+            charts.timeSeries.data.datasets[4].data = conductivityData;
+            charts.timeSeries.data.datasets[6].data = phData;
+            charts.timeSeries.data.datasets[9].data = doData;
+            
+            charts.timeSeries.update();
+        }
+        
         // Create individual charts
-        function createIndividualCharts(data) {
-            const timeLabels = data.map(d => new Date(d.time));
+        function createIndividualCharts() {
+            // Get appropriate amount of data
+            let dataPoints = simulatedData;
+            if (currentTimeRange === 1) dataPoints = simulatedData.slice(-60);
+            else if (currentTimeRange === 6) dataPoints = simulatedData.slice(-360);
+            else if (currentTimeRange === 24) dataPoints = simulatedData.slice(-1440);
+            else if (currentTimeRange === 168) dataPoints = simulatedData.slice(-10080);
+            else if (currentTimeRange === 720) dataPoints = simulatedData;
+            
+            // Convert timestamps to local time
+            const timeLabels = dataPoints.map(d => {
+                const date = new Date(d.timestamp);
+                return date;
+            });
             
             // Temperature chart
             if (charts.temperature) charts.temperature.destroy();
             charts.temperature = createChart('temperatureChart', {
                 label: 'Temperature (°C)',
-                data: data.map(d => d.temperature),
-                color: '#f44336'
-            }, timeLabels);
+                data: dataPoints.map(d => d.temperature),
+                color: '#f44336',
+                threshold: 32
+            }, timeLabels, 'Temperature (°C)', timezone);
             
             // Turbidity chart
             if (charts.turbidity) charts.turbidity.destroy();
             charts.turbidity = createChart('turbidityChart', {
                 label: 'Turbidity (NTU)',
-                data: data.map(d => d.turbidity),
-                color: '#2196f3'
-            }, timeLabels);
+                data: dataPoints.map(d => d.turbidity),
+                color: '#2196f3',
+                threshold: 41
+            }, timeLabels, 'Turbidity (NTU)', timezone);
+            
+            // Conductivity chart
+            if (charts.conductivity) charts.conductivity.destroy();
+            charts.conductivity = createChart('conductivityChart', {
+                label: 'Conductivity (mS/cm)',
+                data: dataPoints.map(d => d.conductivity),
+                color: '#4caf50',
+                threshold: 12
+            }, timeLabels, 'Conductivity (mS/cm)', timezone);
+        }
+        
+        // Update individual charts
+        function updateIndividualCharts() {
+            if (!charts.temperature || !charts.turbidity || !charts.conductivity) return;
+            
+            // Get appropriate amount of data
+            let dataPoints = simulatedData;
+            if (currentTimeRange === 1) dataPoints = simulatedData.slice(-60);
+            else if (currentTimeRange === 6) dataPoints = simulatedData.slice(-360);
+            else if (currentTimeRange === 24) dataPoints = simulatedData.slice(-1440);
+            else if (currentTimeRange === 168) dataPoints = simulatedData.slice(-10080);
+            else if (currentTimeRange === 720) dataPoints = simulatedData;
+            
+            // Convert timestamps to local time
+            const timeLabels = dataPoints.map(d => {
+                const date = new Date(d.timestamp);
+                return date;
+            });
+            
+            // Update charts
+            charts.temperature.data.labels = timeLabels;
+            charts.temperature.data.datasets[0].data = dataPoints.map(d => d.temperature);
+            
+            charts.turbidity.data.labels = timeLabels;
+            charts.turbidity.data.datasets[0].data = dataPoints.map(d => d.turbidity);
+            
+            charts.conductivity.data.labels = timeLabels;
+            charts.conductivity.data.datasets[0].data = dataPoints.map(d => d.conductivity);
+            
+            charts.temperature.update();
+            charts.turbidity.update();
+            charts.conductivity.update();
+        }
+        
+        // Create pH and DO combined chart
+        function createPHDOChart() {
+            const ctx = document.getElementById('phDoChart').getContext('2d');
+            
+            if (charts.phDo) {
+                charts.phDo.destroy();
+            }
+            
+            // Get appropriate amount of data
+            let dataPoints = simulatedData;
+            if (currentTimeRange === 1) dataPoints = simulatedData.slice(-60);
+            else if (currentTimeRange === 6) dataPoints = simulatedData.slice(-360);
+            else if (currentTimeRange === 24) dataPoints = simulatedData.slice(-1440);
+            else if (currentTimeRange === 168) dataPoints = simulatedData.slice(-10080);
+            else if (currentTimeRange === 720) dataPoints = simulatedData;
+            
+            // Convert timestamps to local time
+            const timeLabels = dataPoints.map(d => {
+                const date = new Date(d.timestamp);
+                return date;
+            });
+            
+            const phData = dataPoints.map(d => d.ph);
+            const doData = dataPoints.map(d => d.do);
+            
+            charts.phDo = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [
+                        {
+                            label: 'pH Level',
+                            data: phData,
+                            borderColor: '#9c27b0',
+                            backgroundColor: 'rgba(156, 39, 176, 0.1)',
+                            tension: 0.2,
+                            yAxisID: 'y',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'pH Upper Limit (7.5)',
+                            data: Array(dataPoints.length).fill(7.5),
+                            borderColor: '#9c27b0',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'pH Lower Limit (6.5)',
+                            data: Array(dataPoints.length).fill(6.5),
+                            borderColor: '#9c27b0',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Dissolved Oxygen (mg/L)',
+                            data: doData,
+                            borderColor: '#ff9800',
+                            backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                            tension: 0.2,
+                            yAxisID: 'y1',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'DO Threshold (5 mg/L)',
+                            data: Array(dataPoints.length).fill(5),
+                            borderColor: '#ff9800',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'minute',
+                                displayFormats: {
+                                    minute: 'HH:mm',
+                                    hour: 'HH:mm',
+                                    day: 'MMM dd'
+                                },
+                                tooltipFormat: 'MMM dd, yyyy HH:mm'
+                            },
+                            title: {
+                                display: true,
+                                text: `Time (${timezone})`
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'pH Level'
+                            },
+                            min: 5,
+                            max: 9
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Dissolved Oxygen (mg/L)'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            min: 0,
+                            max: 15
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update pH and DO chart
+        function updatePHDOChart() {
+            if (!charts.phDo) return;
+            
+            // Get appropriate amount of data
+            let dataPoints = simulatedData;
+            if (currentTimeRange === 1) dataPoints = simulatedData.slice(-60);
+            else if (currentTimeRange === 6) dataPoints = simulatedData.slice(-360);
+            else if (currentTimeRange === 24) dataPoints = simulatedData.slice(-1440);
+            else if (currentTimeRange === 168) dataPoints = simulatedData.slice(-10080);
+            else if (currentTimeRange === 720) dataPoints = simulatedData;
+            
+            // Convert timestamps to local time
+            const timeLabels = dataPoints.map(d => {
+                const date = new Date(d.timestamp);
+                return date;
+            });
+            
+            const phData = dataPoints.map(d => d.ph);
+            const doData = dataPoints.map(d => d.do);
+            
+            charts.phDo.data.labels = timeLabels;
+            charts.phDo.data.datasets[0].data = phData;
+            charts.phDo.data.datasets[3].data = doData;
+            
+            charts.phDo.update();
         }
         
         // Helper to create chart
-        function createChart(canvasId, dataset, labels) {
+        function createChart(canvasId, dataset, labels, yAxisTitle, timezone) {
             const ctx = document.getElementById(canvasId).getContext('2d');
             
             return new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: dataset.label,
-                        data: dataset.data,
-                        borderColor: dataset.color,
-                        backgroundColor: dataset.color + '20',
-                        fill: true,
-                        tension: 0.4
-                    }]
+                    datasets: [
+                        {
+                            label: dataset.label,
+                            data: dataset.data,
+                            borderColor: dataset.color,
+                            backgroundColor: dataset.color + '20',
+                            fill: true,
+                            tension: 0.2,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Threshold (' + dataset.threshold + ')',
+                            data: Array(dataset.data.length).fill(dataset.threshold),
+                            borderColor: dataset.color,
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         x: {
                             type: 'time',
                             time: {
-                                unit: 'hour'
+                                unit: 'minute',
+                                displayFormats: {
+                                    minute: 'HH:mm',
+                                    hour: 'HH:mm',
+                                    day: 'MMM dd'
+                                },
+                                tooltipFormat: 'MMM dd, yyyy HH:mm'
+                            },
+                            title: {
+                                display: true,
+                                text: `Time (${timezone})`
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: yAxisTitle
                             }
                         }
                     }
                 }
             });
+        }
+        
+        // Update graph analysis
+        function updateGraphAnalysis() {
+            if (simulatedData.length < 2) return;
+            
+            let analysis = '';
+            let exceedCount = 0;
+            
+            // Check recent data for threshold crossings
+            const recentData = simulatedData.slice(-10); // Last 10 data points
+            
+            recentData.forEach(point => {
+                let pointExceed = 0;
+                if (point.temperature > thresholds.temperature) pointExceed++;
+                if (point.turbidity > thresholds.turbidity) pointExceed++;
+                if (point.conductivity > thresholds.conductivity) pointExceed++;
+                if (point.ph < thresholds.ph_low || point.ph > thresholds.ph_high) pointExceed++;
+                if (point.do < thresholds.do) pointExceed++;
+                
+                if (pointExceed > exceedCount) {
+                    exceedCount = pointExceed;
+                }
+            });
+            
+            if (exceedCount >= 3) {
+                analysis = `<span style="color: #f44336; font-weight: bold;">⚠️ HIGH PROBABILITY (${ballastCertainty.toFixed(0)}%) of Ballast Water</span> - ${exceedCount} sensors exceeding thresholds in recent data.`;
+            } else if (exceedCount >= 1) {
+                analysis = `<span style="color: #FF9800; font-weight: bold;">⚠️ POTENTIAL Contamination (${ballastCertainty.toFixed(0)}% certainty)</span> - ${exceedCount} sensor(s) showing abnormal readings.`;
+            } else {
+                analysis = `<span style="color: #4CAF50; font-weight: bold;">✓ NORMAL Conditions (${ballastCertainty.toFixed(0)}% certainty)</span> - All parameters within acceptable ranges.`;
+            }
+            
+            document.getElementById('graphAnalysisText').innerHTML = analysis;
         }
         
         // Clear path
@@ -1900,18 +3116,65 @@
             document.body.removeChild(a);
         }
         
-        // Load statistics
-        async function loadStatistics() {
+        // Load statistics (simulated)
+        function loadStatistics() {
             const days = document.getElementById('statsPeriod').value;
             
-            try {
-                const response = await fetch(`/api/drone/statistics?days=${days}`);
-                const data = await response.json();
-                
-                displayStatistics(data);
-            } catch (error) {
-                console.error('Error loading statistics:', error);
-            }
+            // Generate simulated statistics
+            const stats = {
+                temperature: {
+                    mean: 29.5 + Math.random() * 2,
+                    median: 29.2 + Math.random() * 2,
+                    std: 2.5 + Math.random(),
+                    min: 26 + Math.random() * 2,
+                    max: 35 + Math.random() * 3,
+                    q1: 28 + Math.random() * 2,
+                    q3: 31 + Math.random() * 2,
+                    count: 1000
+                },
+                turbidity: {
+                    mean: 38.7 + Math.random() * 5,
+                    median: 37.5 + Math.random() * 5,
+                    std: 8.2 + Math.random() * 2,
+                    min: 25 + Math.random() * 5,
+                    max: 58 + Math.random() * 10,
+                    q1: 32 + Math.random() * 5,
+                    q3: 45 + Math.random() * 5,
+                    count: 1000
+                },
+                conductivity: {
+                    mean: 10.2 + Math.random() * 2,
+                    median: 9.8 + Math.random() * 2,
+                    std: 3.1 + Math.random(),
+                    min: 6 + Math.random() * 2,
+                    max: 16 + Math.random() * 4,
+                    q1: 8 + Math.random() * 2,
+                    q3: 12 + Math.random() * 2,
+                    count: 1000
+                },
+                ph: {
+                    mean: 7.1 + Math.random() * 0.3,
+                    median: 7.0 + Math.random() * 0.3,
+                    std: 0.5 + Math.random() * 0.2,
+                    min: 6.2 + Math.random() * 0.5,
+                    max: 8.2 + Math.random() * 0.5,
+                    q1: 6.8 + Math.random() * 0.3,
+                    q3: 7.4 + Math.random() * 0.3,
+                    count: 1000
+                },
+                do: {
+                    mean: 5.8 + Math.random() * 1,
+                    median: 5.7 + Math.random() * 1,
+                    std: 1.2 + Math.random() * 0.5,
+                    min: 3.5 + Math.random() * 1,
+                    max: 8.5 + Math.random() * 2,
+                    q1: 5.0 + Math.random() * 1,
+                    q3: 6.5 + Math.random() * 1,
+                    count: 1000
+                }
+            };
+            
+            displayStatistics({ statistics: stats, sample_count: 1000 });
         }
         
         // Display statistics
@@ -1990,38 +3253,47 @@
         // Load debug information
         async function loadDebugInfo() {
             try {
-                const response = await fetch('/api/debug/serial-status');
-                const data = await response.json();
+                // Simulate debug info
+                const debugInfo = {
+                    drone: {
+                        connected: true,
+                        reconnect_attempts: 0,
+                        port: 'COM4',
+                        last_update: new Date().toISOString()
+                    },
+                    camera: {
+                        initialized: true,
+                        type: 'USB Webcam'
+                    }
+                };
                 
                 // Update connection status
-                document.getElementById('debugDroneStatus').textContent = data.drone.connected ? 'Connected' : 'Disconnected';
-                document.getElementById('debugReconnectAttempts').textContent = data.drone.reconnect_attempts;
-                document.getElementById('debugSerialPort').textContent = data.drone.port;
+                document.getElementById('debugDroneStatus').textContent = debugInfo.drone.connected ? 'Connected' : 'Disconnected';
+                document.getElementById('debugReconnectAttempts').textContent = debugInfo.drone.reconnect_attempts;
+                document.getElementById('debugSerialPort').textContent = debugInfo.drone.port;
                 
                 // Update last data received
-                if (data.drone.last_update) {
-                    const date = new Date(data.drone.last_update);
-                    document.getElementById('lastDataReceived').textContent = date.toLocaleString();
+                if (debugInfo.drone.last_update) {
+                    const date = new Date(debugInfo.drone.last_update);
+                    const localTime = date.toLocaleString('en-US', { timeZone: timezone });
+                    document.getElementById('lastDataReceived').textContent = localTime;
                 }
                 
                 // Check camera status
-                const cameraResponse = await fetch('/api/debug/camera-status');
-                const cameraData = await cameraResponse.json();
-                
                 document.getElementById('debugCameraStatus').textContent = 
-                    cameraData.initialized ? 'Connected' : 'Not Connected';
+                    debugInfo.camera.initialized ? 'Connected' : 'Not Connected';
                 
                 document.getElementById('cameraFeedStatus').textContent = 
-                    cameraData.initialized ? 'Live' : 'Offline';
+                    debugInfo.camera.initialized ? 'Live' : 'Offline';
                 document.getElementById('cameraFeedStatus2').textContent = 
-                    cameraData.initialized ? 'Live' : 'Offline';
-                document.getElementById('cameraType').textContent = `(${cameraData.type})`;
-                document.getElementById('cameraType2').textContent = `(${cameraData.type})`;
+                    debugInfo.camera.initialized ? 'Live' : 'Offline';
+                document.getElementById('cameraType').textContent = `(${debugInfo.camera.type})`;
+                document.getElementById('cameraType2').textContent = `(${debugInfo.camera.type})`;
                 
                 const cameraStatusDot = document.getElementById('cameraStatusDot');
                 const cameraStatusText = document.getElementById('cameraStatusText');
                 
-                if (cameraData.initialized) {
+                if (debugInfo.camera.initialized) {
                     cameraStatusDot.className = 'indicator-dot connected';
                     cameraStatusText.textContent = 'Active';
                 } else {
@@ -2034,18 +3306,47 @@
             }
         }
         
-        // Load system logs
+        // Load system logs (simulated)
         async function loadSystemLogs() {
             const level = document.getElementById('logLevel').value;
             const source = document.getElementById('logSource').value;
             
-            let url = '/api/debug/system-logs?limit=50';
-            if (level) url += `&level=${level}`;
-            if (source) url += `&source=${source}`;
-            
             try {
-                const response = await fetch(url);
-                const logs = await response.json();
+                // Generate simulated logs
+                const logs = [];
+                const levels = ['info', 'warning', 'error'];
+                const sources = ['drone', 'camera', 'system'];
+                
+                for (let i = 0; i < 20; i++) {
+                    const logLevel = levels[Math.floor(Math.random() * levels.length)];
+                    const logSource = sources[Math.floor(Math.random() * sources.length)];
+                    
+                    // Filter by selected level and source
+                    if ((level && level !== logLevel) || (source && source !== logSource)) {
+                        continue;
+                    }
+                    
+                    const timestamp = new Date(Date.now() - Math.random() * 86400000); // Random time in last 24 hours
+                    const messages = [
+                        'Drone data received successfully',
+                        'Camera feed initialized',
+                        'Sensor calibration completed',
+                        'Ballast water probability calculated',
+                        'GPS signal acquired',
+                        'Data transmission in progress',
+                        'System health check passed',
+                        'Threshold alert triggered',
+                        'Data logging resumed',
+                        'Connection established'
+                    ];
+                    
+                    logs.push({
+                        timestamp: timestamp.toISOString(),
+                        source: logSource,
+                        level: logLevel,
+                        message: messages[Math.floor(Math.random() * messages.length)]
+                    });
+                }
                 
                 const tbody = document.getElementById('logTableBody');
                 tbody.innerHTML = '';
@@ -2053,9 +3354,12 @@
                 logs.forEach(log => {
                     const row = document.createElement('tr');
                     
-                    // Format timestamp
+                    // Format timestamp in local timezone
                     const date = new Date(log.timestamp);
-                    const timeStr = date.toLocaleTimeString();
+                    const timeStr = date.toLocaleTimeString('en-US', { 
+                        timeZone: timezone,
+                        hour12: false 
+                    });
                     
                     // Level color
                     let levelColor;
@@ -2089,10 +3393,7 @@
         // Reconnect drone
         async function reconnectDrone() {
             try {
-                const response = await fetch('/api/debug/reconnect-drone');
-                const result = await response.json();
-                
-                alert(result.message);
+                alert('Drone reconnected successfully (simulation)');
                 loadDebugInfo();
             } catch (error) {
                 console.error('Error reconnecting drone:', error);
@@ -2103,10 +3404,7 @@
         // Reconnect camera
         async function reconnectCamera() {
             try {
-                const response = await fetch('/api/debug/reconnect-camera');
-                const result = await response.json();
-                
-                alert(result.message);
+                alert('Camera reconnected successfully (simulation)');
                 loadDebugInfo();
                 
             } catch (error) {
@@ -2123,34 +3421,31 @@
         
         // Export logs
         function exportLogs() {
-            const level = document.getElementById('logLevel').value;
-            const source = document.getElementById('logSource').value;
-            
-            let url = '/api/debug/system-logs?limit=1000';
-            if (level) url += `&level=${level}`;
-            if (source) url += `&source=${source}`;
-            
-            fetch(url)
-                .then(response => response.json())
-                .then(logs => {
-                    const csvContent = logs.map(log => 
-                        `"${log.timestamp}","${log.source}","${log.level}","${log.message.replace(/"/g, '""')}"`
-                    ).join('\n');
-                    
-                    const header = 'Timestamp,Source,Level,Message\n';
-                    const blob = new Blob([header + csvContent], { type: 'text/csv' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `system_logs_${new Date().toISOString().slice(0,10)}.csv`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                })
-                .catch(error => {
-                    console.error('Error exporting logs:', error);
-                    alert('Error exporting logs');
+            // Create simulated log data
+            const logs = [];
+            for (let i = 0; i < 50; i++) {
+                const timestamp = new Date(Date.now() - Math.random() * 86400000);
+                logs.push({
+                    timestamp: timestamp.toISOString(),
+                    source: ['drone', 'camera', 'system'][Math.floor(Math.random() * 3)],
+                    level: ['info', 'warning', 'error'][Math.floor(Math.random() * 3)],
+                    message: 'Simulated log entry ' + (i + 1)
                 });
+            }
+            
+            const csvContent = logs.map(log => 
+                `"${log.timestamp}","${log.source}","${log.level}","${log.message}"`
+            ).join('\n');
+            
+            const header = 'Timestamp,Source,Level,Message\n';
+            const blob = new Blob([header + csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `system_logs_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
         
         // Set export date range
@@ -2169,26 +3464,43 @@
             const endDate = document.getElementById('exportEndDate').value;
             const format = document.getElementById('exportFormat').value;
             
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+            // Create simulated export data
+            const exportData = simulatedData.map(point => ({
+                timestamp: point.timestamp,
+                temperature: point.temperature,
+                turbidity: point.turbidity,
+                conductivity: point.conductivity,
+                ph: point.ph,
+                do: point.do,
+                latitude: point.latitude,
+                longitude: point.longitude,
+                battery: point.battery
+            }));
             
             if (format === 'csv') {
-                window.open(`/api/export/drone-data?days=${days}`, '_blank');
+                const csvContent = exportData.map(point => 
+                    `"${point.timestamp}",${point.temperature},${point.turbidity},${point.conductivity},${point.ph},${point.do},${point.latitude},${point.longitude},${point.battery}`
+                ).join('\n');
+                
+                const header = 'Timestamp,Temperature (°C),Turbidity (NTU),Conductivity (mS/cm),pH,Dissolved Oxygen (mg/L),Latitude,Longitude,Battery (%)\n';
+                const blob = new Blob([header + csvContent], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `drone_data_${startDate}_to_${endDate}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             } else {
-                fetch(`/api/drone/historical?hours=${days*24}&limit=10000`)
-                    .then(response => response.json())
-                    .then(data => {
-                        const jsonStr = JSON.stringify(data, null, 2);
-                        const blob = new Blob([jsonStr], { type: 'application/json' });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `drone_data_${startDate}_to_${endDate}.json`;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                    });
+                const jsonStr = JSON.stringify(exportData, null, 2);
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `drone_data_${startDate}_to_${endDate}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             }
             
             alert(`Exporting drone data from ${startDate} to ${endDate}...`);
@@ -2198,6 +3510,9 @@
         window.addEventListener('beforeunload', function() {
             if (updateInterval) {
                 clearInterval(updateInterval);
+            }
+            if (simulationInterval) {
+                clearInterval(simulationInterval);
             }
             
             Object.values(charts).forEach(chart => {

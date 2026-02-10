@@ -4,7 +4,6 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
-from run_simulation import start_simulation, get_latest_drone_data, get_latest_buoy_data
 import random
 import time
 import serial
@@ -92,7 +91,8 @@ camera_initialized = False
 camera_type = "none"
 camera_lock = threading.Lock()
 
-# Global variables for drone
+# Global variables for drone with thread locks
+drone_data_lock = threading.Lock()
 latest_drone_turbidity = None
 latest_drone_temperature = None
 latest_drone_conductivity = None
@@ -102,6 +102,7 @@ latest_drone_latitude = 4.2105
 latest_drone_longitude = 6.4375
 latest_drone_battery = 85.0
 drone_last_update = None
+drone_connected = True  # Start as connected for simulation
 
 # Global variables for buoy
 latest_buoy_turbidity = None
@@ -336,200 +337,223 @@ def connect_to_buoy():
         log_to_database('buoy', 'error', f'Connection failed: {str(e)}')
         return False
 
-# Drone serial reader
-def drone_serial_reader():
+# Enhanced Drone Data Simulator
+def drone_data_simulator():
+    """Generate simulated drone data for testing"""
     global latest_drone_turbidity, latest_drone_temperature, latest_drone_conductivity
     global latest_drone_ph, latest_drone_do, drone_connected, drone_last_update
     global latest_drone_latitude, latest_drone_longitude, latest_drone_battery
     
-    while True:
-        if not drone_connected:
-            if drone_reconnect_attempts < MAX_RECONNECT_ATTEMPTS:
-                logger.info(f"Drone reconnect attempt {drone_reconnect_attempts+1}/{MAX_RECONNECT_ATTEMPTS}")
-                if connect_to_drone():
-                    time.sleep(1)
-                    continue
-                else:
-                    time.sleep(5)
-                    continue
-            else:
-                time.sleep(10)
-                continue
-        
-        if drone_ser and drone_ser.is_open:
-            try:
-                # Try to read from serial
-                if drone_ser.in_waiting > 0:
-                    line = drone_ser.readline().decode('utf-8', errors='ignore').strip()
-                    
-                    if line:
-                        logger.debug(f"Drone raw data: {line}")
-                        
-                        # Parse the data (adjust based on your Arduino format)
-                        if "|" in line:
-                            parts = line.split("|")
-                            values = {}
-                            
-                            for part in parts:
-                                key_val = part.strip().split(":")
-                                if len(key_val) >= 2:
-                                    key = key_val[0].strip().upper()
-                                    val = ":".join(key_val[1:]).strip()
-                                    clean_val = ''.join([c for c in val if c in '0123456789.-'])
-                                    
-                                    if key == "TEMP" and clean_val:
-                                        values["temperature"] = float(clean_val)
-                                    elif key == "TURB" and clean_val:
-                                        values["turbidity"] = float(clean_val)
-                                    elif key == "EC" and clean_val:
-                                        values["conductivity"] = float(clean_val)
-                                    elif key == "PH" and clean_val:
-                                        values["ph"] = float(clean_val)
-                                    elif key == "DO" and clean_val:
-                                        values["do"] = float(clean_val)
-                                    elif key == "LAT" and clean_val:
-                                        values["latitude"] = float(clean_val)
-                                    elif key == "LON" and clean_val:
-                                        values["longitude"] = float(clean_val)
-                                    elif key == "BAT" and clean_val:
-                                        values["battery"] = float(clean_val)
-                            
-                            # Update global variables
-                            if values:
-                                if "temperature" in values:
-                                    latest_drone_temperature = values["temperature"]
-                                if "turbidity" in values:
-                                    latest_drone_turbidity = values["turbidity"]
-                                if "conductivity" in values:
-                                    latest_drone_conductivity = values["conductivity"]
-                                if "ph" in values:
-                                    latest_drone_ph = values["ph"]
-                                if "do" in values:
-                                    latest_drone_do = values["do"]
-                                if "latitude" in values:
-                                    latest_drone_latitude = values["latitude"]
-                                if "longitude" in values:
-                                    latest_drone_longitude = values["longitude"]
-                                if "battery" in values:
-                                    latest_drone_battery = values["battery"]
-                                
-                                drone_last_update = datetime.now()
-                                logger.info(f"Drone updated: Temp={latest_drone_temperature}, Turb={latest_drone_turbidity}")
-                
-                # If no data from serial, simulate data for testing
-                else:
-                    time.sleep(2)  # Wait before simulating
-                    
-                    # Simulate drone movement and sensor readings
-                    latest_drone_turbidity = round(random.uniform(0, 50), 2)
-                    latest_drone_temperature = round(random.uniform(20, 35), 2)
-                    latest_drone_conductivity = round(random.uniform(5, 15), 2)
-                    latest_drone_ph = round(random.uniform(6.0, 8.0), 2)
-                    latest_drone_do = round(random.uniform(4, 10), 2)
-                    latest_drone_battery = max(0, min(100, latest_drone_battery - 0.01))
-                    
-                    # Simulate drone movement (random walk)
-                    lat_offset = (random.random() - 0.5) * 0.001
-                    lon_offset = (random.random() - 0.5) * 0.001
-                    latest_drone_latitude = max(4.2, min(4.22, latest_drone_latitude + lat_offset))
-                    latest_drone_longitude = max(6.43, min(6.45, latest_drone_longitude + lon_offset))
-                    
-                    drone_last_update = datetime.now()
-                    
-            except Exception as e:
-                logger.error(f"Drone serial error: {str(e)}")
-                drone_connected = False
-                drone_ser = None
-                log_to_database('drone', 'error', f'Serial error: {str(e)}')
-        else:
-            drone_connected = False
-        
-        time.sleep(0.1)
-
-# Buoy serial reader (simulated for now)
-def buoy_serial_reader():
-    global latest_buoy_turbidity, latest_buoy_temperature, latest_buoy_conductivity
-    global latest_buoy_ph, latest_buoy_do, latest_buoy_pressure, buoy_connected, buoy_last_update
+    # Base values with realistic variations
+    base_temperature = 28.0
+    base_turbidity = 35.0
+    base_conductivity = 10.0
+    base_ph = 7.0
+    base_do = 6.0
+    
+    # Ballast water simulation parameters
+    ballast_event = False
+    ballast_start_time = None
+    ballast_duration = 0
     
     while True:
-        # Simulate buoy data (stationary)
-        if random.random() > 0.3:
-            latest_buoy_turbidity = round(random.uniform(0, 20), 2)
-            latest_buoy_temperature = round(random.uniform(15, 30), 2)
-            latest_buoy_conductivity = round(random.uniform(1, 12), 2)
-            latest_buoy_ph = round(random.uniform(6.5, 8.5), 2)
-            latest_buoy_do = round(random.uniform(3, 9), 2)
-            latest_buoy_pressure = round(random.uniform(0.5, 3.0), 2)
-            buoy_last_update = datetime.now()
-            
-        time.sleep(3)
+        try:
+            with drone_data_lock:
+                current_time = datetime.now()
+                
+                # Occasionally simulate ballast water events (10% chance every 30 seconds)
+                if random.random() < 0.1 and not ballast_event:
+                    ballast_event = True
+                    ballast_start_time = current_time
+                    ballast_duration = random.randint(30, 180)  # 30-180 second event
+                    logger.info("Simulating ballast water event")
+                
+                # If in ballast event, simulate abnormal readings
+                if ballast_event:
+                    time_since_start = (current_time - ballast_start_time).total_seconds()
+                    
+                    if time_since_start < ballast_duration:
+                        # Peak effect in middle of event
+                        progress = time_since_start / ballast_duration
+                        intensity = 4 * progress * (1 - progress)  # Parabolic curve
+                        
+                        # Simulate ballast water characteristics
+                        latest_drone_temperature = base_temperature + 4 * intensity + random.uniform(-0.5, 0.5)
+                        latest_drone_turbidity = base_turbidity + 20 * intensity + random.uniform(-2, 2)
+                        latest_drone_conductivity = base_conductivity + 6 * intensity + random.uniform(-0.3, 0.3)
+                        latest_drone_ph = base_ph + (0.8 * intensity if random.random() > 0.5 else -0.8 * intensity) + random.uniform(-0.1, 0.1)
+                        latest_drone_do = base_do - 2 * intensity + random.uniform(-0.2, 0.2)
+                    else:
+                        # End of ballast event
+                        ballast_event = False
+                        ballast_start_time = None
+                        logger.info("Ballast water event ended")
+                
+                # Normal variations
+                if not ballast_event:
+                    # Add some realistic noise and slow trends
+                    latest_drone_temperature = base_temperature + random.uniform(-2, 2) + 0.5 * np.sin(time.time() / 300)  # 5 minute cycle
+                    latest_drone_turbidity = max(0, base_turbidity + random.uniform(-5, 5) + 2 * np.sin(time.time() / 600))  # 10 minute cycle
+                    latest_drone_conductivity = base_conductivity + random.uniform(-1, 1) + 0.3 * np.sin(time.time() / 450)  # 7.5 minute cycle
+                    latest_drone_ph = base_ph + random.uniform(-0.2, 0.2) + 0.1 * np.sin(time.time() / 900)  # 15 minute cycle
+                    latest_drone_do = base_do + random.uniform(-0.5, 0.5) + 0.2 * np.sin(time.time() / 720)  # 12 minute cycle
+                
+                # Ensure values are within reasonable bounds
+                latest_drone_temperature = max(20, min(36, latest_drone_temperature))
+                latest_drone_turbidity = max(0, min(60, latest_drone_turbidity))
+                latest_drone_conductivity = max(5, min(18, latest_drone_conductivity))
+                latest_drone_ph = max(6.0, min(8.2, latest_drone_ph))
+                latest_drone_do = max(3.0, min(10.0, latest_drone_do))
+                
+                # Simulate drone movement (random walk with tendency to return to center)
+                center_lat = 4.2105
+                center_lon = 6.4375
+                
+                # Add small random movement
+                lat_offset = (random.random() - 0.5) * 0.0002
+                lon_offset = (random.random() - 0.5) * 0.0002
+                
+                # Tendency to return to center
+                lat_return = (center_lat - latest_drone_latitude) * 0.01
+                lon_return = (center_lon - latest_drone_longitude) * 0.01
+                
+                latest_drone_latitude += lat_offset + lat_return
+                latest_drone_longitude += lon_offset + lon_return
+                
+                # Keep within bounds
+                latest_drone_latitude = max(center_lat - 0.001, min(center_lat + 0.001, latest_drone_latitude))
+                latest_drone_longitude = max(center_lon - 0.001, min(center_lon + 0.001, latest_drone_longitude))
+                
+                # Simulate battery drain (slightly faster during ballast events)
+                battery_drain = 0.005 if ballast_event else 0.003
+                latest_drone_battery = max(10, latest_drone_battery - battery_drain)
+                
+                # Recharge if below 20% (simulating return to base)
+                if latest_drone_battery < 20 and random.random() < 0.05:
+                    latest_drone_battery = min(100, latest_drone_battery + 30)
+                    logger.info("Drone battery recharged")
+                
+                drone_last_update = current_time
+                drone_connected = True
+                
+                # Log every minute
+                if int(time.time()) % 60 == 0:
+                    logger.info(f"Drone data updated: Temp={latest_drone_temperature:.1f}°C, Turb={latest_drone_turbidity:.1f}NTU, Battery={latest_drone_battery:.1f}%")
+                
+        except Exception as e:
+            logger.error(f"Drone simulator error: {str(e)}")
+        
+        time.sleep(2)  # Update every 2 seconds
 
-# Buoy wave and weather simulator
-def buoy_wave_simulator():
-    """Simulate buoy wave and weather data"""
+# Buoy data simulator
+def buoy_data_simulator():
+    """Generate simulated buoy data for testing"""
+    global latest_buoy_turbidity, latest_buoy_temperature, latest_buoy_conductivity
+    global latest_buoy_ph, latest_buoy_do, latest_buoy_pressure, buoy_last_update
     global latest_buoy_wave_height, latest_buoy_current_speed
     global latest_buoy_air_temperature, latest_buoy_wind_speed
     global latest_buoy_solar_charging, latest_buoy_battery
     
+    # Base values
+    base_temperature = 26.0
+    base_turbidity = 8.0
+    base_conductivity = 8.0
+    base_ph = 7.2
+    base_do = 5.5
+    base_pressure = 1.5
+    
     while True:
-        # Simulate wave data
-        latest_buoy_wave_height = round(random.uniform(0.2, 2.5), 2)
-        latest_buoy_current_speed = round(random.uniform(0.1, 1.5), 2)
+        try:
+            current_time = datetime.now()
+            
+            # Simulate tidal effects (12.4 hour cycle)
+            tidal_factor = np.sin(time.time() / 22320)  # 12.4 hours in seconds
+            
+            # Simulate diurnal cycle
+            hour = current_time.hour
+            diurnal_factor = np.sin((hour - 12) * np.pi / 12)
+            
+            # Update sensor readings with realistic patterns
+            latest_buoy_temperature = base_temperature + diurnal_factor * 2 + random.uniform(-0.5, 0.5)
+            latest_buoy_turbidity = max(0, base_turbidity + abs(tidal_factor) * 3 + random.uniform(-1, 1))
+            latest_buoy_conductivity = base_conductivity + tidal_factor * 1 + random.uniform(-0.2, 0.2)
+            latest_buoy_ph = base_ph + 0.1 * diurnal_factor + random.uniform(-0.05, 0.05)
+            latest_buoy_do = base_do + diurnal_factor * 0.5 + random.uniform(-0.1, 0.1)
+            latest_buoy_pressure = base_pressure + abs(tidal_factor) * 0.5 + random.uniform(-0.1, 0.1)
+            
+            # Wave and weather simulation
+            latest_buoy_wave_height = 0.5 + abs(tidal_factor) * 1.0 + random.uniform(0, 0.3)
+            latest_buoy_current_speed = 0.3 + abs(tidal_factor) * 0.5 + random.uniform(0, 0.2)
+            latest_buoy_air_temperature = base_temperature + diurnal_factor * 3 + random.uniform(-1, 1)
+            latest_buoy_wind_speed = 3.0 + random.uniform(0, 4) + abs(diurnal_factor) * 2
+            
+            # Solar charging based on time of day
+            if 6 <= hour <= 18:  # Daytime
+                solar_efficiency = 50 * (1 - abs(hour - 12) / 6)  # Peak at noon
+            else:
+                solar_efficiency = 0
+            latest_buoy_solar_charging = solar_efficiency
+            
+            # Battery simulation
+            if solar_efficiency > 0:
+                battery_change = (solar_efficiency / 100) * 0.1  # Charging during day
+            else:
+                battery_change = -0.002  # Slow discharge at night
+            latest_buoy_battery = max(0, min(100, latest_buoy_battery + battery_change))
+            
+            buoy_last_update = current_time
+            
+        except Exception as e:
+            logger.error(f"Buoy simulator error: {str(e)}")
         
-        # Simulate weather data
-        latest_buoy_air_temperature = round(random.uniform(25, 32), 2)
-        latest_buoy_wind_speed = round(random.uniform(1, 8), 2)
-        
-        # Simulate solar charging
-        hour = datetime.now().hour
-        if 6 <= hour <= 18:  # Daytime
-            solar_efficiency = max(0, min(100, 50 + (hour - 12) * 5))
-        else:
-            solar_efficiency = 0
-        
-        latest_buoy_solar_charging = round(solar_efficiency, 1)
-        
-        # Simulate battery draining/charging
-        battery_change = (solar_efficiency / 100) - 0.01  # Charge during day, discharge slowly
-        latest_buoy_battery = max(0, min(100, latest_buoy_battery + battery_change))
-        
-        time.sleep(5)  # Update every 5 seconds
+        time.sleep(3)  # Update every 3 seconds
 
 # Data logger for both systems
 def data_logger():
     while True:
-        time.sleep(5)  # Log every 5 seconds
+        time.sleep(3)  # Log every 3 seconds
         
         with app.app_context():
             try:
                 # Log drone data
-                if all(v is not None for v in [latest_drone_turbidity, latest_drone_temperature, 
-                                              latest_drone_conductivity, latest_drone_ph, latest_drone_do]):
+                with drone_data_lock:
+                    drone_data_available = all(v is not None for v in [latest_drone_turbidity, latest_drone_temperature, 
+                                                                      latest_drone_conductivity, latest_drone_ph, latest_drone_do])
+                    drone_temp = latest_drone_temperature
+                    drone_turb = latest_drone_turbidity
+                    drone_cond = latest_drone_conductivity
+                    drone_ph = latest_drone_ph
+                    drone_do = latest_drone_do
+                    drone_lat = latest_drone_latitude
+                    drone_lon = latest_drone_longitude
+                    drone_bat = latest_drone_battery
+                
+                if drone_data_available:
                     # Check thresholds
                     threshold_count = 0
-                    if latest_drone_turbidity > DRONE_TURBIDITY_THRESHOLD:
+                    if drone_turb > DRONE_TURBIDITY_THRESHOLD:
                         threshold_count += 1
-                    if latest_drone_temperature > DRONE_TEMPERATURE_THRESHOLD:
+                    if drone_temp > DRONE_TEMPERATURE_THRESHOLD:
                         threshold_count += 1
-                    if latest_drone_conductivity > DRONE_CONDUCTIVITY_THRESHOLD:
+                    if drone_cond > DRONE_CONDUCTIVITY_THRESHOLD:
                         threshold_count += 1
-                    if latest_drone_ph < DRONE_PH_THRESHOLD_LOW or latest_drone_ph > DRONE_PH_THRESHOLD_HIGH:
+                    if drone_ph < DRONE_PH_THRESHOLD_LOW or drone_ph > DRONE_PH_THRESHOLD_HIGH:
                         threshold_count += 1
-                    if latest_drone_do < DRONE_DO_THRESHOLD:
+                    if drone_do < DRONE_DO_THRESHOLD:
                         threshold_count += 1
                     
                     above_threshold = threshold_count >= ALERT_THRESHOLD
                     
                     entry = DroneSensorData(
-                        turbidity=latest_drone_turbidity,
-                        temperature=latest_drone_temperature,
-                        conductivity=latest_drone_conductivity,
-                        ph=latest_drone_ph,
-                        do=latest_drone_do,
-                        latitude=latest_drone_latitude,
-                        longitude=latest_drone_longitude,
-                        battery=latest_drone_battery,
-                        gps_type='real' if drone_connected else 'simulated',
+                        turbidity=drone_turb,
+                        temperature=drone_temp,
+                        conductivity=drone_cond,
+                        ph=drone_ph,
+                        do=drone_do,
+                        latitude=drone_lat,
+                        longitude=drone_lon,
+                        battery=drone_bat,
+                        gps_type='simulated',
                         above_threshold=above_threshold,
                         timestamp=datetime.now()
                     )
@@ -547,9 +571,11 @@ def data_logger():
                         log_to_database('drone', 'warning', f'Threshold alert: {threshold_count} sensors exceeded')
                 
                 # Log buoy data
-                if all(v is not None for v in [latest_buoy_turbidity, latest_buoy_temperature, 
-                                              latest_buoy_conductivity, latest_buoy_ph, 
-                                              latest_buoy_do, latest_buoy_pressure]):
+                buoy_data_available = all(v is not None for v in [latest_buoy_turbidity, latest_buoy_temperature, 
+                                                                  latest_buoy_conductivity, latest_buoy_ph, 
+                                                                  latest_buoy_do, latest_buoy_pressure])
+                
+                if buoy_data_available:
                     # Check thresholds
                     threshold_count = 0
                     if latest_buoy_turbidity > BUOY_TURBIDITY_THRESHOLD:
@@ -576,7 +602,7 @@ def data_logger():
                         pressure=latest_buoy_pressure,
                         latitude=latest_buoy_latitude,
                         longitude=latest_buoy_longitude,
-                        gps_type='real' if buoy_connected else 'simulated',
+                        gps_type='simulated',
                         above_threshold=above_threshold,
                         timestamp=datetime.now()
                     )
@@ -1039,26 +1065,28 @@ def dashboard():
 @app.route('/api/drone/real-time')
 @login_required
 def get_drone_real_time_data():
-    return jsonify({
-        'turbidity': latest_drone_turbidity,
-        'temperature': latest_drone_temperature,
-        'conductivity': latest_drone_conductivity,
-        'ph': latest_drone_ph,
-        'do': latest_drone_do,
-        'latitude': latest_drone_latitude,
-        'longitude': latest_drone_longitude,
-        'battery': latest_drone_battery,
-        'timestamp': drone_last_update.isoformat() if drone_last_update else None,
-        'connected': drone_connected,
-        'thresholds': {
-            'turbidity': DRONE_TURBIDITY_THRESHOLD,
-            'temperature': DRONE_TEMPERATURE_THRESHOLD,
-            'conductivity': DRONE_CONDUCTIVITY_THRESHOLD,
-            'ph_low': DRONE_PH_THRESHOLD_LOW,
-            'ph_high': DRONE_PH_THRESHOLD_HIGH,
-            'dissolved_oxygen': DRONE_DO_THRESHOLD
+    with drone_data_lock:
+        data = {
+            'turbidity': latest_drone_turbidity,
+            'temperature': latest_drone_temperature,
+            'conductivity': latest_drone_conductivity,
+            'ph': latest_drone_ph,
+            'do': latest_drone_do,
+            'latitude': latest_drone_latitude,
+            'longitude': latest_drone_longitude,
+            'battery': latest_drone_battery,
+            'timestamp': drone_last_update.isoformat() if drone_last_update else None,
+            'connected': drone_connected,
+            'thresholds': {
+                'turbidity': DRONE_TURBIDITY_THRESHOLD,
+                'temperature': DRONE_TEMPERATURE_THRESHOLD,
+                'conductivity': DRONE_CONDUCTIVITY_THRESHOLD,
+                'ph_low': DRONE_PH_THRESHOLD_LOW,
+                'ph_high': DRONE_PH_THRESHOLD_HIGH,
+                'dissolved_oxygen': DRONE_DO_THRESHOLD
+            }
         }
-    })
+    return jsonify(data)
 
 @app.route('/api/drone/historical')
 @login_required
@@ -1516,9 +1544,8 @@ if __name__ == '__main__':
         logger.warning("Camera initialization failed")
     
     # Start background threads
-    threading.Thread(target=drone_serial_reader, daemon=True).start()
-    threading.Thread(target=buoy_serial_reader, daemon=True).start()
-    threading.Thread(target=buoy_wave_simulator, daemon=True).start()
+    threading.Thread(target=drone_data_simulator, daemon=True).start()
+    threading.Thread(target=buoy_data_simulator, daemon=True).start()
     threading.Thread(target=data_logger, daemon=True).start()
     threading.Thread(target=cleanup_scheduler, daemon=True).start()
     
