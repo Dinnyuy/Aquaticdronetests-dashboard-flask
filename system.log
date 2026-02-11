@@ -15435,3 +15435,441 @@ with app.app_context(). See the documentation for more information.
 This typically means that you attempted to use functionality that needed
 the current application. To solve this, set up an application context
 with app.app_context(). See the documentation for more information.
+2026-02-11 13:44:18,602 - WaterMonitoringSystem - INFO - Initialized from database successfully
+2026-02-11 13:44:18,774 - WaterMonitoringSystem - INFO - picamera2 not available
+2026-02-11 13:44:18,815 - WaterMonitoringSystem - INFO - picamera not available
+2026-02-11 13:44:18,884 - WaterMonitoringSystem - INFO - Attempting to initialize USB Webcam...
+2026-02-11 13:44:18,936 - WaterMonitoringSystem - INFO - Trying camera index 0
+2026-02-11 13:44:54,294 - WaterMonitoringSystem - ERROR - Failed to log to database: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-02-11 13:44:54,311 - WaterMonitoringSystem - INFO - Camera initialized: usb_webcam_0
+2026-02-11 13:44:54,530 - WaterMonitoringSystem - INFO - Cleanup: Drone=0, Buoy=0, Alerts=0, Logs=0
+2026-02-11 13:44:54,538 - WaterMonitoringSystem - INFO - Available ports: []
+2026-02-11 13:44:54,592 - WaterMonitoringSystem - ERROR - Drone connection error: could not open port 'COM4': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+2026-02-11 13:44:54,601 - WaterMonitoringSystem - ERROR - Failed to log to database: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-02-11 13:44:54,933 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.239:5000
+2026-02-11 13:44:54,943 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-11 13:45:00,425 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.2°C, Turb=36.9NTU, Battery=85.0%
+2026-02-11 13:45:08,511 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 13:45:44,690 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 13:45:54,816 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 13:46:00,830 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.7°C, Turb=41.2NTU, Battery=84.9%
+2026-02-11 13:46:01,288 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:01] "[32mGET / HTTP/1.1[0m" 302 -
+2026-02-11 13:46:01,601 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:01] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 13:46:01,887 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:01] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 13:46:02,116 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:02] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 13:46:52,129 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:52] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 13:46:52,402 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:52] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 13:46:52,487 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:52] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 13:46:55,575 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:55] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 13:46:55,852 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:55] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 13:46:56,125 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:46:56] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 13:46:59,367 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 13:47:11,491 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 13:47:20,368 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:47:20] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 13:47:20,870 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:47:20] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 13:47:20,926 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:47:20] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 13:48:00,406 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.6°C, Turb=53.3NTU, Battery=84.6%
+2026-02-11 13:48:03,224 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:48:03] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 13:48:03,436 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:48:03] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 13:48:03,522 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:48:03] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 13:49:23,066 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:49:23] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 13:49:23,766 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:49:23] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 13:49:24,066 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:49:24] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 13:49:55,207 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 13:50:19,480 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:50:19] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 13:50:19,985 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:50:19] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 13:50:20,234 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:50:20] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 13:50:25,551 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:50:25] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 13:50:26,420 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:50:26] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 13:50:26,594 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 13:50:26] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 13:50:35,222 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 13:53:33,789 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 13:53:48,319 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 13:54:00,390 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.2°C, Turb=55.2NTU, Battery=83.7%
+2026-02-11 13:54:22,605 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 13:54:30,689 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 13:55:37,111 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 13:55:41,269 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 13:57:00,308 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.5°C, Turb=47.1NTU, Battery=83.3%
+2026-02-11 13:57:18,466 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 13:57:36,874 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 13:58:42,889 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 13:59:27,974 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:01:00,664 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.1°C, Turb=53.8NTU, Battery=82.8%
+2026-02-11 14:01:58,146 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:02:00,272 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.6°C, Turb=35.9NTU, Battery=82.6%
+2026-02-11 14:02:20,746 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:02:52,782 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:03:00,811 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.3°C, Turb=37.7NTU, Battery=82.5%
+2026-02-11 14:03:06,934 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:05:49,068 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:06:01,085 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:08:13,387 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:08:39,495 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:10:42,578 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:10:42] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:10:43,144 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:10:43] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:10:43,280 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:10:43] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:10:43,561 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:10:43] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:11:00,213 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.2°C, Turb=39.7NTU, Battery=81.4%
+2026-02-11 14:11:15,013 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:15] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:11:15,855 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:15] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:11:16,008 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:16] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:11:16,060 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:16] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:11:16,387 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:11:20,495 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:11:36,585 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:36] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:11:36,834 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:36] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:11:36,874 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:36] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:11:37,234 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:37] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:11:48,834 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:48] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:11:49,066 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:49] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:11:49,089 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:49] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:11:49,266 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:11:49] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:12:11,193 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:12:11] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:12:11,384 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:12:11] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:12:11,392 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:12:11] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:12:11,597 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:12:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:12:15,399 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:12:31,568 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:14:00,356 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.5°C, Turb=53.3NTU, Battery=80.9%
+2026-02-11 14:14:20,752 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:20] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:14:21,005 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:21] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:14:21,195 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:21] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:14:21,343 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:21] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:14:25,545 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:25] "GET /buoy-dashboard HTTP/1.1" 200 -
+2026-02-11 14:14:25,933 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:25] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:14:26,078 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:26] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:14:26,913 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:26] "GET /api/buoy/statistics?days=7 HTTP/1.1" 200 -
+2026-02-11 14:14:27,803 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:27] "GET /buoy-dashboard HTTP/1.1" 200 -
+2026-02-11 14:14:27,943 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:27] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:14:28,443 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:28] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:14:28,863 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:28] "GET /api/buoy/statistics?days=7 HTTP/1.1" 200 -
+2026-02-11 14:14:30,231 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:30] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:14:32,029 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:32] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:14:34,016 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:34] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:14:35,902 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:35] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:14:36,087 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:36] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:14:36,331 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:36] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:14:36,425 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:14:36] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:14:42,439 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:14:52,448 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:15:00,452 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.3°C, Turb=37.4NTU, Battery=80.8%
+2026-02-11 14:16:00,472 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.1°C, Turb=51.9NTU, Battery=80.6%
+2026-02-11 14:17:00,495 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.7°C, Turb=50.9NTU, Battery=80.5%
+2026-02-11 14:17:52,507 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:18:00,510 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.3°C, Turb=36.5NTU, Battery=80.4%
+2026-02-11 14:18:02,511 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:19:00,915 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.8°C, Turb=55.5NTU, Battery=80.2%
+2026-02-11 14:20:15,271 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:20:25,286 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:21:50,283 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:21:50] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:21:51,483 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:21:51] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:21:51,990 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:21:51] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:21:52,432 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:21:52] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:21:58,016 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:21:58] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:21:59,041 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:21:59] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:21:59,073 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:21:59] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:21:59,350 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:21:59] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:22:00,132 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.3°C, Turb=34.4NTU, Battery=79.8%
+2026-02-11 14:22:02,266 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:22:14,407 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:23:00,913 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.0°C, Turb=54.5NTU, Battery=79.6%
+2026-02-11 14:24:17,377 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:24:31,432 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:26:00,131 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.7°C, Turb=55.0NTU, Battery=79.2%
+2026-02-11 14:27:00,433 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.6°C, Turb=43.2NTU, Battery=79.1%
+2026-02-11 14:27:24,630 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:27:34,679 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:30:00,365 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.4°C, Turb=37.1NTU, Battery=78.6%
+2026-02-11 14:30:04,370 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:30:14,603 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:31:00,823 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.9°C, Turb=52.5NTU, Battery=78.5%
+2026-02-11 14:32:41,612 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:32:57,766 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:34:00,261 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.7°C, Turb=54.4NTU, Battery=78.1%
+2026-02-11 14:35:00,470 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.9°C, Turb=36.2NTU, Battery=77.9%
+2026-02-11 14:35:06,554 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:35:26,957 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:37:00,434 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.9°C, Turb=36.8NTU, Battery=77.6%
+2026-02-11 14:37:04,435 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:37:05,315 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:05] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-02-11 14:37:05,598 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:05] "GET /login HTTP/1.1" 200 -
+2026-02-11 14:37:05,856 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:05] "[36mGET /static/login_background.jpg HTTP/1.1[0m" 304 -
+2026-02-11 14:37:16,599 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:37:29,453 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:29] "GET /login HTTP/1.1" 200 -
+2026-02-11 14:37:29,955 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:29] "[36mGET /static/login_background.jpg HTTP/1.1[0m" 304 -
+2026-02-11 14:37:42,514 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:42] "[32mPOST /login HTTP/1.1[0m" 302 -
+2026-02-11 14:37:43,429 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:43] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:37:44,389 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:44] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:37:44,554 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:44] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:37:44,905 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:37:44] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:38:38,755 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:39:48,778 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:39:48] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:39:49,830 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:39:49] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:39:49,992 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:39:49] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:39:49,994 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:39:49] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:40:08,080 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:40:08] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:40:08,833 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:40:08] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:40:09,616 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:40:09] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:40:09,917 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:40:09] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:40:16,396 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:41:00,714 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.1°C, Turb=55.0NTU, Battery=77.1%
+2026-02-11 14:41:18,529 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:41:18] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:41:19,063 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:41:19] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:41:20,259 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:41:20] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:41:20,261 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:41:20] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:41:39,808 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:42:00,089 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.0°C, Turb=30.5NTU, Battery=77.0%
+2026-02-11 14:42:08,207 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:42:49,724 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:49] "GET /buoy-dashboard HTTP/1.1" 200 -
+2026-02-11 14:42:49,932 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:49] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:42:50,921 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:50] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:42:51,760 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:51] "GET /api/buoy/statistics?days=7 HTTP/1.1" 200 -
+2026-02-11 14:42:51,970 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:51] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:42:54,000 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:54] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:42:55,969 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:55] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:42:56,857 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:42:58,003 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:58] "GET /api/buoy/real-time HTTP/1.1" 200 -
+2026-02-11 14:42:58,854 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:58] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:42:59,013 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:42:59,087 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:59] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:42:59,727 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:59] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:42:59,992 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:42:59] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:44:01,422 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:44:37,677 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:44:42,713 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:44:42] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-02-11 14:44:42,887 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:44:42] "GET /login HTTP/1.1" 200 -
+2026-02-11 14:44:43,928 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:44:43] "[36mGET /static/login_background.jpg HTTP/1.1[0m" 304 -
+2026-02-11 14:45:00,047 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.8°C, Turb=45.2NTU, Battery=76.6%
+2026-02-11 14:45:13,270 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:13] "[32mGET /dashboard HTTP/1.1[0m" 302 -
+2026-02-11 14:45:13,448 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:13] "GET /login?next=/dashboard HTTP/1.1" 200 -
+2026-02-11 14:45:17,187 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:17] "GET /login?next=/dashboard HTTP/1.1" 200 -
+2026-02-11 14:45:17,864 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:17] "[36mGET /static/login_background.jpg HTTP/1.1[0m" 304 -
+2026-02-11 14:45:32,768 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:32] "[32mPOST /login HTTP/1.1[0m" 302 -
+2026-02-11 14:45:32,798 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:32] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:45:32,932 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:32] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:45:32,966 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:32] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:45:33,064 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:45:33] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:46:00,694 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.4°C, Turb=53.1NTU, Battery=76.5%
+2026-02-11 14:46:45,663 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:46:45] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 14:46:46,905 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:46:46] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 14:46:47,209 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:46:47] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 14:46:47,280 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 14:46:47] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 14:46:57,291 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:47:05,306 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:47:57,507 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:48:11,562 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:49:38,235 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:49:46,333 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:50:00,451 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.0°C, Turb=45.7NTU, Battery=75.9%
+2026-02-11 14:51:37,511 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:52:41,667 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:54:00,056 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.8°C, Turb=55.1NTU, Battery=75.4%
+2026-02-11 14:55:00,404 - WaterMonitoringSystem - INFO - Drone data updated: Temp=27.7°C, Turb=36.2NTU, Battery=75.2%
+2026-02-11 14:55:02,420 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:55:52,621 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:56:00,683 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.4°C, Turb=39.2NTU, Battery=75.1%
+2026-02-11 14:57:33,367 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 14:57:55,569 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 14:59:00,260 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.9°C, Turb=54.5NTU, Battery=74.7%
+2026-02-11 15:00:00,466 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.5°C, Turb=41.2NTU, Battery=74.6%
+2026-02-11 15:00:16,578 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:00:36,621 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:01:00,839 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.2°C, Turb=45.2NTU, Battery=74.4%
+2026-02-11 15:03:11,403 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:03:25,423 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:04:28,382 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 15:04:28] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 15:04:39,601 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 15:04:39] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 15:04:39,883 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 15:04:39] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 15:04:48,681 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 15:04:48] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 15:06:07,553 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:06:15,560 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:08:00,102 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.9°C, Turb=39.7NTU, Battery=73.4%
+2026-02-11 15:08:06,222 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:08:20,336 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:09:00,515 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.1°C, Turb=55.0NTU, Battery=73.3%
+2026-02-11 15:10:15,106 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:10:25,178 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:11:25,297 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:11:31,338 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:12:35,513 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:12:51,674 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:14:00,059 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.0°C, Turb=41.7NTU, Battery=72.6%
+2026-02-11 15:14:08,088 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:14:18,131 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:15:00,231 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.5°C, Turb=47.9NTU, Battery=72.4%
+2026-02-11 15:15:12,277 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:15:20,348 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:16:00,481 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.2°C, Turb=48.5NTU, Battery=72.3%
+2026-02-11 15:17:00,628 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.5°C, Turb=53.2NTU, Battery=72.1%
+2026-02-11 15:18:00,712 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.7°C, Turb=40.9NTU, Battery=72.0%
+2026-02-11 15:18:18,736 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:18:20,741 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:18:56,850 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:19:00,860 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.2°C, Turb=33.2NTU, Battery=71.8%
+2026-02-11 15:19:40,927 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:20:00,947 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.7°C, Turb=47.8NTU, Battery=71.7%
+2026-02-11 15:21:23,214 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:21:49,292 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:23:49,062 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:23:57,105 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:24:51,310 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:26:05,398 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:26:53,506 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:27:09,589 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:27:45,855 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:28:53,997 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:29:00,035 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.5°C, Turb=37.5NTU, Battery=70.6%
+2026-02-11 15:30:00,147 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.7°C, Turb=54.1NTU, Battery=70.4%
+2026-02-11 15:30:42,199 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:30:48,203 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:31:00,210 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.7°C, Turb=46.6NTU, Battery=70.3%
+2026-02-11 15:32:00,352 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.9°C, Turb=41.7NTU, Battery=70.1%
+2026-02-11 15:32:06,360 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:32:46,425 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:33:00,435 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.7°C, Turb=52.5NTU, Battery=70.0%
+2026-02-11 15:33:30,479 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:33:34,490 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:34:00,513 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.9°C, Turb=46.4NTU, Battery=69.9%
+2026-02-11 15:35:00,577 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.2°C, Turb=54.2NTU, Battery=69.7%
+2026-02-11 15:35:44,862 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:35:48,978 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:37:37,953 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:38:00,141 - WaterMonitoringSystem - INFO - Drone data updated: Temp=26.3°C, Turb=33.6NTU, Battery=69.3%
+2026-02-11 15:38:04,185 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:38:50,387 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:38:58,446 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:39:00,447 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.5°C, Turb=39.0NTU, Battery=69.2%
+2026-02-11 15:39:42,651 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:39:58,702 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:40:00,706 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.1°C, Turb=40.2NTU, Battery=69.0%
+2026-02-11 15:40:34,767 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:40:46,806 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:41:00,855 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.5°C, Turb=48.1NTU, Battery=68.9%
+2026-02-11 15:42:09,045 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:42:27,102 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:43:41,422 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:44:09,581 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:45:00,283 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.3°C, Turb=53.4NTU, Battery=68.3%
+2026-02-11 15:46:00,600 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:46:00,647 - WaterMonitoringSystem - INFO - Drone data updated: Temp=26.7°C, Turb=32.8NTU, Battery=68.2%
+2026-02-11 15:46:14,777 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:47:00,946 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.3°C, Turb=52.6NTU, Battery=68.1%
+2026-02-11 15:48:11,334 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:48:21,343 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:50:00,089 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.9°C, Turb=51.3NTU, Battery=67.6%
+2026-02-11 15:50:44,257 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:50:52,328 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:51:00,363 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.9°C, Turb=48.5NTU, Battery=67.5%
+2026-02-11 15:51:30,555 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:51:36,608 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:52:00,726 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.8°C, Turb=46.9NTU, Battery=67.3%
+2026-02-11 15:53:00,933 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.2°C, Turb=56.0NTU, Battery=67.2%
+2026-02-11 15:54:01,154 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:54:09,212 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:56:15,857 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:56:41,900 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:58:00,219 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.0°C, Turb=49.9NTU, Battery=66.5%
+2026-02-11 15:58:34,387 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 15:58:48,452 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 15:59:00,468 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.3°C, Turb=43.3NTU, Battery=66.3%
+2026-02-11 16:00:00,988 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.9°C, Turb=54.5NTU, Battery=66.2%
+2026-02-11 16:00:43,156 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:01:13,271 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:03:47,764 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:03:56,062 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:04:00,642 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.8°C, Turb=39.7NTU, Battery=65.6%
+2026-02-11 16:05:39,385 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:06:47,123 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:08:41,125 - WaterMonitoringSystem - INFO - Initialized from database successfully
+2026-02-11 16:08:41,166 - WaterMonitoringSystem - INFO - picamera2 not available
+2026-02-11 16:08:41,184 - WaterMonitoringSystem - INFO - picamera not available
+2026-02-11 16:08:41,219 - WaterMonitoringSystem - INFO - Attempting to initialize USB Webcam...
+2026-02-11 16:08:41,278 - WaterMonitoringSystem - INFO - Trying camera index 0
+2026-02-11 16:08:45,831 - WaterMonitoringSystem - ERROR - Failed to log to database: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-02-11 16:08:45,832 - WaterMonitoringSystem - INFO - Camera initialized: usb_webcam_0
+2026-02-11 16:08:45,866 - WaterMonitoringSystem - INFO - Cleanup: Drone=0, Buoy=0, Alerts=0, Logs=0
+2026-02-11 16:08:45,878 - WaterMonitoringSystem - INFO - Available ports: []
+2026-02-11 16:08:45,894 - WaterMonitoringSystem - ERROR - Drone connection error: could not open port 'COM4': FileNotFoundError(2, 'The system cannot find the file specified.', None, 2)
+2026-02-11 16:08:45,896 - WaterMonitoringSystem - ERROR - Failed to log to database: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+2026-02-11 16:08:46,044 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.239:5000
+2026-02-11 16:08:46,045 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-11 16:08:55,546 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 16:08:55] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 16:08:55,766 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 16:08:55] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 16:08:56,226 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 16:08:56] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 16:08:56,352 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 16:08:56] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 16:09:00,134 - WaterMonitoringSystem - INFO - Drone data updated: Temp=27.9°C, Turb=37.0NTU, Battery=85.0%
+2026-02-11 16:09:09,366 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 16:09:09] "GET /dashboard HTTP/1.1" 200 -
+2026-02-11 16:09:10,455 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 16:09:10] "GET /video_feed HTTP/1.1" 200 -
+2026-02-11 16:09:10,681 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 16:09:10] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-11 16:09:10,723 - werkzeug - INFO - 127.0.0.1 - - [11/Feb/2026 16:09:10] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-11 16:09:54,590 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:10:00,591 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.3°C, Turb=36.4NTU, Battery=84.9%
+2026-02-11 16:11:00,804 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.0°C, Turb=55.0NTU, Battery=84.7%
+2026-02-11 16:12:00,995 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.4°C, Turb=38.9NTU, Battery=84.6%
+2026-02-11 16:12:13,191 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:12:19,236 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:13:55,451 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:14:59,610 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:17:00,097 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.4°C, Turb=38.8NTU, Battery=83.9%
+2026-02-11 16:17:06,102 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:17:20,133 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:18:00,200 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.6°C, Turb=52.2NTU, Battery=83.8%
+2026-02-11 16:19:00,391 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.8°C, Turb=43.5NTU, Battery=83.6%
+2026-02-11 16:19:10,433 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:19:24,475 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:20:00,655 - WaterMonitoringSystem - INFO - Drone data updated: Temp=30.9°C, Turb=50.2NTU, Battery=83.5%
+2026-02-11 16:21:00,971 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.3°C, Turb=49.9NTU, Battery=83.3%
+2026-02-11 16:21:39,091 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:21:49,231 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:22:33,295 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:22:35,296 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:24:15,551 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:24:45,634 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:25:59,818 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:26:03,825 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:26:54,034 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:27:00,060 - WaterMonitoringSystem - INFO - Drone data updated: Temp=29.7°C, Turb=38.9NTU, Battery=82.5%
+2026-02-11 16:28:00,159 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.7°C, Turb=33.4NTU, Battery=82.4%
+2026-02-11 16:28:14,227 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:29:00,319 - WaterMonitoringSystem - INFO - Drone data updated: Temp=32.3°C, Turb=56.4NTU, Battery=82.3%
+2026-02-11 16:29:52,489 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:30:00,499 - WaterMonitoringSystem - INFO - Drone data updated: Temp=26.9°C, Turb=38.2NTU, Battery=82.1%
+2026-02-11 16:30:14,514 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:31:00,588 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.3°C, Turb=52.3NTU, Battery=82.0%
+2026-02-11 16:32:00,793 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.8°C, Turb=52.0NTU, Battery=81.8%
+2026-02-11 16:32:46,910 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:33:00,938 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.1°C, Turb=28.5NTU, Battery=81.7%
+2026-02-11 16:33:06,959 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:34:29,273 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:34:37,291 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:35:25,435 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:35:31,484 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:36:13,687 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:36:21,764 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:38:00,069 - WaterMonitoringSystem - INFO - Drone data updated: Temp=31.6°C, Turb=54.5NTU, Battery=81.0%
+2026-02-11 16:38:54,569 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-11 16:38:56,571 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-11 16:39:00,588 - WaterMonitoringSystem - INFO - Drone data updated: Temp=28.1°C, Turb=35.6NTU, Battery=80.8%
