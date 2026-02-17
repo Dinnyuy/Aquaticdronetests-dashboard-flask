@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
     <style>
-        /* Your existing CSS remains unchanged – omitted here for brevity, but keep the full original style */
+        /* Your existing CSS – unchanged – keep it exactly as you had it */
         :root {
             --primary: #0f4c75;
             --secondary: #3282b8;
@@ -413,11 +413,11 @@
                 
                 <div class="time-controls">
                     <span>Time Range:</span>
-                    <button class="time-btn active" onclick="loadTimeSeriesData(1)">1 Hour</button>
-                    <button class="time-btn" onclick="loadTimeSeriesData(6)">6 Hours</button>
-                    <button class="time-btn" onclick="loadTimeSeriesData(24)">24 Hours</button>
-                    <button class="time-btn" onclick="loadTimeSeriesData(168)">7 Days</button>
-                    <button class="time-btn" onclick="loadTimeSeriesData(720)">30 Days</button>
+                    <button class="time-btn active" onclick="loadTimeSeriesData(1, event)">1 Hour</button>
+                    <button class="time-btn" onclick="loadTimeSeriesData(6, event)">6 Hours</button>
+                    <button class="time-btn" onclick="loadTimeSeriesData(24, event)">24 Hours</button>
+                    <button class="time-btn" onclick="loadTimeSeriesData(168, event)">7 Days</button>
+                    <button class="time-btn" onclick="loadTimeSeriesData(720, event)">30 Days</button>
                     <div style="margin-left: auto; font-size: 0.9rem; color: #666;">
                         <i class="fas fa-clock"></i> Timezone: <span id="timezoneDisplay">Local Time</span>
                     </div>
@@ -922,7 +922,7 @@
             // Load initial data
             loadRealTimeData();         // immediate call
             loadQuickStats();
-            loadTimeSeriesData(24);
+            loadTimeSeriesData(24, null);
             loadSystemLogs();
             loadRecentAlerts();
             
@@ -979,7 +979,7 @@
                     // Load section-specific data
                     switch(this.dataset.section) {
                         case 'graphs':
-                            loadTimeSeriesData(currentTimeRange);
+                            loadTimeSeriesData(currentTimeRange, null);
                             break;
                         case 'maps':
                             initTrackingMap();
@@ -1084,24 +1084,24 @@
         
         // ---------------------- REAL-TIME DATA FETCH ----------------------
         function loadRealTimeData() {
-            fetch('/api/drone/real-time')
+            fetch('/api/drone/real-time', { credentials: 'include' })  // ensure session cookie is sent
                 .then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.json();
                 })
                 .then(data => {
-                    // Build new data object – include ALL fields, especially connected
+                    // Defensive: if any field is null, replace with placeholder
                     const newData = {
                         timestamp: new Date(),
-                        temperature: data.temperature,
-                        turbidity: data.turbidity,
-                        conductivity: data.conductivity,
-                        ph: data.ph,
-                        do: data.do,
-                        latitude: data.latitude,
-                        longitude: data.longitude,
-                        battery: data.battery,
-                        connected: data.connected      // FIXED: missing property added
+                        temperature: data.temperature ?? 0,
+                        turbidity: data.turbidity ?? 0,
+                        conductivity: data.conductivity ?? 0,
+                        ph: data.ph ?? 7.0,
+                        do: data.do ?? 5.0,
+                        latitude: data.latitude ?? 4.2105,
+                        longitude: data.longitude ?? 6.4375,
+                        battery: data.battery ?? 85,
+                        connected: data.connected ?? true
                     };
                     
                     simulatedData.push(newData);
@@ -1148,7 +1148,6 @@
         
         // ---------------------- CHART UPDATES (SAFE) ----------------------
         function updateAllCharts() {
-            // Only update charts if the graphs section is active OR if charts exist
             try {
                 if (charts.timeSeries) updateTimeSeriesChart();
                 if (charts.temperature) updateIndividualCharts();
@@ -1159,24 +1158,29 @@
             }
         }
         
+        // Helper to safely format numbers
+        function safeToFixed(value, digits, fallback = '--') {
+            if (value === null || value === undefined || isNaN(value)) return fallback;
+            return value.toFixed(digits);
+        }
+        
         // Update sensor display
         function updateSensorDisplay(data) {
-            const formatValue = (value) => value !== null && value !== undefined ? value.toFixed(2) : '--';
-            
-            document.getElementById('tempValue').textContent = formatValue(data.temperature) + ' °C';
-            document.getElementById('turbidityValue').textContent = formatValue(data.turbidity) + ' NTU';
-            document.getElementById('conductivityValue').textContent = formatValue(data.conductivity) + ' mS/cm';
-            document.getElementById('phValue').textContent = formatValue(data.ph);
-            document.getElementById('doValue').textContent = formatValue(data.do) + ' mg/L';
-            document.getElementById('batteryValue').textContent = data.battery ? data.battery.toFixed(0) + '%' : '--%';
-            document.getElementById('batteryStatusText').textContent = data.battery ? data.battery.toFixed(0) + '%' : '--%';
+            document.getElementById('tempValue').textContent = safeToFixed(data.temperature, 2) + ' °C';
+            document.getElementById('turbidityValue').textContent = safeToFixed(data.turbidity, 2) + ' NTU';
+            document.getElementById('conductivityValue').textContent = safeToFixed(data.conductivity, 2) + ' mS/cm';
+            document.getElementById('phValue').textContent = safeToFixed(data.ph, 2);
+            document.getElementById('doValue').textContent = safeToFixed(data.do, 2) + ' mg/L';
+            document.getElementById('batteryValue').textContent = safeToFixed(data.battery, 0) + '%';
+            document.getElementById('batteryStatusText').textContent = safeToFixed(data.battery, 0) + '%';
             
             if (data.latitude && data.longitude) {
-                document.getElementById('gpsValue').textContent = `${data.latitude.toFixed(6)}, ${data.longitude.toFixed(6)}`;
-                document.getElementById('gpsLatitude').textContent = data.latitude.toFixed(6);
-                document.getElementById('gpsLongitude').textContent = data.longitude.toFixed(6);
+                document.getElementById('gpsValue').textContent = `${safeToFixed(data.latitude, 6)}, ${safeToFixed(data.longitude, 6)}`;
+                document.getElementById('gpsLatitude').textContent = safeToFixed(data.latitude, 6);
+                document.getElementById('gpsLongitude').textContent = safeToFixed(data.longitude, 6);
                 document.getElementById('gpsStatus').textContent = 'GPS: Active';
                 
+                // Simulated extra GPS data
                 const speed = Math.random() * 1.5;
                 document.getElementById('speedValue').textContent = speed.toFixed(2) + ' m/s';
                 document.getElementById('gpsSpeed').textContent = speed.toFixed(2) + ' m/s';
@@ -1187,7 +1191,7 @@
             
             if (data.conductivity) {
                 const salinity = data.conductivity * 0.64;
-                document.getElementById('salinityValue').textContent = salinity.toFixed(2) + ' PSU';
+                document.getElementById('salinityValue').textContent = safeToFixed(salinity, 2) + ' PSU';
             }
         }
         
@@ -1429,11 +1433,11 @@
         }
         
         function updateAnalysisValues(data) {
-            document.getElementById('tempAnalysisValue').textContent = data.temperature ? data.temperature.toFixed(2) + '°C' : '--°C';
-            document.getElementById('turbidityAnalysisValue').textContent = data.turbidity ? data.turbidity.toFixed(2) + ' NTU' : '-- NTU';
-            document.getElementById('conductivityAnalysisValue').textContent = data.conductivity ? data.conductivity.toFixed(2) + ' mS/cm' : '-- mS/cm';
-            document.getElementById('phAnalysisValue').textContent = data.ph ? data.ph.toFixed(2) : '--';
-            document.getElementById('doAnalysisValue').textContent = data.do ? data.do.toFixed(2) + ' mg/L' : '-- mg/L';
+            document.getElementById('tempAnalysisValue').textContent = safeToFixed(data.temperature, 2) + '°C';
+            document.getElementById('turbidityAnalysisValue').textContent = safeToFixed(data.turbidity, 2) + ' NTU';
+            document.getElementById('conductivityAnalysisValue').textContent = safeToFixed(data.conductivity, 2) + ' mS/cm';
+            document.getElementById('phAnalysisValue').textContent = safeToFixed(data.ph, 2);
+            document.getElementById('doAnalysisValue').textContent = safeToFixed(data.do, 2) + ' mg/L';
         }
         
         function updateMap(data) {
@@ -1512,11 +1516,11 @@
             if (simulatedData.length === 0) return '--';
             const latest = simulatedData[simulatedData.length - 1];
             switch(sensor) {
-                case 'temperature': return latest.temperature.toFixed(2);
-                case 'turbidity': return latest.turbidity.toFixed(2);
-                case 'conductivity': return latest.conductivity.toFixed(2);
-                case 'ph': return latest.ph.toFixed(2);
-                case 'do': return latest.do.toFixed(2);
+                case 'temperature': return safeToFixed(latest.temperature, 2);
+                case 'turbidity': return safeToFixed(latest.turbidity, 2);
+                case 'conductivity': return safeToFixed(latest.conductivity, 2);
+                case 'ph': return safeToFixed(latest.ph, 2);
+                case 'do': return safeToFixed(latest.do, 2);
                 default: return '--';
             }
         }
@@ -1606,11 +1610,13 @@
             loadRecentAlerts();
         }
         
-        // Time series charts
-        function loadTimeSeriesData(hours) {
+        // Time series charts – now accepts optional event parameter
+        function loadTimeSeriesData(hours, evt) {
             currentTimeRange = hours;
-            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
-            if (event) event.target.classList.add('active');
+            if (evt && evt.target) {
+                document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+                evt.target.classList.add('active');
+            }
             createTimeSeriesChart();
             createIndividualCharts();
             createPHDOChart();
@@ -1895,7 +1901,7 @@
         async function loadDebugInfo() {
             try {
                 const debugInfo = {
-                    drone: { connected: true, reconnect_attempts: 0, port: 'COM4', last_update: new Date().toISOString() },
+                    drone: { connected: true, reconnect_attempts: 0, port: 'SIMULATED', last_update: new Date().toISOString() },
                     camera: { initialized: true, type: 'USB Webcam' }
                 };
                 document.getElementById('debugDroneStatus').textContent = debugInfo.drone.connected ? 'Connected' : 'Disconnected';
