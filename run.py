@@ -95,8 +95,8 @@ latest_drone_temperature = 28.0
 latest_drone_conductivity = 10.0
 latest_drone_ph = 7.0
 latest_drone_do = 6.0
-latest_drone_latitude = 4.2105
-latest_drone_longitude = 6.4375
+latest_drone_latitude = 4.05           # start near Douala port
+latest_drone_longitude = 9.77
 latest_drone_battery = 85.0
 drone_last_update = datetime.now()
 drone_connected = True  # Start as connected for simulation
@@ -215,60 +215,91 @@ def initialize_from_database():
     pass
 
 # ----------------------------------------------------------------------
-# Serial connection functions are completely disabled (no real hardware).
+# Douala Port bounding box (approx 800 km²)
 # ----------------------------------------------------------------------
-def connect_to_drone():
-    global drone_connected
-    logger.info("Simulation mode: drone connection always on.")
-    drone_connected = True
-    return True
+DOUALA_BBOX = {
+    'lat_min': 4.08,
+    'lat_max': 4.09,
+    'lon_min': 8.55,
+    'lon_max': 8.95
+}
 
-def connect_to_buoy():
-    global buoy_connected
-    logger.info("Simulation mode: buoy connection always on.")
-    buoy_connected = True
-    return True
+# Drone movement parameters
+drone_target_lat = random.uniform(DOUALA_BBOX['lat_min'], DOUALA_BBOX['lat_max'])
+drone_target_lon = random.uniform(DOUALA_BBOX['lon_min'], DOUALA_BBOX['lon_max'])
+drone_move_step = 0.0005  # degrees per iteration (~55 meters, adjustable)
 
 # ----------------------------------------------------------------------
-# Drone Data Simulator (unchanged, runs every 2 seconds)
+# Drone Data Simulator (now with random walk inside Douala bounding box)
 # ----------------------------------------------------------------------
 def drone_data_simulator():
     global latest_drone_turbidity, latest_drone_temperature, latest_drone_conductivity
     global latest_drone_ph, latest_drone_do, drone_connected, drone_last_update
     global latest_drone_latitude, latest_drone_longitude, latest_drone_battery
-    
-    drone_connected = True   # ensure connected status
-    
-    # Base values with realistic variations
+    global drone_target_lat, drone_target_lon
+
+    drone_connected = True
+
+    # Base sensor values (unchanged)
     base_temperature = 28.0
     base_turbidity = 35.0
     base_conductivity = 10.0
     base_ph = 7.0
     base_do = 6.0
-    
-    # Ballast water simulation parameters
+
+    # Ballast event simulation (unchanged)
     ballast_event = False
     ballast_start_time = None
     ballast_duration = 0
-    
+
     while True:
         try:
             with drone_data_lock:
                 current_time = datetime.now()
-                
-                # Occasionally simulate ballast water events (10% chance every 30 seconds)
+
+                # --------------- Random walk inside Douala bounding box ---------------
+                lat, lon = latest_drone_latitude, latest_drone_longitude
+
+                # Compute direction and distance to current target
+                dlat = drone_target_lat - lat
+                dlon = drone_target_lon - lon
+                dist = (dlat**2 + dlon**2)**0.5
+
+                if dist < drone_move_step * 1.5:   # close enough to target, pick new target
+                    drone_target_lat = random.uniform(DOUALA_BBOX['lat_min'], DOUALA_BBOX['lat_max'])
+                    drone_target_lon = random.uniform(DOUALA_BBOX['lon_min'], DOUALA_BBOX['lon_max'])
+                    logger.debug(f"New drone target: ({drone_target_lat:.4f}, {drone_target_lon:.4f})")
+                else:
+                    # Move a small step toward target
+                    step = drone_move_step
+                    if dist < step:
+                        step = dist
+                    # Normalized direction
+                    lat += step * (dlat / dist)
+                    lon += step * (dlon / dist)
+
+                # Clamp to bounding box (safety)
+                lat = max(DOUALA_BBOX['lat_min'], min(DOUALA_BBOX['lat_max'], lat))
+                lon = max(DOUALA_BBOX['lon_min'], min(DOUALA_BBOX['lon_max'], lon))
+
+                latest_drone_latitude = lat
+                latest_drone_longitude = lon
+                # ----------------------------------------------------------------------
+
+                # --------------- Sensor simulation (unchanged) ---------------
+                # Ballast water events (10% chance every 30 sec)
                 if random.random() < 0.1 and not ballast_event:
                     ballast_event = True
                     ballast_start_time = current_time
                     ballast_duration = random.randint(30, 180)
                     logger.info("Simulating ballast water event")
-                
+
                 if ballast_event:
                     time_since_start = (current_time - ballast_start_time).total_seconds()
                     if time_since_start < ballast_duration:
                         progress = time_since_start / ballast_duration
                         intensity = 4 * progress * (1 - progress)
-                        
+
                         latest_drone_temperature = base_temperature + 4 * intensity + random.uniform(-0.5, 0.5)
                         latest_drone_turbidity = base_turbidity + 20 * intensity + random.uniform(-2, 2)
                         latest_drone_conductivity = base_conductivity + 6 * intensity + random.uniform(-0.3, 0.3)
@@ -278,51 +309,38 @@ def drone_data_simulator():
                         ballast_event = False
                         ballast_start_time = None
                         logger.info("Ballast water event ended")
-                
+
                 if not ballast_event:
                     latest_drone_temperature = base_temperature + random.uniform(-2, 2) + 0.5 * np.sin(time.time() / 300)
                     latest_drone_turbidity = max(0, base_turbidity + random.uniform(-5, 5) + 2 * np.sin(time.time() / 600))
                     latest_drone_conductivity = base_conductivity + random.uniform(-1, 1) + 0.3 * np.sin(time.time() / 450)
                     latest_drone_ph = base_ph + random.uniform(-0.2, 0.2) + 0.1 * np.sin(time.time() / 900)
                     latest_drone_do = base_do + random.uniform(-0.5, 0.5) + 0.2 * np.sin(time.time() / 720)
-                
+
                 # Ensure values are within reasonable bounds
                 latest_drone_temperature = max(20, min(36, latest_drone_temperature))
                 latest_drone_turbidity = max(0, min(60, latest_drone_turbidity))
                 latest_drone_conductivity = max(5, min(18, latest_drone_conductivity))
                 latest_drone_ph = max(6.0, min(8.2, latest_drone_ph))
                 latest_drone_do = max(3.0, min(10.0, latest_drone_do))
-                
-                # Simulate drone movement
-                center_lat = 4.2105
-                center_lon = 6.4375
-                lat_offset = (random.random() - 0.5) * 0.0002
-                lon_offset = (random.random() - 0.5) * 0.0002
-                lat_return = (center_lat - latest_drone_latitude) * 0.01
-                lon_return = (center_lon - latest_drone_longitude) * 0.01
-                
-                latest_drone_latitude += lat_offset + lat_return
-                latest_drone_longitude += lon_offset + lon_return
-                
-                latest_drone_latitude = max(center_lat - 0.001, min(center_lat + 0.001, latest_drone_latitude))
-                latest_drone_longitude = max(center_lon - 0.001, min(center_lon + 0.001, latest_drone_longitude))
-                
-                # Simulate battery drain
+
+                # Battery simulation (unchanged)
                 battery_drain = 0.005 if ballast_event else 0.003
                 latest_drone_battery = max(10, latest_drone_battery - battery_drain)
                 if latest_drone_battery < 20 and random.random() < 0.05:
                     latest_drone_battery = min(100, latest_drone_battery + 30)
                     logger.info("Drone battery recharged")
-                
+
                 drone_last_update = current_time
                 drone_connected = True
-                
+
                 if int(time.time()) % 60 == 0:
-                    logger.info(f"Drone data updated: Temp={latest_drone_temperature:.1f}°C, Turb={latest_drone_turbidity:.1f}NTU, Battery={latest_drone_battery:.1f}%")
-                
+                    logger.info(f"Drone data updated: Pos=({latest_drone_latitude:.4f}, {latest_drone_longitude:.4f}), "
+                                f"Temp={latest_drone_temperature:.1f}°C, Turb={latest_drone_turbidity:.1f}NTU")
+
         except Exception as e:
             logger.error(f"Drone simulator error: {str(e)}")
-        
+
         time.sleep(2)
 
 # ----------------------------------------------------------------------

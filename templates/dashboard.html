@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
     <style>
-      
         :root {
             --primary: #0f4c75;
             --secondary: #3282b8;
@@ -906,7 +905,9 @@
         let droneMap = null;
         let trackingMap = null;
         let droneMarker = null;
-        let pathLayer = null;
+        // Path layers for both maps
+        let dronePathLayer = null;      // path on overview map
+        let trackingPathLayer = null;   // path on tracking map
         let pathCoordinates = [];
         let startTime = new Date();
         let currentTimeRange = 24;
@@ -915,7 +916,19 @@
         let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         let simulatedData = [];
         let ballastCertainty = 0;
-        
+
+        // Douala bounding box for fallback simulation (approx 800 km²)
+        const DOUALA_BBOX = {
+            lat_min: 3.8,
+            lat_max: 4.3,
+            lon_min: 9.5,
+            lon_max: 10.0
+        };
+        // Drone movement for fallback (same as backend)
+        let drone_target_lat = 4.05;
+        let drone_target_lon = 9.77;
+        const drone_move_step = 0.0005;  // degrees per step (~55 meters)
+
         // Sensor thresholds for simulation
         const thresholds = {
             temperature: 32,
@@ -937,8 +950,9 @@
             // Setup dashboard switcher
             setupDashboardSwitcher();
             
-            // Initialize maps
+            // Initialize maps (overview + tracking) centered on Douala with higher zoom
             initMaps();
+            initTrackingMap(); // create tracking map early so path is recorded
             
             // Display timezone
             document.getElementById('timezoneDisplay').textContent = timezone;
@@ -1009,7 +1023,8 @@
                             loadTimeSeriesData(currentTimeRange, null);
                             break;
                         case 'maps':
-                            initTrackingMap();
+                            // tracking map already exists, but ensure it's visible
+                            if (trackingMap) setTimeout(() => trackingMap.invalidateSize(), 100);
                             break;
                         case 'statistics':
                             loadStatistics();
@@ -1023,18 +1038,81 @@
             });
         }
         
-        // Initialize simulated data
+        // Initialize simulated data with random walk inside Douala bounding box
         function initializeSimulatedData() {
             simulatedData = [];
             const now = new Date();
+            let lat = 4.05, lon = 9.77; // start near Douala
             for (let i = 0; i < 100; i++) {
                 const timestamp = new Date(now.getTime() - (100 - i) * 3000);
-                simulatedData.push(generateSimulatedDataPoint(timestamp));
+                // Move a little for each historical point (smooth path)
+                let dlat = drone_target_lat - lat;
+                let dlon = drone_target_lon - lon;
+                let dist = Math.sqrt(dlat*dlat + dlon*dlon);
+                if (dist < drone_move_step * 1.5) {
+                    drone_target_lat = Math.random() * (DOUALA_BBOX.lat_max - DOUALA_BBOX.lat_min) + DOUALA_BBOX.lat_min;
+                    drone_target_lon = Math.random() * (DOUALA_BBOX.lon_max - DOUALA_BBOX.lon_min) + DOUALA_BBOX.lon_min;
+                } else {
+                    let step = Math.min(drone_move_step, dist);
+                    lat += step * (dlat / dist);
+                    lon += step * (dlon / dist);
+                }
+                // Clamp
+                lat = Math.max(DOUALA_BBOX.lat_min, Math.min(DOUALA_BBOX.lat_max, lat));
+                lon = Math.max(DOUALA_BBOX.lon_min, Math.min(DOUALA_BBOX.lon_max, lon));
+                
+                let temperature = 28 + Math.random() * 4;
+                let turbidity = 30 + Math.random() * 15;
+                let conductivity = 8 + Math.random() * 5;
+                let ph = 6.8 + Math.random() * 0.9;
+                let doValue = 4.5 + Math.random() * 3;
+                
+                if (Math.random() < 0.2) {
+                    temperature = 33 + Math.random() * 3;
+                    turbidity = 45 + Math.random() * 15;
+                    conductivity = 13 + Math.random() * 5;
+                    ph = 6.0 + Math.random() * 0.5;
+                    if (Math.random() > 0.5) ph = 7.8 + Math.random() * 0.4;
+                    doValue = 3 + Math.random() * 2;
+                }
+
+                simulatedData.push({
+                    timestamp: timestamp,
+                    temperature: parseFloat(temperature.toFixed(2)),
+                    turbidity: parseFloat(turbidity.toFixed(2)),
+                    conductivity: parseFloat(conductivity.toFixed(2)),
+                    ph: parseFloat(ph.toFixed(2)),
+                    do: parseFloat(doValue.toFixed(2)),
+                    latitude: lat,
+                    longitude: lon,
+                    battery: 85 - Math.random() * 5,
+                    connected: true
+                });
             }
         }
         
-        // Generate a simulated data point (fallback when API fails)
+        // Generate a simulated data point (fallback when API fails) – now with Douala random walk
         function generateSimulatedDataPoint(timestamp) {
+            // Get current position from global (or from last known)
+            let lat = (simulatedData.length > 0) ? simulatedData[simulatedData.length-1].latitude : 4.05;
+            let lon = (simulatedData.length > 0) ? simulatedData[simulatedData.length-1].longitude : 9.77;
+            
+            // Move toward target
+            let dlat = drone_target_lat - lat;
+            let dlon = drone_target_lon - lon;
+            let dist = Math.sqrt(dlat*dlat + dlon*dlon);
+            if (dist < drone_move_step * 1.5) {
+                drone_target_lat = Math.random() * (DOUALA_BBOX.lat_max - DOUALA_BBOX.lat_min) + DOUALA_BBOX.lat_min;
+                drone_target_lon = Math.random() * (DOUALA_BBOX.lon_max - DOUALA_BBOX.lon_min) + DOUALA_BBOX.lon_min;
+            } else {
+                let step = Math.min(drone_move_step, dist);
+                lat += step * (dlat / dist);
+                lon += step * (dlon / dist);
+            }
+            // Clamp
+            lat = Math.max(DOUALA_BBOX.lat_min, Math.min(DOUALA_BBOX.lat_max, lat));
+            lon = Math.max(DOUALA_BBOX.lon_min, Math.min(DOUALA_BBOX.lon_max, lon));
+
             let temperature = 28 + Math.random() * 4;
             let turbidity = 30 + Math.random() * 15;
             let conductivity = 8 + Math.random() * 5;
@@ -1049,7 +1127,7 @@
                 if (Math.random() > 0.5) ph = 7.8 + Math.random() * 0.4;
                 doValue = 3 + Math.random() * 2;
             }
-            
+
             return {
                 timestamp: timestamp,
                 temperature: parseFloat(temperature.toFixed(2)),
@@ -1057,8 +1135,8 @@
                 conductivity: parseFloat(conductivity.toFixed(2)),
                 ph: parseFloat(ph.toFixed(2)),
                 do: parseFloat(doValue.toFixed(2)),
-                latitude: 4.2105 + (Math.random() - 0.5) * 0.001,
-                longitude: 6.4375 + (Math.random() - 0.5) * 0.001,
+                latitude: lat,
+                longitude: lon,
                 battery: 85 - Math.random() * 5,
                 connected: true
             };
@@ -1085,39 +1163,42 @@
                 `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
         
-        // Initialize maps
+        // Initialize overview map – centered on Douala with higher zoom
         function initMaps() {
-            droneMap = L.map('droneMap').setView([4.2105, 6.4375], 14);
+            // Overview map
+            droneMap = L.map('droneMap').setView([4.05, 9.77], 12); // zoom 12 to see movement
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(droneMap);
-            droneMarker = L.marker([4.2105, 6.4375]).addTo(droneMap)
+            droneMarker = L.marker([4.05, 9.77]).addTo(droneMap)
                 .bindPopup('Drone Position')
                 .openPopup();
+            // Create a polyline for the overview map (initially empty)
+            dronePathLayer = L.polyline([], { color: 'blue', weight: 3, opacity: 0.7 }).addTo(droneMap);
             L.control.scale().addTo(droneMap);
         }
         
-        // Initialize tracking map
+        // Initialize tracking map – centered on Douala with higher zoom
         function initTrackingMap() {
-            if (!trackingMap) {
-                trackingMap = L.map('trackingMap').setView([4.2105, 6.4375], 14);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(trackingMap);
-                pathLayer = L.polyline([], {color: 'blue'}).addTo(trackingMap);
-                L.control.scale().addTo(trackingMap);
-            }
+            // If already exists, just return
+            if (trackingMap) return;
+            
+            trackingMap = L.map('trackingMap').setView([4.05, 9.77], 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(trackingMap);
+            trackingPathLayer = L.polyline([], { color: 'blue', weight: 3, opacity: 0.7 }).addTo(trackingMap);
+            L.control.scale().addTo(trackingMap);
         }
         
         // ---------------------- REAL-TIME DATA FETCH ----------------------
         function loadRealTimeData() {
-            fetch('/api/drone/real-time', { credentials: 'include' })  // ensure session cookie is sent
+            fetch('/api/drone/real-time', { credentials: 'include' })
                 .then(response => {
                     if (!response.ok) throw new Error('Network response was not ok');
                     return response.json();
                 })
                 .then(data => {
-                    // Defensive: if any field is null, replace with placeholder
                     const newData = {
                         timestamp: new Date(),
                         temperature: data.temperature ?? 0,
@@ -1125,8 +1206,8 @@
                         conductivity: data.conductivity ?? 0,
                         ph: data.ph ?? 7.0,
                         do: data.do ?? 5.0,
-                        latitude: data.latitude ?? 4.2105,
-                        longitude: data.longitude ?? 6.4375,
+                        latitude: data.latitude ?? 4.05,
+                        longitude: data.longitude ?? 9.77,
                         battery: data.battery ?? 85,
                         connected: data.connected ?? true
                     };
@@ -1134,7 +1215,6 @@
                     simulatedData.push(newData);
                     if (simulatedData.length > 200) simulatedData.shift();
                     
-                    // Update UI
                     updateSensorDisplay(newData);
                     updateConnectionStatus(newData);
                     checkThresholds(newData);
@@ -1143,10 +1223,8 @@
                     updateBallastDetection(newData);
                     updateAnalysisValues(newData);
                     
-                    // Update all charts with the new data (if they exist)
                     updateAllCharts();
                     
-                    // Update last update time
                     const now = new Date();
                     const localTime = now.toLocaleTimeString('en-US', { timeZone: timezone, hour12: false });
                     document.getElementById('lastUpdateTime').textContent = `Last update: ${localTime}`;
@@ -1471,12 +1549,21 @@
             if (data.latitude && data.longitude && droneMap && droneMarker) {
                 const newLatLng = [data.latitude, data.longitude];
                 droneMarker.setLatLng(newLatLng);
-                droneMap.setView(newLatLng);
+                // Do NOT recenter the overview map automatically
                 
-                if (trackingMap && pathLayer) {
-                    pathCoordinates.push(newLatLng);
-                    pathLayer.setLatLngs(pathCoordinates);
+                // Append to path coordinates
+                pathCoordinates.push(newLatLng);
+                
+                // Update path on overview map if it exists
+                if (dronePathLayer) {
+                    dronePathLayer.setLatLngs(pathCoordinates);
+                }
+                
+                // Update path on tracking map if it exists
+                if (trackingMap && trackingPathLayer) {
+                    trackingPathLayer.setLatLngs(pathCoordinates);
                     
+                    // Calculate distance (optional)
                     if (pathCoordinates.length > 1) {
                         let totalDistance = 0;
                         for (let i = 1; i < pathCoordinates.length; i++) {
@@ -1860,7 +1947,8 @@
         // Path functions
         function clearPath() {
             pathCoordinates = [];
-            if (pathLayer) pathLayer.setLatLngs([]);
+            if (dronePathLayer) dronePathLayer.setLatLngs([]);
+            if (trackingPathLayer) trackingPathLayer.setLatLngs([]);
             document.getElementById('distanceTraveled').textContent = 'Distance: 0 m';
         }
         

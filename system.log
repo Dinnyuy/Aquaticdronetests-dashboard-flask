@@ -18828,3 +18828,458 @@ with app.app_context(). See the documentation for more information.
 2026-02-18 14:18:02,765 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:18:02] "GET /api/drone/real-time HTTP/1.1" 200 -
 2026-02-18 14:18:05,856 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:18:05] "GET /api/drone/real-time HTTP/1.1" 200 -
 2026-02-18 14:18:08,522 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:18:08] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:49:38,678 - WaterMonitoringSystem - INFO - Simulation mode: no sensor data loaded from database.
+2026-02-18 14:49:38,687 - WaterMonitoringSystem - INFO - picamera2 not available
+2026-02-18 14:49:38,692 - WaterMonitoringSystem - INFO - picamera not available
+2026-02-18 14:49:38,693 - WaterMonitoringSystem - INFO - Attempting to initialize USB Webcam...
+2026-02-18 14:49:38,694 - WaterMonitoringSystem - INFO - Trying camera index 0
+2026-02-18 14:50:23,293 - WaterMonitoringSystem - INFO - [CAMERA] info: USB Webcam 0 initialized
+2026-02-18 14:50:23,296 - WaterMonitoringSystem - INFO - Camera initialized: usb_webcam_0
+2026-02-18 14:50:24,424 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.239:5000
+2026-02-18 14:50:24,425 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-18 14:50:25,418 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:50:25] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 14:50:29,838 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 14:50:38,355 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:50:38] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 14:51:23,466 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:23] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 14:51:26,031 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:26] "GET /video_feed HTTP/1.1" 200 -
+2026-02-18 14:51:27,180 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:27] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:28,686 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:28] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-18 14:51:30,988 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:30] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:32,812 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:32] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:35,416 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:35] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:38,488 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:38] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:41,045 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:41] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:44,083 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:44] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:47,644 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:47] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:50,712 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:50] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:53,882 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:53] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:56,505 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:56] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:51:59,904 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:51:59] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:02,933 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:05,854 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:05] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:08,650 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:08] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:11,532 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:14,486 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:14] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:17,386 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:17] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:20,098 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:20] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:23,066 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:23] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 14:52:24,296 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:24] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-18 14:52:25,402 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:25] "GET /video_feed HTTP/1.1" 200 -
+2026-02-18 14:52:26,894 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:26] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:28,321 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:28] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:31,848 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:31] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:33,482 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:33] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:37,002 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:37] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:41,452 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:41] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:43,751 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:43] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:46,245 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:46] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:48,660 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:48] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:52:53,020 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:52:53] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:00,326 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2092, 6.4412), Temp=29.3°C, Turb=39.8NTU
+2026-02-18 14:53:12,911 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:12] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:16,330 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 14:53:26,213 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:26] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:27,944 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:27] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:30,791 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:30] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:33,853 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:33] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:36,999 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:36] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:38,338 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 14:53:39,947 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:39] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:42,592 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:42] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:45,532 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:49,546 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:49] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:53,143 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:53] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:56,346 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:56] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:53:58,348 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:53:58] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:00,816 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2087, 6.4425), Temp=32.3°C, Turb=53.3NTU
+2026-02-18 14:54:02,783 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:04,649 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:04] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:08,159 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:08] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:10,580 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:10] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:13,477 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:13] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:17,195 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:17] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:19,504 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:19] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:23,075 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:23] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:54:27,733 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 14:54:40,930 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 14:54:40] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 14:55:39,756 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 14:56:00,327 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2076, 6.4453), Temp=29.9°C, Turb=43.6NTU
+2026-02-18 14:58:15,952 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 14:58:18,030 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 14:59:00,997 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2061, 6.4494), Temp=31.6°C, Turb=53.2NTU
+2026-02-18 15:00:00,075 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2056, 6.4508), Temp=30.2°C, Turb=45.9NTU
+2026-02-18 15:00:22,654 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:00:45,076 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:01:50,435 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:01:52,476 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:02:00,104 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:00] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:00,887 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2046, 6.4536), Temp=29.2°C, Turb=39.5NTU
+2026-02-18 15:02:02,661 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:03,939 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:03] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:06,173 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:06] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:09,875 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:09] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:12,535 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:12] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:15,732 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:15] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:18,567 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:18] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:21,363 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:21] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:24,422 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:24] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:27,492 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:27] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:30,616 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:30] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:34,297 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:34] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:36,630 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:36] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:39,246 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:39] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:43,002 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:43] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:45,734 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:48,615 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:48] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:51,669 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:51] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:54,422 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:54] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:02:57,454 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:02:57] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:03:00,626 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:03:00] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:03:00,692 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2041, 6.4549), Temp=32.3°C, Turb=53.4NTU
+2026-02-18 15:04:00,917 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2036, 6.4563), Temp=31.1°C, Turb=49.2NTU
+2026-02-18 15:04:07,203 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:04:07] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:04:44,929 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:05:00,936 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.2031, 6.4577), Temp=26.9°C, Turb=34.3NTU
+2026-02-18 15:05:14,940 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:06:17,739 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:06:19,869 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:08:21,315 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:09:53,338 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:10:43,505 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:10:44,520 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:10:44] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:10:46,771 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:10:46] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:10:58,526 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:10:58] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 15:11:00,085 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:00] "GET /video_feed HTTP/1.1" 200 -
+2026-02-18 15:11:01,530 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:01] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-18 15:11:02,022 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:03,819 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:03] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:06,673 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:06] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:09,635 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:09] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:11,528 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:11:12,213 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:12] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:15,372 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:15] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:18,403 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:18] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:21,414 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:21] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:24,413 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:24] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:27,783 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:27] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:31,411 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:31] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:33,956 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:33] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:36,463 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:36] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:39,828 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:39] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:42,669 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:42] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:45,321 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:48,459 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:48] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:51,797 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:51] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:54,571 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:54] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:11:58,171 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:11:58] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:12:01,336 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:12:01] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:12:04,207 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:12:04] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:12:06,833 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:12:06] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:12:11,335 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:12:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:12:35,398 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:12:35] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:13:00,006 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1991, 6.4688), Temp=31.0°C, Turb=48.1NTU
+2026-02-18 15:13:26,013 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:13:36,939 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:13:36] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:13:39,127 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:13:39] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:13:42,247 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:13:42] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:13:45,479 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:13:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:13:48,424 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:13:48] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:13:51,424 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:13:51] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:13:54,023 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:13:55,377 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:13:55] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:13:57,516 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:13:57] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:14:00,025 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1985, 6.4702), Temp=30.6°C, Turb=46.0NTU
+2026-02-18 15:14:01,290 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:14:01] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:14:30,033 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:14:34,036 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:15:00,043 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1980, 6.4716), Temp=31.1°C, Turb=51.0NTU
+2026-02-18 15:16:00,884 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1975, 6.4730), Temp=30.2°C, Turb=46.7NTU
+2026-02-18 15:16:21,363 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:16:33,367 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:18:41,397 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:18:57,401 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:19:34,011 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:19:48,690 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:20:00,817 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1955, 6.4785), Temp=28.9°C, Turb=41.1NTU
+2026-02-18 15:21:00,921 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1950, 6.4799), Temp=31.6°C, Turb=55.0NTU
+2026-02-18 15:22:00,925 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1945, 6.4813), Temp=29.2°C, Turb=40.9NTU
+2026-02-18 15:22:11,212 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:22:25,570 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:23:00,330 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1940, 6.4826), Temp=30.9°C, Turb=49.8NTU
+2026-02-18 15:23:11,012 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:23:34,501 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:24:00,648 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1935, 6.4839), Temp=31.5°C, Turb=50.7NTU
+2026-02-18 15:25:15,620 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:25:35,799 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:26:00,335 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1925, 6.4866), Temp=30.0°C, Turb=43.8NTU
+2026-02-18 15:28:00,980 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1915, 6.4894), Temp=30.6°C, Turb=45.4NTU
+2026-02-18 15:28:33,665 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:28:42,040 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:29:00,674 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1910, 6.4907), Temp=30.2°C, Turb=48.9NTU
+2026-02-18 15:30:00,170 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.1905, 6.4921), Temp=30.7°C, Turb=47.8NTU
+2026-02-18 15:30:21,416 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:30:53,768 - WaterMonitoringSystem - INFO - Simulation mode: no sensor data loaded from database.
+2026-02-18 15:30:53,877 - WaterMonitoringSystem - INFO - picamera2 not available
+2026-02-18 15:30:53,908 - WaterMonitoringSystem - INFO - picamera not available
+2026-02-18 15:30:53,966 - WaterMonitoringSystem - INFO - Attempting to initialize USB Webcam...
+2026-02-18 15:30:54,002 - WaterMonitoringSystem - INFO - Trying camera index 0
+2026-02-18 15:30:57,377 - WaterMonitoringSystem - INFO - [CAMERA] info: USB Webcam 0 initialized
+2026-02-18 15:30:57,378 - WaterMonitoringSystem - INFO - Camera initialized: usb_webcam_0
+2026-02-18 15:30:57,545 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.239:5000
+2026-02-18 15:30:57,546 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-18 15:31:01,439 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:31:21,731 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:21] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:24,597 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:24] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 15:31:24,919 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:24] "GET /video_feed HTTP/1.1" 200 -
+2026-02-18 15:31:25,076 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:25] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:25,224 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:25] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-18 15:31:28,618 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:28] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:31,617 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:31] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:34,763 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:34] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:37,834 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:37] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:40,399 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:40] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:43,589 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:43] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:46,413 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:46] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:49,350 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:49] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:52,263 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:52] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:55,304 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:55] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:31:58,295 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:31:58] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:01,263 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:01] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:04,338 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:04] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:07,463 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:07] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:11,015 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:13,708 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:13] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:17,298 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:17] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:19,782 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:19] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:22,489 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:22] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:25,396 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:25] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:28,775 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:28] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:31,492 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:31] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:34,428 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:34] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:37,525 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:37] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:39,524 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:32:40,844 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:40] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:43,510 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:43] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:46,404 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:46] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:49,574 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:49] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:52,322 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:52] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:53,574 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:32:55,362 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:55] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:32:58,423 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:32:58] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:33:01,220 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:33:01] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:33:04,546 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:33:04] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:33:13,885 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:33:13] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:34:17,591 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:34:49,454 - WaterMonitoringSystem - INFO - Simulation mode: no sensor data loaded from database.
+2026-02-18 15:34:49,458 - WaterMonitoringSystem - INFO - picamera2 not available
+2026-02-18 15:34:49,461 - WaterMonitoringSystem - INFO - picamera not available
+2026-02-18 15:34:49,462 - WaterMonitoringSystem - INFO - Attempting to initialize USB Webcam...
+2026-02-18 15:34:49,462 - WaterMonitoringSystem - INFO - Trying camera index 0
+2026-02-18 15:34:51,174 - WaterMonitoringSystem - INFO - [CAMERA] info: USB Webcam 0 initialized
+2026-02-18 15:34:51,240 - WaterMonitoringSystem - INFO - Camera initialized: usb_webcam_0
+2026-02-18 15:34:51,717 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.239:5000
+2026-02-18 15:34:51,724 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-18 15:34:53,867 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:34:53] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:34:55,224 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:34:55] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:34:55,672 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:34:55] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 15:34:55,862 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:34:55] "GET /video_feed HTTP/1.1" 200 -
+2026-02-18 15:34:56,087 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:34:56] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:34:56,518 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:34:56] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-18 15:34:59,234 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:34:59] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:02,211 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:05,463 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:05] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:08,589 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:08] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:11,390 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:11,987 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:35:14,297 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:14] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:17,290 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:17] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:20,322 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:20] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:23,189 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:23] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:26,221 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:26] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:29,268 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:29] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:32,263 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:32] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:35,354 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:35] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:38,401 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:38] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:41,565 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:41] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:45,203 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:47,568 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:47] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:50,389 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:50] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:53,635 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:53] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:56,335 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:56] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:35:59,453 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:35:59] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:02,217 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:05,418 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:05] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:08,670 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:08] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:11,422 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:12,480 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:36:14,642 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:14] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:17,266 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:17] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:20,317 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:20] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:23,200 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:23] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:24,919 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:36:26,652 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:26] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:29,237 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:29] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:32,183 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:32] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:35,412 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:35] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:38,490 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:38] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:41,668 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:41] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:44,498 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:44] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:36:58,731 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:36:58] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:11,579 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:11,954 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:12,565 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:12] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:27,101 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:27] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:29,217 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:29] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:32,331 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:32] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:35,478 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:35] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:38,700 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:38] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:41,716 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:41] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:44,607 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:44] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:47,266 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:47] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:50,248 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:50] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:53,219 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:53] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:56,225 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:56] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:37:59,181 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:37:59] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:02,208 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:05,608 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:05] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:08,566 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:08] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:11,380 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:11] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:14,428 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:14] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:17,841 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:17] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:20,531 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:20] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:23,490 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:23] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:26,256 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:26] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:29,215 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:29] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:32,229 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:32] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:45,235 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:45,718 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:50,343 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:50] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:50,428 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:38:51,084 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:38:51] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:38:54,430 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:39:00,470 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(3.9892, 9.4457), Temp=28.8°C, Turb=39.8NTU
+2026-02-18 15:40:29,201 - WaterMonitoringSystem - INFO - Simulation mode: no sensor data loaded from database.
+2026-02-18 15:40:29,207 - WaterMonitoringSystem - INFO - picamera2 not available
+2026-02-18 15:40:29,211 - WaterMonitoringSystem - INFO - picamera not available
+2026-02-18 15:40:29,212 - WaterMonitoringSystem - INFO - Attempting to initialize USB Webcam...
+2026-02-18 15:40:29,215 - WaterMonitoringSystem - INFO - Trying camera index 0
+2026-02-18 15:40:30,800 - WaterMonitoringSystem - INFO - [CAMERA] info: USB Webcam 0 initialized
+2026-02-18 15:40:30,801 - WaterMonitoringSystem - INFO - Camera initialized: usb_webcam_0
+2026-02-18 15:40:30,880 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.239:5000
+2026-02-18 15:40:30,882 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-18 15:40:36,436 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:40:36] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 15:40:45,031 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:40:45] "GET /video_feed HTTP/1.1" 200 -
+2026-02-18 15:40:45,141 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:40:45] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-18 15:41:00,940 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.0555, 9.7447), Temp=29.4°C, Turb=35.6NTU
+2026-02-18 15:41:13,073 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:41:14,734 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:14] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:17,750 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:17] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:20,640 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:20] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:23,687 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:23] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:26,653 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:26] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:29,682 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:29] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:32,817 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:32] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:35,938 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:35] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:38,885 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:38] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:42,201 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:42] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:41:44,821 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:41:44] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:16,170 - WaterMonitoringSystem - INFO - Simulation mode: no sensor data loaded from database.
+2026-02-18 15:42:16,200 - WaterMonitoringSystem - INFO - picamera2 not available
+2026-02-18 15:42:16,262 - WaterMonitoringSystem - INFO - picamera not available
+2026-02-18 15:42:16,287 - WaterMonitoringSystem - INFO - Attempting to initialize USB Webcam...
+2026-02-18 15:42:16,338 - WaterMonitoringSystem - INFO - Trying camera index 0
+2026-02-18 15:42:19,761 - WaterMonitoringSystem - INFO - [CAMERA] info: USB Webcam 0 initialized
+2026-02-18 15:42:19,763 - WaterMonitoringSystem - INFO - Camera initialized: usb_webcam_0
+2026-02-18 15:42:19,933 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.239:5000
+2026-02-18 15:42:19,934 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-18 15:42:20,655 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:20] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:23,645 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:23] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:26,653 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:26] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:29,652 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:29] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:32,699 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:32] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:35,901 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:35] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:39,040 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:39] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:42,216 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:42] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:44,724 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:44] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:47,681 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:47] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:50,902 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:50] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:53,650 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:53] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:56,281 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:42:56,667 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:56] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:42:59,647 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:42:59] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:43:00,283 - WaterMonitoringSystem - INFO - Drone data updated: Pos=(4.0810, 9.4401), Temp=28.8°C, Turb=40.7NTU
+2026-02-18 15:43:02,652 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:43:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:43:06,058 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:43:06] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:43:09,240 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:43:09] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:43:12,360 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:43:12] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:43:14,895 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:43:14] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:43:56,530 - WaterMonitoringSystem - INFO - Simulation mode: no sensor data loaded from database.
+2026-02-18 15:43:56,582 - WaterMonitoringSystem - INFO - picamera2 not available
+2026-02-18 15:43:56,682 - WaterMonitoringSystem - INFO - picamera not available
+2026-02-18 15:43:56,730 - WaterMonitoringSystem - INFO - Attempting to initialize USB Webcam...
+2026-02-18 15:43:56,776 - WaterMonitoringSystem - INFO - Trying camera index 0
+2026-02-18 15:44:01,226 - WaterMonitoringSystem - INFO - [CAMERA] info: USB Webcam 0 initialized
+2026-02-18 15:44:01,231 - WaterMonitoringSystem - INFO - Camera initialized: usb_webcam_0
+2026-02-18 15:44:01,473 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.239:5000
+2026-02-18 15:44:01,474 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2026-02-18 15:44:01,730 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:01] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:02,670 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:02] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:06,190 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:06] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:08,315 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:08] "GET /dashboard HTTP/1.1" 200 -
+2026-02-18 15:44:09,278 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:09] "GET /video_feed HTTP/1.1" 200 -
+2026-02-18 15:44:09,814 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:09] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:10,787 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:10] "[36mGET /static/Dashboard%20logo.png HTTP/1.1[0m" 304 -
+2026-02-18 15:44:11,631 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:44:13,214 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:13] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:15,763 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:15] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:18,839 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:18] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:21,812 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:21] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:24,698 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:24] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:27,510 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:27] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:30,596 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:30] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:33,528 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:33] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:36,828 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:36] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:40,361 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:40] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:42,592 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:42] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:45,893 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:48,846 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:48] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:51,580 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:51] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:54,484 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:54] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:44:57,514 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:44:57] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:00,656 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:00] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:03,526 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:03] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:06,977 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:06] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:09,640 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:09] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:12,865 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:12] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:15,863 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:15] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:19,841 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:19] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:22,644 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:22] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:25,217 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:25] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:26,986 - WaterMonitoringSystem - INFO - Ballast water event ended
+2026-02-18 15:45:28,325 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:28] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:28,987 - WaterMonitoringSystem - INFO - Simulating ballast water event
+2026-02-18 15:45:30,978 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:30] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:35,365 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:35] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:36,899 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:36] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:39,952 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:39] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:42,823 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:42] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:45,874 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:45] "GET /api/drone/real-time HTTP/1.1" 200 -
+2026-02-18 15:45:49,286 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2026 15:45:49] "GET /api/drone/real-time HTTP/1.1" 200 -
