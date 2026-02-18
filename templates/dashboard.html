@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
     <style>
-        /* Your existing CSS – unchanged – keep it exactly as you had it */
+      
         :root {
             --primary: #0f4c75;
             --secondary: #3282b8;
@@ -21,6 +21,7 @@
             --light: #f0f4f8;
             --dark: #1b262c;
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: #f5f7fa; color: #333; line-height: 1.6; }
         .header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1rem 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 70px; }
@@ -136,6 +137,16 @@
         .probability-label { font-size: 0.9rem; color: #666; }
         .graphs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(700px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
         .full-width-graph { width: 100%; height: 500px; margin-top: 1rem; }
+                .dashboard-footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 2rem;
+            background: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
         @media (max-width: 1200px) { .overview-main-grid { grid-template-columns: 1fr; } .map-camera-grid { grid-template-columns: 1fr; } .graphs-grid { grid-template-columns: 1fr; } }
         @media (max-width: 768px) { .sidebar { width: 70px; padding: 1rem 0; } .nav-btn span { display: none; } .nav-btn { justify-content: center; padding: 1rem; } .nav-btn:hover { transform: none; } .main-content { margin-left: 70px; } .dashboard-grid { grid-template-columns: 1fr; } .header-left h1 { font-size: 1.2rem; } .header-left .subtitle { display: none; } .dashboard-switcher { display: none; } .graphs-grid { grid-template-columns: 1fr; } }
     </style>
@@ -869,6 +880,22 @@
                     </div>
                 </div>
             </div>
+        </div> <!-- close main-content -->
+    </div> <!-- close dashboard-container -->
+
+    <!-- Footer placed outside dashboard-container for proper page footer -->
+    <div class="dashboard-footer">
+        <p>
+            <strong>ATAWI-3A3 | Drone Water Analysis System | Real-time Monitoring Dashboard</strong>
+        </p>
+        <p>
+            Data updates every 2 seconds | System status: <span id="systemStatus" style="color:#4CAF50;">Operational</span>
+        </p>
+        <div class="copyright-info">
+            <p>
+                <i class="fas fa-copyright"></i>
+                Powered by<strong> Sparte Robotics</strong> | All Rights Reserved | Copyright 2025
+            </p>
         </div>
     </div>
 
