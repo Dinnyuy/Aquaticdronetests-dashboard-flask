@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
     <style>
+        /* ... existing styles unchanged ... */
         :root {
             --primary: #0f4c75;
             --secondary: #3282b8;
@@ -25,7 +26,7 @@
         body { background: #f5f7fa; color: #333; line-height: 1.6; }
         .header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1rem 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 70px; }
         .header-left { display: flex; align-items: center; gap: 1.5rem; }
-        .logo { height: 150px; width: 200px; border-radius: 4px; box-shadow: 0 0px 0px rgba(0,0,0,0.2); }
+        .logo { height: 180px; width: 180px; }
         .header-left h1 { font-size: 1.5rem; margin-bottom: 0.2rem; }
         .header-left .subtitle { font-size: 0.9rem; opacity: 0.9; }
         .header-right { display: flex; align-items: center; gap: 1.5rem; }
@@ -905,9 +906,12 @@
         let droneMap = null;
         let trackingMap = null;
         let droneMarker = null;
+        // Arrow markers for direction – now with custom HTML to allow inner rotation
+        let dronePathArrow = null;
+        let trackingPathArrow = null;
         // Path layers for both maps
-        let dronePathLayer = null;      // path on overview map
-        let trackingPathLayer = null;   // path on tracking map
+        let dronePathLayer = null;
+        let trackingPathLayer = null;
         let pathCoordinates = [];
         let startTime = new Date();
         let currentTimeRange = 24;
@@ -1166,7 +1170,7 @@
         // Initialize overview map – centered on Douala with higher zoom
         function initMaps() {
             // Overview map
-            droneMap = L.map('droneMap').setView([4.05, 9.77], 12); // zoom 12 to see movement
+            droneMap = L.map('droneMap').setView([4.05, 9.77], 12);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(droneMap);
@@ -1175,12 +1179,21 @@
                 .openPopup();
             // Create a polyline for the overview map (initially empty)
             dronePathLayer = L.polyline([], { color: 'blue', weight: 3, opacity: 0.7 }).addTo(droneMap);
+            
+            // Create arrow marker for overview map – uses a div with inner icon for rotation
+            const arrowIcon = L.divIcon({
+                html: '<div class="arrow-inner" style="transform-origin: center; transition: transform 0.2s;"><i class="fas fa-arrow-up" style="color: #0f4c75; font-size: 24px; text-shadow: 1px 1px 2px white;"></i></div>',
+                className: 'drone-arrow',
+                iconSize: [24, 24],
+                iconAnchor: [12, 0]   // anchor at top center so tip is at coordinate
+            });
+            dronePathArrow = L.marker([4.05, 9.77], { icon: arrowIcon, interactive: false }).addTo(droneMap);
+            
             L.control.scale().addTo(droneMap);
         }
         
         // Initialize tracking map – centered on Douala with higher zoom
         function initTrackingMap() {
-            // If already exists, just return
             if (trackingMap) return;
             
             trackingMap = L.map('trackingMap').setView([4.05, 9.77], 12);
@@ -1188,7 +1201,28 @@
                 attribution: '© OpenStreetMap contributors'
             }).addTo(trackingMap);
             trackingPathLayer = L.polyline([], { color: 'blue', weight: 3, opacity: 0.7 }).addTo(trackingMap);
+            
+            // Arrow marker for tracking map
+            const arrowIcon = L.divIcon({
+                html: '<div class="arrow-inner" style="transform-origin: center; transition: transform 0.2s;"><i class="fas fa-arrow-up" style="color: #0f4c75; font-size: 24px; text-shadow: 1px 1px 2px white;"></i></div>',
+                className: 'drone-arrow',
+                iconSize: [24, 24],
+                iconAnchor: [12, 0]
+            });
+            trackingPathArrow = L.marker([4.05, 9.77], { icon: arrowIcon, interactive: false }).addTo(trackingMap);
+            
             L.control.scale().addTo(trackingMap);
+        }
+        
+        // Helper: calculate bearing between two lat/lon points
+        function calculateBearing(lat1, lon1, lat2, lon2) {
+            const φ1 = lat1 * Math.PI/180;
+            const φ2 = lat2 * Math.PI/180;
+            const Δλ = (lon2 - lon1) * Math.PI/180;
+            const y = Math.sin(Δλ) * Math.cos(φ2);
+            const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+            let θ = Math.atan2(y, x);
+            return (θ * 180/Math.PI + 360) % 360;
         }
         
         // ---------------------- REAL-TIME DATA FETCH ----------------------
@@ -1549,7 +1583,6 @@
             if (data.latitude && data.longitude && droneMap && droneMarker) {
                 const newLatLng = [data.latitude, data.longitude];
                 droneMarker.setLatLng(newLatLng);
-                // Do NOT recenter the overview map automatically
                 
                 // Append to path coordinates
                 pathCoordinates.push(newLatLng);
@@ -1579,6 +1612,55 @@
                             totalDistance += R * c;
                         }
                         document.getElementById('distanceTraveled').textContent = `Distance: ${totalDistance.toFixed(0)} m`;
+                    }
+                }
+                
+                // Update arrow markers if we have at least two points
+                if (pathCoordinates.length >= 2) {
+                    const last = pathCoordinates[pathCoordinates.length - 1];
+                    const prev = pathCoordinates[pathCoordinates.length - 2];
+                    const bearing = calculateBearing(prev[0], prev[1], last[0], last[1]);
+                    
+                    // Update overview arrow: set position and rotate inner div
+                    if (dronePathArrow) {
+                        dronePathArrow.setLatLng(last);
+                        const arrowElement = dronePathArrow.getElement();
+                        if (arrowElement) {
+                            const innerDiv = arrowElement.querySelector('.arrow-inner');
+                            if (innerDiv) {
+                                innerDiv.style.transform = `rotate(${bearing}deg)`;
+                            }
+                        }
+                    }
+                    
+                    // Update tracking arrow
+                    if (trackingPathArrow) {
+                        trackingPathArrow.setLatLng(last);
+                        const arrowElement = trackingPathArrow.getElement();
+                        if (arrowElement) {
+                            const innerDiv = arrowElement.querySelector('.arrow-inner');
+                            if (innerDiv) {
+                                innerDiv.style.transform = `rotate(${bearing}deg)`;
+                            }
+                        }
+                    }
+                } else {
+                    // Not enough points: still place arrow at current position but no rotation
+                    if (dronePathArrow) {
+                        dronePathArrow.setLatLng(newLatLng);
+                        const arrowElement = dronePathArrow.getElement();
+                        if (arrowElement) {
+                            const innerDiv = arrowElement.querySelector('.arrow-inner');
+                            if (innerDiv) innerDiv.style.transform = '';
+                        }
+                    }
+                    if (trackingPathArrow) {
+                        trackingPathArrow.setLatLng(newLatLng);
+                        const arrowElement = trackingPathArrow.getElement();
+                        if (arrowElement) {
+                            const innerDiv = arrowElement.querySelector('.arrow-inner');
+                            if (innerDiv) innerDiv.style.transform = '';
+                        }
                     }
                 }
             }
@@ -1949,6 +2031,9 @@
             pathCoordinates = [];
             if (dronePathLayer) dronePathLayer.setLatLngs([]);
             if (trackingPathLayer) trackingPathLayer.setLatLngs([]);
+            // Hide arrows by moving them off-map
+            if (dronePathArrow) dronePathArrow.setLatLng([-90, 0]); // somewhere in Antarctica
+            if (trackingPathArrow) trackingPathArrow.setLatLng([-90, 0]);
             document.getElementById('distanceTraveled').textContent = 'Distance: 0 m';
         }
         
